@@ -6,9 +6,9 @@ using Serilog;
 
 namespace Doctor.Application.UseCase.Recover.RecoverAll;
 
-public class RecoverDoctorUseCase(
+public class RecoverAllUseCase(
     IDoctorReadOnly doctorReadOnlyrepository,
-    ILogger logger) : IRecoverDoctorUseCase
+    ILogger logger) : IRecoverAllUseCase
 {
     private readonly IDoctorReadOnly _doctorReadOnlyrepository = doctorReadOnlyrepository;
     private readonly ILogger _logger = logger;
@@ -28,12 +28,6 @@ public class RecoverDoctorUseCase(
             _logger.Information($"End {nameof(RecoverAllAsync)}.");
 
             output.Succeeded(response);
-        }
-        catch (ValidationErrorsException ex)
-        {
-            var errorMessage = $"Ocorreram erros de validação: {string.Concat(string.Join(", ", ex.ErrorMessages), ".")}";
-            _logger.Error(ex, errorMessage);
-            output.Failure(ex.ErrorMessages);
         }
         catch (Exception ex)
         {

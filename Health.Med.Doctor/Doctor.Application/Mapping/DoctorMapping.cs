@@ -9,8 +9,8 @@ public static class DoctorMapping
     {
         return new Domain.Entities.Doctor(
             request.Name,
-            request.Email,
-            request.CR,
+            request.Email.ToLower(),
+            request.CR.ToUpper(),
             password
         );
     }

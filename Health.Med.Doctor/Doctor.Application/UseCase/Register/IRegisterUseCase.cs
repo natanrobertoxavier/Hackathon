@@ -3,7 +3,7 @@ using Doctor.Communication.Response;
 
 namespace Doctor.Application.UseCase.Register;
 
-public interface IRegisterDoctorUseCase
+public interface IRegisterUseCase
 {
     Task<Result<MessageResult>> RegisterDoctorAsync(RequestRegisterDoctor request);
 }

@@ -9,12 +9,12 @@ using Serilog;
 using TokenService.Manager.Controller;
 
 namespace Doctor.Application.UseCase.Register;
-public class RegisterDoctorUseCase(
+public class RegisterUseCase(
     IDoctorReadOnly doctorReadOnlyrepository,
     IDoctorWriteOnly doctorWriteOnlyrepository,
     IWorkUnit workUnit,
     PasswordEncryptor passwordEncryptor,
-    ILogger logger) : IRegisterDoctorUseCase
+    ILogger logger) : IRegisterUseCase
 {
     private readonly IDoctorReadOnly _doctorReadOnlyrepository = doctorReadOnlyrepository;
     private readonly IDoctorWriteOnly _doctorWriteOnlyrepository = doctorWriteOnlyrepository;
@@ -64,15 +64,15 @@ public class RegisterDoctorUseCase(
     {
         _logger.Information($"Start {nameof(Validate)}. Doctor: {request.CR}.");
 
-        var doctorValidator = new RegisterDoctorValidator();
+        var doctorValidator = new RegisterValidator();
         var validationResult = doctorValidator.Validate(request);
 
-        var thereIsWithEmail = await _doctorReadOnlyrepository.ThereIsWithEmailAsync(request.Email);
+        var thereIsWithEmail = await _doctorReadOnlyrepository.RecoverByEmailAsync(request.Email);
 
         if (thereIsWithEmail?.Id != Guid.Empty)
             validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("email", ErrorsMessages.EmailAlreadyRegistered));
 
-        var thereIsWithCR = await _doctorReadOnlyrepository.ThereIsWithCR(request.CR);
+        var thereIsWithCR = await _doctorReadOnlyrepository.RecoverByCRAsync(request.CR);
 
         if (thereIsWithCR?.Id != Guid.Empty)
             validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("cr", ErrorsMessages.CRAlreadyRegistered));

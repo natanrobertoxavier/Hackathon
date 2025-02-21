@@ -4,9 +4,9 @@ using Doctor.Communication.Request;
 
 namespace Doctor.Application.UseCase.Register;
 
-public class RegisterDoctorValidator : AbstractValidator<RequestRegisterDoctor>
+public class RegisterValidator : AbstractValidator<RequestRegisterDoctor>
 {
-    public RegisterDoctorValidator()
+    public RegisterValidator()
     {
         RuleFor(c => c.Name).NotEmpty().WithMessage(ErrorsMessages.BlankName);
         RuleFor(c => c.Email).NotEmpty().WithMessage(ErrorsMessages.BlankEmail);

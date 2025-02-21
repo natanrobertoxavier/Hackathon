@@ -1,4 +1,5 @@
 ﻿using Doctor.Application.UseCase.Recover.RecoverAll;
+using Doctor.Application.UseCase.Recover.RecoverByCR;
 using Doctor.Application.UseCase.Register;
 using Doctor.Communication.Request;
 using Doctor.Communication.Response;
@@ -9,9 +10,10 @@ namespace Doctor.Api.Controllers.v1;
 public class DoctorController : HealthMedController
 {
     [HttpPost]
-    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> RegisterUserAsync(
-        [FromServices] IRegisterDoctorUseCase useCase,
+        [FromServices] IRegisterUseCase useCase,
         [FromBody] RequestRegisterDoctor request)
     {
         var result = await useCase.RegisterDoctorAsync(request);
@@ -21,12 +23,25 @@ public class DoctorController : HealthMedController
 
     [HttpGet]
     [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> RecoverAllAsync(
-        [FromServices] IRecoverDoctorUseCase useCase,
+        [FromServices] IRecoverAllUseCase useCase,
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 5)
     {
         var result = await useCase.RecoverAllAsync(page, pageSize);
+
+        return Response(result);
+    }
+
+    [HttpGet("cr/{cr}")]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status200OK)]
+    public async Task<IActionResult> RecoverByCRAsync(
+        [FromServices] IRecoverByCRUseCase useCase,
+        [FromRoute] string cr)
+    {
+        var result = await useCase.RecoverByCRAsync(cr);
 
         return Response(result);
     }

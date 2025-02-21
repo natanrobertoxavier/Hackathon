@@ -9,11 +9,11 @@ public class DoctorRepository(HealthMedContext context) : IDoctorReadOnly, IDoct
     public async Task AddAsync(Domain.Entities.Doctor doctor) =>
         await _context.AddAsync(doctor);
 
-    public async Task<Domain.Entities.Doctor> ThereIsWithEmailAsync(string email) =>
+    public async Task<Domain.Entities.Doctor> RecoverByEmailAsync(string email) =>
         await _context.Doctors.AsNoTracking().FirstOrDefaultAsync(d => d.Email.Equals(email)) ??
         new Domain.Entities.Doctor();
 
-    public async Task<Domain.Entities.Doctor> ThereIsWithCR(string cr) =>
+    public async Task<Domain.Entities.Doctor> RecoverByCRAsync(string cr) =>
         await _context.Doctors.AsNoTracking().FirstOrDefaultAsync(d => d.CR.Equals(cr)) ??
         new Domain.Entities.Doctor();
 

@@ -2,7 +2,7 @@
 
 public interface IDoctorReadOnly
 {
-    Task<Entities.Doctor> ThereIsWithEmailAsync(string email);
-    Task<Entities.Doctor> ThereIsWithCR(string cr);
+    Task<Entities.Doctor> RecoverByEmailAsync(string email);
+    Task<Entities.Doctor> RecoverByCRAsync(string cr);
     Task<IEnumerable<Entities.Doctor>> RecoverAllAsync(int page, int pageSize);
 }
