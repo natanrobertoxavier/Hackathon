@@ -1,4 +1,5 @@
 ﻿using Doctor.Communication.Request;
+using Doctor.Communication.Response;
 
 namespace Doctor.Application.Mapping;
 
@@ -11,6 +12,17 @@ public static class DoctorMapping
             request.Email,
             request.CR,
             password
+        );
+    }
+
+    public static ResponseDoctor ToResponse(this Domain.Entities.Doctor doctor)
+    {
+        return new ResponseDoctor(
+            doctor.Id,
+            doctor.RegistrationDate,
+            doctor.Name,
+            doctor.Email,
+            doctor.CR
         );
     }
 }

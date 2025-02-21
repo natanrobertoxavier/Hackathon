@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TokenService.Manager.Controller;
 using Serilog;
 using Doctor.Application.UseCase.Register;
+using Doctor.Application.UseCase.Recover.RecoverAll;
 
 namespace Doctor.Application;
 
@@ -18,7 +19,9 @@ public static class Initializer
 
     private static void AddUseCases(IServiceCollection services)
     {
-        services.AddScoped<IRegisterDoctorUseCase, RegisterDoctorUseCase>();
+        services
+            .AddScoped<IRegisterDoctorUseCase, RegisterDoctorUseCase>()
+            .AddScoped<IRecoverDoctorUseCase, RecoverDoctorUseCase>();
     }
 
     private static void AddAdditionalKeyPassword(IServiceCollection services, IConfiguration configuration)

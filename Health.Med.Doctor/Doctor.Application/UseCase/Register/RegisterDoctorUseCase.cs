@@ -10,8 +10,8 @@ using TokenService.Manager.Controller;
 
 namespace Doctor.Application.UseCase.Register;
 public class RegisterDoctorUseCase(
-    IDoctorWriteOnly doctorWriteOnlyrepository,
     IDoctorReadOnly doctorReadOnlyrepository,
+    IDoctorWriteOnly doctorWriteOnlyrepository,
     IWorkUnit workUnit,
     PasswordEncryptor passwordEncryptor,
     ILogger logger) : IRegisterDoctorUseCase

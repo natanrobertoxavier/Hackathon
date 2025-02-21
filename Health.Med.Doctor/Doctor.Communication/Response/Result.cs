@@ -8,6 +8,8 @@ public class Result<T>
 
     public bool IsSuccess() => Success;
 
+    public T GetData() => Data;
+
     public void Succeeded(T data)
     {
         Data = data;

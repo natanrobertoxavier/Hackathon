@@ -16,4 +16,11 @@ public class DoctorRepository(HealthMedContext context) : IDoctorReadOnly, IDoct
     public async Task<Domain.Entities.Doctor> ThereIsWithCR(string cr) =>
         await _context.Doctors.AsNoTracking().FirstOrDefaultAsync(d => d.CR.Equals(cr)) ??
         new Domain.Entities.Doctor();
+
+    public async Task<IEnumerable<Domain.Entities.Doctor>> RecoverAllAsync(int skip, int pageSize) =>
+        await _context.Doctors
+        .AsNoTracking()
+        .Skip(skip)
+        .Take(pageSize)
+        .ToListAsync();
 }
