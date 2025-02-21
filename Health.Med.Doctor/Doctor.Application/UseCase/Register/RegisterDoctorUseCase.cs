@@ -1,7 +1,9 @@
 ﻿using Doctor.Application.Mapping;
 using Doctor.Communication.Request;
 using Doctor.Communication.Response;
+using Doctor.Domain.Repositories;
 using Doctor.Domain.Repositories.Contracts;
+using Health.Med.Exceptions;
 using Health.Med.Exceptions.ExceptionBase;
 using Serilog;
 using TokenService.Manager.Controller;
@@ -10,11 +12,13 @@ namespace Doctor.Application.UseCase.Register;
 public class RegisterDoctorUseCase(
     IDoctorWriteOnly doctorWriteOnlyrepository,
     IDoctorReadOnly doctorReadOnlyrepository,
+    IWorkUnit workUnit,
     PasswordEncryptor passwordEncryptor,
     ILogger logger) : IRegisterDoctorUseCase
 {
-    private IDoctorReadOnly _doctorReadOnlyrepository = doctorReadOnlyrepository;
-    private IDoctorWriteOnly _doctorWriteOnlyrepository = doctorWriteOnlyrepository;
+    private readonly IDoctorReadOnly _doctorReadOnlyrepository = doctorReadOnlyrepository;
+    private readonly IDoctorWriteOnly _doctorWriteOnlyrepository = doctorWriteOnlyrepository;
+    private readonly IWorkUnit _workUnit = workUnit;
     private readonly PasswordEncryptor _passwordEncryptor = passwordEncryptor;
     private readonly ILogger _logger = logger;
 
@@ -34,9 +38,11 @@ public class RegisterDoctorUseCase(
 
             await _doctorWriteOnlyrepository.AddAsync(doctor);
 
+            await _workUnit.CommitAsync();
+
             _logger.Information($"End {nameof(RegisterDoctorAsync)}. Doctor: {request.CR}.");
 
-            output.Succeeded(new MessageResult("Cadastro em processamento."));
+            output.Succeeded(new MessageResult("Cadastro realizado com sucesso"));
         }
         catch (ValidationErrorsException ex)
         {
@@ -58,20 +64,18 @@ public class RegisterDoctorUseCase(
     {
         _logger.Information($"Start {nameof(Validate)}. Doctor: {request.CR}.");
 
-        var registerUserValidator = new RegisterUserValidator();
-        var validationResult = registerUserValidator.Validate(request);
+        var doctorValidator = new RegisterDoctorValidator();
+        var validationResult = doctorValidator.Validate(request);
 
-        //Adicionara validação de email e de CR já existente
-        //var thereIsUserWithEmail = await _userQueryServiceApi.ThereIsUserWithEmailAsync(request.Email);
+        var thereIsWithEmail = await _doctorReadOnlyrepository.ThereIsWithEmailAsync(request.Email);
 
-        //if (thereIsUserWithEmail.IsSuccess && thereIsUserWithEmail.Data.ThereIsUser)
-        //{
-        //    validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("email", ErrorsMessages.EmailAlreadyRegistered));
-        //}
-        //else if (!thereIsUserWithEmail.IsSuccess)
-        //{
-        //    validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("responseApi", $"{thereIsUserWithEmail.Error}"));
-        //}
+        if (thereIsWithEmail?.Id != Guid.Empty)
+            validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("email", ErrorsMessages.EmailAlreadyRegistered));
+
+        var thereIsWithCR = await _doctorReadOnlyrepository.ThereIsWithCR(request.CR);
+
+        if (thereIsWithCR?.Id != Guid.Empty)
+            validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("cr", ErrorsMessages.CRAlreadyRegistered));
 
         if (!validationResult.IsValid)
         {

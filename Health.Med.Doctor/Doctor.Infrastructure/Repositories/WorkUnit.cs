@@ -8,7 +8,7 @@ public class WorkUnit(
     private readonly HealthMedContext _context = context;
     private bool _disposed;
 
-    public async Task Commit()
+    public async Task CommitAsync()
     {
         await _context.SaveChangesAsync();
     }

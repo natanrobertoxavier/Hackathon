@@ -15,6 +15,6 @@ public class DoctorController : HealthMedController
     {
         var result = await useCase.RegisterDoctorAsync(request);
 
-        return Ok(result);
+        return ResponseCreate(result);
     }
 }

@@ -28,6 +28,9 @@ public class Doctor : BaseEntity
         Password = password;
     }
 
+    public Doctor()
+    {
+    }
     public string Name { get; set; }
     public string Email { get; set; }
     public string CR { get; set; }
