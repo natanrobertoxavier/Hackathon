@@ -120,4 +120,25 @@
   <data name="InvalidLogin" xml:space="preserve">
     <value>E-mail ou senha incorretos</value>
   </data>
+  <data name="BlankEmail" xml:space="preserve">
+    <value>Email em branco</value>
+  </data>
+  <data name="BlankName" xml:space="preserve">
+    <value>Nome em branco</value>
+  </data>
+  <data name="BlankPassword" xml:space="preserve">
+    <value>Senha em branco</value>
+  </data>
+  <data name="MinimumSixCharacters" xml:space="preserve">
+    <value>Senha deve ter ao menos seis caracteres</value>
+  </data>
+  <data name="InvalidEmail" xml:space="preserve">
+    <value>E-mail inválido</value>
+  </data>
+  <data name="EmailAlreadyRegistered" xml:space="preserve">
+    <value>Email já cadastrado</value>
+  </data>
+  <data name="CRAlreadyRegistered" xml:space="preserve">
+    <value>Cadastro no órgão regional já cadastrado</value>
+  </data>
 </root>
