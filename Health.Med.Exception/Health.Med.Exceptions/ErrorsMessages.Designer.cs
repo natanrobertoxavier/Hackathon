@@ -97,11 +97,38 @@ namespace Health.Med.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Médico sem permissão.
+        /// </summary>
+        public static string DoctorWithoutPermission {
+            get {
+                return ResourceManager.GetString("DoctorWithoutPermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email já cadastrado.
         /// </summary>
         public static string EmailAlreadyRegistered {
             get {
                 return ResourceManager.GetString("EmailAlreadyRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Token expirado.
+        /// </summary>
+        public static string ExpiredToken {
+            get {
+                return ResourceManager.GetString("ExpiredToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Senha atual inválida.
+        /// </summary>
+        public static string InvalidCurrentPassword {
+            get {
+                return ResourceManager.GetString("InvalidCurrentPassword", resourceCulture);
             }
         }
         

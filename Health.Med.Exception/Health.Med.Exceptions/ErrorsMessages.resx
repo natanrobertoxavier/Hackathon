@@ -141,4 +141,13 @@
   <data name="CRAlreadyRegistered" xml:space="preserve">
     <value>Cadastro no órgão regional já cadastrado</value>
   </data>
+  <data name="InvalidCurrentPassword" xml:space="preserve">
+    <value>Senha atual inválida</value>
+  </data>
+  <data name="ExpiredToken" xml:space="preserve">
+    <value>Token expirado</value>
+  </data>
+  <data name="DoctorWithoutPermission" xml:space="preserve">
+    <value>Médico sem permissão</value>
+  </data>
 </root>

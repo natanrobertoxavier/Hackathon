@@ -20,19 +20,19 @@ public class RecoverByCRUseCase(
 
         try
         {
-            _logger.Information($"Start {nameof(RecoverByCRAsync)}.");
+            _logger.Information($"Início {nameof(RecoverByCRAsync)}.");
 
             var entity = await _doctorReadOnlyrepository.RecoverByCRAsync(cr);
 
             if (entity?.Id == Guid.Empty)
             {
                 output.Succeeded(null);
-                _logger.Information($"End {nameof(RecoverByCRAsync)}. Data not found");
+                _logger.Information($"Fim {nameof(RecoverByCRAsync)}. Não foram encontrados dados.");
             }
             else
             {
                 output.Succeeded(entity.ToResponse());
-                _logger.Information($"End {nameof(RecoverByCRAsync)}.");
+                _logger.Information($"Fim {nameof(RecoverByCRAsync)}.");
             }
         }
         catch (Exception ex)

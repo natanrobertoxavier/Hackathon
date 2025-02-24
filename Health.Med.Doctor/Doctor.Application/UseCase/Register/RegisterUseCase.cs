@@ -28,7 +28,7 @@ public class RegisterUseCase(
 
         try
         {
-            _logger.Information($"Start {nameof(RegisterDoctorAsync)}. Doctor: {request.CR}.");
+            _logger.Information($"Início {nameof(RegisterDoctorAsync)}. Médico: {request.CR}.");
 
             await Validate(request);
 
@@ -40,20 +40,24 @@ public class RegisterUseCase(
 
             await _workUnit.CommitAsync();
 
-            _logger.Information($"End {nameof(RegisterDoctorAsync)}. Doctor: {request.CR}.");
-
             output.Succeeded(new MessageResult("Cadastro realizado com sucesso"));
+
+            _logger.Information($"Fim {nameof(RegisterDoctorAsync)}. Médico: {request.CR}.");
         }
         catch (ValidationErrorsException ex)
         {
             var errorMessage = $"Ocorreram erros de validação: {string.Concat(string.Join(", ", ex.ErrorMessages), ".")}";
+            
             _logger.Error(ex, errorMessage);
+            
             output.Failure(ex.ErrorMessages);
         }
         catch (Exception ex)
         {
             var errorMessage = string.Format("Algo deu errado: {0}", ex.Message);
+            
             _logger.Error(ex, errorMessage);
+            
             output.Failure(new List<string>() { errorMessage });
         }
 
@@ -62,7 +66,7 @@ public class RegisterUseCase(
 
     private async Task Validate(RequestRegisterDoctor request)
     {
-        _logger.Information($"Start {nameof(Validate)}. Doctor: {request.CR}.");
+        _logger.Information($"Início {nameof(Validate)}. Médico: {request.CR}.");
 
         var doctorValidator = new RegisterValidator();
         var validationResult = doctorValidator.Validate(request);

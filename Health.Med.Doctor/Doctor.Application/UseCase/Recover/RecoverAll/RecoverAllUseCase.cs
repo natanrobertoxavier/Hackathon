@@ -1,7 +1,6 @@
 ﻿using Doctor.Application.Mapping;
 using Doctor.Communication.Response;
 using Doctor.Domain.Repositories.Contracts;
-using Health.Med.Exceptions.ExceptionBase;
 using Serilog;
 
 namespace Doctor.Application.UseCase.Recover.RecoverAll;
@@ -19,20 +18,22 @@ public class RecoverAllUseCase(
 
         try
         {
-            _logger.Information($"Start {nameof(RecoverAllAsync)}.");
+            _logger.Information($"Início {nameof(RecoverAllAsync)}.");
 
             var entities = await _doctorReadOnlyrepository.RecoverAllAsync(Skip(page, pageSize), pageSize);
 
             var response = entities.Select(entity => entity.ToResponse());
 
-            _logger.Information($"End {nameof(RecoverAllAsync)}.");
-
             output.Succeeded(response);
+
+            _logger.Information($"Fim {nameof(RecoverAllAsync)}.");
         }
         catch (Exception ex)
         {
             var errorMessage = string.Format("Algo deu errado: {0}", ex.Message);
+
             _logger.Error(ex, errorMessage);
+
             output.Failure(new List<string>() { errorMessage });
         }
 

@@ -25,4 +25,13 @@ public static class DoctorMapping
             doctor.CR
         );
     }
+
+    public static ResponseLogin ToResponseLogin(this Domain.Entities.Doctor doctor)
+    {
+        return new ResponseLogin(
+            doctor.Name,
+            doctor.CR,
+            doctor.Email
+        );
+    }
 }

@@ -5,6 +5,9 @@ using Serilog;
 using Doctor.Application.UseCase.Register;
 using Doctor.Application.UseCase.Recover.RecoverAll;
 using Doctor.Application.UseCase.Recover.RecoverByCR;
+using Doctor.Application.UseCase.Recover.RecoverByCRPassword;
+using Doctor.Domain.Repositories.Contracts;
+using Doctor.Application.Services;
 
 namespace Doctor.Application;
 
@@ -12,10 +15,17 @@ public static class Initializer
 {
     public static void AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
+        AddLoggedUsers(services);
         AddUseCases(services);
         AddAdditionalKeyPassword(services, configuration);
         AddJWTToken(services, configuration);
         AddSerilog(services);
+    }
+
+    private static void AddLoggedUsers(IServiceCollection services)
+    {
+        services
+            .AddScoped<ILoggedDoctor, LoggedDoctor>();
     }
 
     private static void AddUseCases(IServiceCollection services)
@@ -23,7 +33,8 @@ public static class Initializer
         services
             .AddScoped<IRegisterUseCase, RegisterUseCase>()
             .AddScoped<IRecoverAllUseCase, RecoverAllUseCase>()
-            .AddScoped<IRecoverByCRUseCase, RecoverByCRUseCase>();
+            .AddScoped<IRecoverByCRUseCase, RecoverByCRUseCase>()
+            .AddScoped<IRecoverByCRPassword, RecoverByCRPassword>();
     }
 
     private static void AddAdditionalKeyPassword(IServiceCollection services, IConfiguration configuration)

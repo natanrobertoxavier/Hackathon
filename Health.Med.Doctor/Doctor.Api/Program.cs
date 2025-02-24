@@ -6,6 +6,8 @@ using Doctor.Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddRouting(option => option.LowercaseUrls = true);
 
 builder.Services.AddControllers();
