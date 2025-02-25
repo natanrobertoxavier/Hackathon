@@ -156,4 +156,7 @@
   <data name="UserWithoutPermission" xml:space="preserve">
     <value>Usuário sem permissão</value>
   </data>
+  <data name="TokenNotFound" xml:space="preserve">
+    <value>Token não encontrado</value>
+  </data>
 </root>

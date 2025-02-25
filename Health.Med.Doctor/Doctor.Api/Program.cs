@@ -46,6 +46,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<AuthenticatedDoctorAttribute>();
+builder.Services.AddScoped<AuthenticatedUserAttribute>();
 
 var app = builder.Build();
 

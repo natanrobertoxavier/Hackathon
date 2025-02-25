@@ -12,6 +12,7 @@ namespace Doctor.Api.Controllers.v1;
 public class DoctorController : HealthMedController
 {
     [HttpPost]
+    [ServiceFilter(typeof(AuthenticatedUserAttribute))]
     [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> RegisterUserAsync(
@@ -38,6 +39,7 @@ public class DoctorController : HealthMedController
     }
 
     [HttpGet]
+    [ServiceFilter(typeof(AuthenticatedUserAttribute))]
     [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status422UnprocessableEntity)]
@@ -52,6 +54,7 @@ public class DoctorController : HealthMedController
     }
 
     [HttpGet("cr/{cr}")]
+    [ServiceFilter(typeof(AuthenticatedUserAttribute))]
     [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status400BadRequest)]

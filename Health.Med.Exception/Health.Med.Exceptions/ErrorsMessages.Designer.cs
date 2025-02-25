@@ -169,6 +169,15 @@ namespace Health.Med.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Token não encontrado.
+        /// </summary>
+        public static string TokenNotFound {
+            get {
+                return ResourceManager.GetString("TokenNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Usuário sem permissão.
         /// </summary>
         public static string UserWithoutPermission {

@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using TokenService.Manager.Controller;
 using User.Application.Services;
+using User.Application.UseCase.Login;
+using User.Application.UseCase.Recover.RecoverByEmail;
 using User.Application.UseCase.Register;
 
 namespace User.Application;
@@ -27,7 +29,9 @@ public static class Initializer
     private static void AddUseCases(IServiceCollection services)
     {
         services
-            .AddScoped<IRegisterUseCase, RegisterUseCase>();
+            .AddScoped<IRegisterUseCase, RegisterUseCase>()
+            .AddScoped<IRecoverByEmailUseCase, RecoverByEmailUseCase>()
+            .AddScoped<ILoginUseCase, LoginUseCase>();
     }
 
     private static void AddAdditionalKeyPassword(IServiceCollection services, IConfiguration configuration)

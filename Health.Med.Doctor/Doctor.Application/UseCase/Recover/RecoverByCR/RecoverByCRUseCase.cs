@@ -1,8 +1,6 @@
 ﻿using Doctor.Application.Mapping;
-using Doctor.Application.UseCase.Recover.RecoverAll;
 using Doctor.Communication.Response;
 using Doctor.Domain.Repositories.Contracts;
-using Health.Med.Exceptions.ExceptionBase;
 using Serilog;
 
 namespace Doctor.Application.UseCase.Recover.RecoverByCR;

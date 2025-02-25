@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using User.Api.Filters;
+using User.Application.UseCase.Recover.RecoverByEmail;
 using User.Application.UseCase.Register;
 using User.Communication.Request;
 using User.Communication.Response;
@@ -17,5 +19,19 @@ public class UserController : HealthMedController
         var result = await useCase.RegisterUserAsync(request);
 
         return ResponseCreate(result);
+    }
+
+    [HttpGet("{email}")]
+    [ServiceFilter(typeof(AuthenticatedUserAttribute))]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> RecoverByEmailAsync(
+        [FromServices] IRecoverByEmailUseCase useCase,
+        [FromRoute] string email)
+    {
+        var result = await useCase.RecoverByEmailAsync(email);
+
+        return Response(result);
     }
 }
