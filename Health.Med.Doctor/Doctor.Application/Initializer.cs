@@ -8,6 +8,7 @@ using Doctor.Application.UseCase.Recover.RecoverByCR;
 using Doctor.Domain.Repositories.Contracts;
 using Doctor.Application.Services;
 using Doctor.Application.UseCase.Login;
+using Doctor.Application.UseCase.ChangePassword;
 
 namespace Doctor.Application;
 
@@ -34,6 +35,7 @@ public static class Initializer
             .AddScoped<IRegisterUseCase, RegisterUseCase>()
             .AddScoped<IRecoverAllUseCase, RecoverAllUseCase>()
             .AddScoped<IRecoverByCRUseCase, RecoverByCRUseCase>()
+            .AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>()
             .AddScoped<ILoginUseCase, LoginUseCase>();
     }
 

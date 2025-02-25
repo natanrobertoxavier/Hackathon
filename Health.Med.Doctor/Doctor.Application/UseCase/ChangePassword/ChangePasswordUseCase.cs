@@ -45,7 +45,7 @@ public class ChangePasswordUseCase(
 
             await _workUnit.CommitAsync();
 
-            output.Succeeded(new MessageResult("Cadastro realizado com sucesso"));
+            output.Succeeded(new MessageResult("Senha atualizada com sucesso"));
 
             _logger.Information($"Fim {nameof(ChangePasswordAsync)}.");
         }
