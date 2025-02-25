@@ -61,6 +61,15 @@ namespace Health.Med.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CR em branco.
+        /// </summary>
+        public static string BlankCR {
+            get {
+                return ResourceManager.GetString("BlankCR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email em branco.
         /// </summary>
         public static string BlankEmail {
@@ -156,6 +165,15 @@ namespace Health.Med.Exceptions {
         public static string MinimumSixCharacters {
             get {
                 return ResourceManager.GetString("MinimumSixCharacters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Usuário sem permissão.
+        /// </summary>
+        public static string UserWithoutPermission {
+            get {
+                return ResourceManager.GetString("UserWithoutPermission", resourceCulture);
             }
         }
     }

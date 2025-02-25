@@ -150,4 +150,10 @@
   <data name="DoctorWithoutPermission" xml:space="preserve">
     <value>Médico sem permissão</value>
   </data>
+  <data name="BlankCR" xml:space="preserve">
+    <value>CR em branco</value>
+  </data>
+  <data name="UserWithoutPermission" xml:space="preserve">
+    <value>Usuário sem permissão</value>
+  </data>
 </root>

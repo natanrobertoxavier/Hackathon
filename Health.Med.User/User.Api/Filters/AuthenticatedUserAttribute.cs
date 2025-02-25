@@ -1,6 +1,4 @@
-﻿using Azure;
-using Doctor.Domain.Repositories.Contracts;
-using Health.Med.Exceptions;
+﻿using Health.Med.Exceptions;
 using Health.Med.Exceptions.ExceptionBase;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,15 +6,16 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using TokenService.Manager.Controller;
+using User.Domain.Repositories.Contracts;
 
-namespace Doctor.Api.Filters;
+namespace User.Api.Filters;
 
-public class AuthenticatedDoctorAttribute(
+public class AuthenticatedUserAttribute(
     TokenController tokenController,
-    IDoctorReadOnly doctorReadOnlyrepository) : AuthorizeAttribute, IAsyncAuthorizationFilter
+    IUserReadOnly userReadOnlyrepository) : AuthorizeAttribute, IAsyncAuthorizationFilter
 {
     private readonly TokenController _tokenController = tokenController;
-    private readonly IDoctorReadOnly _doctorReadOnlyrepository = doctorReadOnlyrepository;
+    private readonly IUserReadOnly _userReadOnlyrepository = userReadOnlyrepository;
 
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
@@ -25,11 +24,11 @@ public class AuthenticatedDoctorAttribute(
             var token = TokenInRequest(context);
             var userEmail = _tokenController.RecoverEmail(token);
 
-            var doctor = await _doctorReadOnlyrepository.RecoverByEmailAsync(userEmail);
+            var user = await _userReadOnlyrepository.RecoverByEmailAsync(userEmail);
 
-            if (doctor?.Id == Guid.Empty)
+            if (user?.Id == Guid.Empty)
             {
-                throw new ValidationException("Médico não localizado para o token informado");
+                throw new ValidationException("Usuário não localizado para o token informado");
             }
         }
         catch (SecurityTokenExpiredException)
@@ -61,6 +60,6 @@ public class AuthenticatedDoctorAttribute(
 
     private static void UserWithoutPermission(AuthorizationFilterContext context)
     {
-        context.Result = new UnauthorizedObjectResult(new Communication.Response.ResponseError(ErrorsMessages.DoctorWithoutPermission));
+        context.Result = new UnauthorizedObjectResult(new Communication.Response.ResponseError(ErrorsMessages.UserWithoutPermission));
     }
 }

@@ -1,15 +1,11 @@
-﻿using Doctor.Application.Services;
-using Doctor.Application.UseCase.ChangePassword;
-using Doctor.Application.UseCase.Login;
-using Doctor.Application.UseCase.Recover.RecoverAll;
-using Doctor.Application.UseCase.Recover.RecoverByCR;
-using Doctor.Application.UseCase.Register;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using TokenService.Manager.Controller;
+using User.Application.Services;
+using User.Application.UseCase.Register;
 
-namespace Doctor.Application;
+namespace User.Application;
 
 public static class Initializer
 {
@@ -25,17 +21,13 @@ public static class Initializer
     private static void AddLoggedUsers(IServiceCollection services)
     {
         services
-            .AddScoped<ILoggedDoctor, LoggedDoctor>();
+            .AddScoped<ILoggedUser, LoggedUser>();
     }
 
     private static void AddUseCases(IServiceCollection services)
     {
         services
-            .AddScoped<IRegisterUseCase, RegisterUseCase>()
-            .AddScoped<IRecoverAllUseCase, RecoverAllUseCase>()
-            .AddScoped<IRecoverByCRUseCase, RecoverByCRUseCase>()
-            .AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>()
-            .AddScoped<ILoginUseCase, LoginUseCase>();
+            .AddScoped<IRegisterUseCase, RegisterUseCase>();
     }
 
     private static void AddAdditionalKeyPassword(IServiceCollection services, IConfiguration configuration)

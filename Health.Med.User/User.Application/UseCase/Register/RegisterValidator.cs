@@ -1,16 +1,15 @@
 ﻿using FluentValidation;
 using Health.Med.Exceptions;
-using Doctor.Communication.Request;
+using User.Communication.Request;
 
-namespace Doctor.Application.UseCase.Register;
+namespace User.Application.UseCase.Register;
 
-public class RegisterValidator : AbstractValidator<RequestRegisterDoctor>
+public class RegisterValidator : AbstractValidator<RequestRegisterUser>
 {
     public RegisterValidator()
     {
         RuleFor(c => c.Name).NotEmpty().WithMessage(ErrorsMessages.BlankName);
         RuleFor(c => c.Email).NotEmpty().WithMessage(ErrorsMessages.BlankEmail);
-        RuleFor(c => c.CR).NotEmpty().WithMessage(ErrorsMessages.BlankCR);
         RuleFor(c => c.Password).SetValidator(new PasswordValidator());
         When(c => !string.IsNullOrWhiteSpace(c.Email), () =>
         {
