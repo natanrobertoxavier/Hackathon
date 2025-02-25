@@ -26,12 +26,13 @@ public static class DoctorMapping
         );
     }
 
-    public static ResponseLogin ToResponseLogin(this Domain.Entities.Doctor doctor)
+    public static ResponseLogin ToResponseLogin(this Domain.Entities.Doctor doctor, string token)
     {
         return new ResponseLogin(
             doctor.Name,
             doctor.CR,
-            doctor.Email
+            doctor.Email,
+            token
         );
     }
 }

@@ -5,9 +5,9 @@ using Serilog;
 using Doctor.Application.UseCase.Register;
 using Doctor.Application.UseCase.Recover.RecoverAll;
 using Doctor.Application.UseCase.Recover.RecoverByCR;
-using Doctor.Application.UseCase.Recover.RecoverByCRPassword;
 using Doctor.Domain.Repositories.Contracts;
 using Doctor.Application.Services;
+using Doctor.Application.UseCase.Login;
 
 namespace Doctor.Application;
 
@@ -34,7 +34,7 @@ public static class Initializer
             .AddScoped<IRegisterUseCase, RegisterUseCase>()
             .AddScoped<IRecoverAllUseCase, RecoverAllUseCase>()
             .AddScoped<IRecoverByCRUseCase, RecoverByCRUseCase>()
-            .AddScoped<IRecoverByCRPassword, RecoverByCRPassword>();
+            .AddScoped<ILoginUseCase, LoginUseCase>();
     }
 
     private static void AddAdditionalKeyPassword(IServiceCollection services, IConfiguration configuration)
