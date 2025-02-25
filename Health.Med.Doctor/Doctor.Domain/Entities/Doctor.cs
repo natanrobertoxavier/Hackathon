@@ -20,12 +20,14 @@ public class Doctor : BaseEntity
     string name,
     string email,
     string cr,
-    string password)
+    string password,
+    Guid userId)
     {
         Name = name;
         Email = email;
         CR = cr;
         Password = password;
+        UserId = userId;
     }
 
     public Doctor()
@@ -35,4 +37,5 @@ public class Doctor : BaseEntity
     public string Email { get; set; }
     public string CR { get; set; }
     public string Password { get; set; }
+    public Guid UserId { get; set; }
 }

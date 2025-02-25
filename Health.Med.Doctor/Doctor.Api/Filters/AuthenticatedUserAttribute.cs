@@ -1,4 +1,5 @@
-﻿using Doctor.Domain.Repositories.Contracts;
+﻿using Doctor.Domain.ModelServices;
+using Doctor.Domain.Repositories.Contracts;
 using Doctor.Domain.Services;
 using Health.Med.Exceptions;
 using Health.Med.Exceptions.ExceptionBase;
@@ -25,12 +26,14 @@ public class AuthenticatedUserAttribute(
             var token = TokenInRequest(context);
             var userEmail = _tokenController.RecoverEmail(token);
 
-            var user = await userServiceApi.RecoverByEmailAsync(userEmail);
+            var user = await _userServiceApi.RecoverByEmailAsync(userEmail);
 
             if (!user.Success)
             {
                 throw new ValidationException($"Ocorreu um erro ao autenticar o usuário pelo token. Erro: {user.Error}");
             }
+
+            context.HttpContext.Items["AuthenticatedUser"] = user.Data;
         }
         catch (SecurityTokenExpiredException)
         {

@@ -5,6 +5,7 @@ using Doctor.Domain.Repositories;
 using Doctor.Domain.Repositories.Contracts;
 using Health.Med.Exceptions;
 using Health.Med.Exceptions.ExceptionBase;
+using Microsoft.AspNetCore.Http;
 using Serilog;
 using TokenService.Manager.Controller;
 
@@ -14,12 +15,14 @@ public class RegisterUseCase(
     IDoctorWriteOnly doctorWriteOnlyrepository,
     IWorkUnit workUnit,
     PasswordEncryptor passwordEncryptor,
+    IHttpContextAccessor httpContextAccessor,
     ILogger logger) : IRegisterUseCase
 {
     private readonly IDoctorReadOnly _doctorReadOnlyrepository = doctorReadOnlyrepository;
     private readonly IDoctorWriteOnly _doctorWriteOnlyrepository = doctorWriteOnlyrepository;
     private readonly IWorkUnit _workUnit = workUnit;
     private readonly PasswordEncryptor _passwordEncryptor = passwordEncryptor;
+    private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
     private readonly ILogger _logger = logger;
 
     public async Task<Result<MessageResult>> RegisterDoctorAsync(RequestRegisterDoctor request)
@@ -34,7 +37,9 @@ public class RegisterUseCase(
 
             var encryptedPassword = _passwordEncryptor.Encrypt(request.Password);
 
-            var doctor = request.ToEntity(encryptedPassword);
+            var userId = GetUserIdContext();
+
+            var doctor = request.ToEntity(encryptedPassword, userId);
 
             await _doctorWriteOnlyrepository.AddAsync(doctor);
 
@@ -87,4 +92,9 @@ public class RegisterUseCase(
             throw new ValidationErrorsException(errorMessages);
         }
     }
+
+    private Guid GetUserIdContext() =>
+        _httpContextAccessor.HttpContext.Items["AuthenticatedUser"] is not Domain.ModelServices.UserResult user
+            ? throw new HealthMedException("Usuário não localizado")
+            : user.Id;
 }

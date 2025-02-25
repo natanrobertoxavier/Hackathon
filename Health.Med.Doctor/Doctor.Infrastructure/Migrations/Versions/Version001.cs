@@ -17,6 +17,7 @@ public class Version001 : Migration
             .WithColumn("Name").AsString(100).NotNullable()
             .WithColumn("Email").AsString().NotNullable()
             .WithColumn("CR").AsString(15).NotNullable()
-            .WithColumn("Password").AsString(2000).NotNullable();
+            .WithColumn("Password").AsString(2000).NotNullable()
+            .WithColumn("UserId").AsGuid().NotNullable();
     }
 }

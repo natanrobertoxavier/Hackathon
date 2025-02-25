@@ -5,13 +5,14 @@ namespace Doctor.Application.Mapping;
 
 public static class DoctorMapping
 {
-    public static Domain.Entities.Doctor ToEntity(this RequestRegisterDoctor request, string password)
+    public static Domain.Entities.Doctor ToEntity(this RequestRegisterDoctor request, string password, Guid userId)
     {
         return new Domain.Entities.Doctor(
             request.Name,
             request.Email.ToLower(),
             request.CR.ToUpper(),
-            password
+            password,
+            userId
         );
     }
 
