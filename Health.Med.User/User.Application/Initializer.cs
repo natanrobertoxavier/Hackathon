@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using TokenService.Manager.Controller;
 using User.Application.Services;
+using User.Application.UseCase.ChangePassword;
 using User.Application.UseCase.Login;
 using User.Application.UseCase.Recover.RecoverByEmail;
 using User.Application.UseCase.Register;
@@ -30,6 +31,7 @@ public static class Initializer
     {
         services
             .AddScoped<IRegisterUseCase, RegisterUseCase>()
+            .AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>()
             .AddScoped<IRecoverByEmailUseCase, RecoverByEmailUseCase>()
             .AddScoped<ILoginUseCase, LoginUseCase>();
     }
