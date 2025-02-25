@@ -1,6 +1,6 @@
 ﻿using FluentMigrator.Builders.Create.Table;
 
-namespace Doctor.Infrastructure.Migrations.Versions;
+namespace User.Infrastructure.Migrations.Versions;
 
 public class VersionBase
 {
