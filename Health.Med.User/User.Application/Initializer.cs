@@ -5,6 +5,7 @@ using TokenService.Manager.Controller;
 using User.Application.Services;
 using User.Application.UseCase.ChangePassword;
 using User.Application.UseCase.Login;
+using User.Application.UseCase.Recover.RecoverAll;
 using User.Application.UseCase.Recover.RecoverByEmail;
 using User.Application.UseCase.Register;
 
@@ -32,6 +33,7 @@ public static class Initializer
         services
             .AddScoped<IRegisterUseCase, RegisterUseCase>()
             .AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>()
+            .AddScoped<IRecoverAllUseCase, RecoverAllUseCase>()
             .AddScoped<IRecoverByEmailUseCase, RecoverByEmailUseCase>()
             .AddScoped<ILoginUseCase, LoginUseCase>();
     }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using User.Api.Filters;
 using User.Application.UseCase.ChangePassword;
+using User.Application.UseCase.Recover.RecoverAll;
 using User.Application.UseCase.Recover.RecoverByEmail;
 using User.Application.UseCase.Register;
 using User.Communication.Request;
@@ -32,6 +33,21 @@ public class UserController : HealthMedController
         [FromBody] RequestChangePassword request)
     {
         var result = await useCase.ChangePasswordAsync(request);
+
+        return Response(result);
+    }
+
+    [HttpGet]
+    [ServiceFilter(typeof(AuthenticatedUserAttribute))]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status422UnprocessableEntity)]
+    public async Task<IActionResult> RecoverAllAsync(
+        [FromServices] IRecoverAllUseCase useCase,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 5)
+    {
+        var result = await useCase.RecoverAllAsync(page, pageSize);
 
         return Response(result);
     }
