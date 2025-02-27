@@ -159,4 +159,10 @@
   <data name="TokenNotFound" xml:space="preserve">
     <value>Token não encontrado</value>
   </data>
+  <data name="BlankCPF" xml:space="preserve">
+    <value>CPF em branco</value>
+  </data>
+  <data name="CPFAlreadyRegistered" xml:space="preserve">
+    <value>CPF já cadastrado</value>
+  </data>
 </root>

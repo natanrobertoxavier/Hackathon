@@ -61,6 +61,15 @@ namespace Health.Med.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CPF em branco.
+        /// </summary>
+        public static string BlankCPF {
+            get {
+                return ResourceManager.GetString("BlankCPF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CR em branco.
         /// </summary>
         public static string BlankCR {
@@ -93,6 +102,15 @@ namespace Health.Med.Exceptions {
         public static string BlankPassword {
             get {
                 return ResourceManager.GetString("BlankPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CPF já cadastrado.
+        /// </summary>
+        public static string CPFAlreadyRegistered {
+            get {
+                return ResourceManager.GetString("CPFAlreadyRegistered", resourceCulture);
             }
         }
         
