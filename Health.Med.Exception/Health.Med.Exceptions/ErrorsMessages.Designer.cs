@@ -106,6 +106,15 @@ namespace Health.Med.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cliente sem permissão.
+        /// </summary>
+        public static string ClientWithoutPermission {
+            get {
+                return ResourceManager.GetString("ClientWithoutPermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CPF já cadastrado.
         /// </summary>
         public static string CPFAlreadyRegistered {

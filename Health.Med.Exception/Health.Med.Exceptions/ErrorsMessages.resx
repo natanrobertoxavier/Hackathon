@@ -165,4 +165,7 @@
   <data name="CPFAlreadyRegistered" xml:space="preserve">
     <value>CPF já cadastrado</value>
   </data>
+  <data name="ClientWithoutPermission" xml:space="preserve">
+    <value>Cliente sem permissão</value>
+  </data>
 </root>

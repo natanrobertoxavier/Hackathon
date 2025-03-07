@@ -20,9 +20,4 @@
     <ProjectReference Include="..\Client.Domain\Client.Domain.csproj" />
   </ItemGroup>
 
-
-	<ItemGroup>
-	  <Folder Include="Migrations\Versions\" />
-	</ItemGroup>
-
 </Project>

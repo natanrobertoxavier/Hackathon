@@ -3,6 +3,7 @@ using Client.Infrastructure;
 using Client.Infrastructure.Repositories;
 using Client.Domain.Extensions;
 using Client.Infrastructure.Migrations;
+using Client.Api.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +43,7 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
-//builder.Services.AddScoped<AuthenticatedUserAttribute>();
+builder.Services.AddScoped<AuthenticatedClientAttribute>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
