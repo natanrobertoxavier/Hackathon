@@ -1,4 +1,6 @@
-﻿using Client.Application.UseCase.Login;
+﻿using Client.Application.Services;
+using Client.Application.UseCase.ChangePassword;
+using Client.Application.UseCase.Login;
 using Client.Application.UseCase.Register;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,15 +22,15 @@ public static class Initializer
 
     private static void AddLoggedUsers(IServiceCollection services)
     {
-        //services
-        //    .AddScoped<ILoggedUser, LoggedUser>();
+        services
+            .AddScoped<ILoggedClient, LoggedClient>();
     }
 
     private static void AddUseCases(IServiceCollection services)
     {
         services
             .AddScoped<IRegisterUseCase, RegisterUseCase>()
-            //.AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>()
+            .AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>()
             //.AddScoped<IRecoverAllUseCase, RecoverAllUseCase>()
             //.AddScoped<IRecoverByEmailUseCase, RecoverByEmailUseCase>()
             .AddScoped<ILoginUseCase, LoginUseCase>();

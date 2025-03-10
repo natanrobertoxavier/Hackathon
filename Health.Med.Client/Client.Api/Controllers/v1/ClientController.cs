@@ -1,4 +1,6 @@
-﻿using Client.Application.UseCase.Register;
+﻿using Client.Api.Filters;
+using Client.Application.UseCase.ChangePassword;
+using Client.Application.UseCase.Register;
 using Client.Communication.Request;
 using Client.Communication.Response;
 using Microsoft.AspNetCore.Mvc;
@@ -17,5 +19,19 @@ public class ClientController : HealthMedController
         var result = await useCase.RegisterClientAsync(request);
 
         return ResponseCreate(result);
+    }
+
+    [HttpPut("change-password")]
+    [ServiceFilter(typeof(AuthenticatedClientAttribute))]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status422UnprocessableEntity)]
+    public async Task<IActionResult> ChangePasswordAsync(
+        [FromServices] IChangePasswordUseCase useCase,
+        [FromBody] RequestChangePassword request)
+    {
+        var result = await useCase.ChangePasswordAsync(request);
+
+        return Response(result);
     }
 }
