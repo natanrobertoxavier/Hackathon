@@ -11,23 +11,23 @@ public class ClientRepository(HealthMedContext context) : IClientReadOnly, IClie
         await _context.AddAsync(doctor);
 
     public void Update(Domain.Entities.Client doctor) =>
-        _context.Users.Update(doctor);
+        _context.Clients.Update(doctor);
 
     public async Task<Domain.Entities.Client> RecoverByEmailAsync(string email) =>
-        await _context.Users
+        await _context.Clients
         .AsNoTracking()
         .FirstOrDefaultAsync(d => d.Email.Equals(email)) ??
         new Domain.Entities.Client();
 
     public async Task<IEnumerable<Domain.Entities.Client>> RecoverAllAsync(int skip, int pageSize) =>
-        await _context.Users
+        await _context.Clients
         .AsNoTracking()
         .Skip(skip)
         .Take(pageSize)
         .ToListAsync();
 
     public async Task<Domain.Entities.Client> RecoverByEmailPasswordAsync(string email, string password) =>
-        await _context.Users
+        await _context.Clients
         .AsNoTracking()
         .FirstOrDefaultAsync(
             d => d.Email.Equals(email) &&
@@ -35,10 +35,10 @@ public class ClientRepository(HealthMedContext context) : IClientReadOnly, IClie
         ) ?? new Domain.Entities.Client();
 
     public async Task<Domain.Entities.Client> RecoverByIdAsync(Guid id) =>
-        await _context.Users
+        await _context.Clients
         .FirstOrDefaultAsync(d => d.Id.Equals(id)) ?? new Domain.Entities.Client();
 
     public async Task<Domain.Entities.Client> RecoverByCPFAsync(string cPF) =>
-        await _context.Users
+        await _context.Clients
         .FirstOrDefaultAsync(d => d.CPF.Equals(cPF)) ?? new Domain.Entities.Client();
 }

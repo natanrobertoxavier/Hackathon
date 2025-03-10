@@ -1,12 +1,12 @@
-﻿using Health.Med.Exceptions.ExceptionBase;
+﻿using Client.Domain.Repositories.Contracts;
 using Health.Med.Exceptions;
+using Health.Med.Exceptions.ExceptionBase;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.IdentityModel.Tokens;
-using TokenService.Manager.Controller;
-using Client.Domain.Repositories.Contracts;
 using System.ComponentModel.DataAnnotations;
+using TokenService.Manager.Controller;
 
 namespace Client.Api.Filters;
 public class AuthenticatedClientAttribute(

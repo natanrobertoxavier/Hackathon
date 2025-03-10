@@ -1,4 +1,5 @@
-﻿using Client.Application.UseCase.Register;
+﻿using Client.Application.UseCase.Login;
+using Client.Application.UseCase.Register;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -26,11 +27,11 @@ public static class Initializer
     private static void AddUseCases(IServiceCollection services)
     {
         services
-            .AddScoped<IRegisterUseCase, RegisterUseCase>();
+            .AddScoped<IRegisterUseCase, RegisterUseCase>()
             //.AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>()
             //.AddScoped<IRecoverAllUseCase, RecoverAllUseCase>()
             //.AddScoped<IRecoverByEmailUseCase, RecoverByEmailUseCase>()
-            //.AddScoped<ILoginUseCase, LoginUseCase>();
+            .AddScoped<ILoginUseCase, LoginUseCase>();
     }
 
     private static void AddAdditionalKeyPassword(IServiceCollection services, IConfiguration configuration)
