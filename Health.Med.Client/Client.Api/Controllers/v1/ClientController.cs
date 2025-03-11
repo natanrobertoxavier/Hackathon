@@ -1,5 +1,8 @@
 ﻿using Client.Api.Filters;
 using Client.Application.UseCase.ChangePassword;
+using Client.Application.UseCase.Recover.RecoverAll;
+using Client.Application.UseCase.Recover.RecoverByCPF;
+using Client.Application.UseCase.Recover.RecoverByEmail;
 using Client.Application.UseCase.Register;
 using Client.Communication.Request;
 using Client.Communication.Response;
@@ -31,6 +34,49 @@ public class ClientController : HealthMedController
         [FromBody] RequestChangePassword request)
     {
         var result = await useCase.ChangePasswordAsync(request);
+
+        return Response(result);
+    }
+
+    [HttpGet]
+    [ServiceFilter(typeof(AuthenticatedUserAttribute))]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status422UnprocessableEntity)]
+    public async Task<IActionResult> RecoverAllAsync(
+        [FromServices] IRecoverAllUseCase useCase,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 5)
+    {
+        var result = await useCase.RecoverAllAsync(page, pageSize);
+
+        return Response(result);
+    }
+
+    [HttpGet("email/{email}")]
+    [ServiceFilter(typeof(AuthenticatedUserAttribute))]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status422UnprocessableEntity)]
+    public async Task<IActionResult> RecoverByEmailAsync(
+        [FromServices] IRecoverByEmailUseCase useCase,
+        [FromRoute] string email)
+    {
+        var result = await useCase.RecoverByEmailAsync(email);
+
+        return Response(result);
+    }
+
+    [HttpGet("cpf/{cpf}")]
+    [ServiceFilter(typeof(AuthenticatedUserAttribute))]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status422UnprocessableEntity)]
+    public async Task<IActionResult> RecoverByCPFAsync(
+        [FromServices] IRecoverByCPFUseCase useCase,
+        [FromRoute] string cpf)
+    {
+        var result = await useCase.RecoverByCPFAsync(cpf);
 
         return Response(result);
     }
