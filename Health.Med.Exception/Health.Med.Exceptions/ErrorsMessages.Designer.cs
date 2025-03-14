@@ -61,6 +61,15 @@ namespace Health.Med.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Corpo do e-mail em branco.
+        /// </summary>
+        public static string BlankBody {
+            get {
+                return ResourceManager.GetString("BlankBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CPF em branco.
         /// </summary>
         public static string BlankCPF {
@@ -102,6 +111,24 @@ namespace Health.Med.Exceptions {
         public static string BlankPassword {
             get {
                 return ResourceManager.GetString("BlankPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Destinatário em branco.
+        /// </summary>
+        public static string BlankRecipient {
+            get {
+                return ResourceManager.GetString("BlankRecipient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assunto em branco.
+        /// </summary>
+        public static string BlankSubject {
+            get {
+                return ResourceManager.GetString("BlankSubject", resourceCulture);
             }
         }
         
@@ -183,6 +210,15 @@ namespace Health.Med.Exceptions {
         public static string InvalidLogin {
             get {
                 return ResourceManager.GetString("InvalidLogin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E-mail destinatário em branco.
+        /// </summary>
+        public static string InvalidRecipientEmail {
+            get {
+                return ResourceManager.GetString("InvalidRecipientEmail", resourceCulture);
             }
         }
         

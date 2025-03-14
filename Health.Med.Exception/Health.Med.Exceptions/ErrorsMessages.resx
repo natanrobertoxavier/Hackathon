@@ -168,4 +168,16 @@
   <data name="ClientWithoutPermission" xml:space="preserve">
     <value>Cliente sem permissão</value>
   </data>
+  <data name="BlankSubject" xml:space="preserve">
+    <value>Assunto em branco</value>
+  </data>
+  <data name="BlankBody" xml:space="preserve">
+    <value>Corpo do e-mail em branco</value>
+  </data>
+  <data name="BlankRecipient" xml:space="preserve">
+    <value>Destinatário em branco</value>
+  </data>
+  <data name="InvalidRecipientEmail" xml:space="preserve">
+    <value>E-mail destinatário em branco</value>
+  </data>
 </root>
