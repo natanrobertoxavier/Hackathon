@@ -13,8 +13,7 @@ public static class MailMapping
             request.HiddenRecipients,
             request.Subject,
             request.Body,
-            request.IsHtml,
-            request.Template
+            request.IsHtml
         );
     }
 }

@@ -12,7 +12,7 @@ public class MailSender(
 {
     private readonly MailSettings _options = options.Value;
 
-    public void Send(Mail mail)
+    public async Task SendAsync(Mail mail)
     {
         using MailMessage mailMessage = new();
 
@@ -29,26 +29,13 @@ public class MailSender(
         smtp.Credentials = new NetworkCredential(_options.From, _options.Key);
 
         smtp.UseDefaultCredentials = false;
-        smtp.Send(mailMessage);
+        await smtp.SendMailAsync(mailMessage);
     }
 
     private static void AddEmailsToMailMessage(MailMessage mailMessage, Mail mail)
     {
-        foreach (var recipient in mail.Recipients)
-            mailMessage.To.Add(recipient);
-
-        if (mail.CopyRecipients?.Count > 0)
-        {
-            foreach (var copy in mail.CopyRecipients)
-                if (!string.IsNullOrEmpty(copy))
-                    mailMessage.CC.Add(copy);
-        }
-
-        if (mail.HiddenRecipients?.Count > 0)
-        {
-            foreach (var hidden in mail.HiddenRecipients)
-                if (!string.IsNullOrEmpty(hidden))
-                    mailMessage.Bcc.Add(hidden);
-        }
+        mail.Recipients?.ForEach(mailMessage.To.Add);
+        mail.CopyRecipients?.Where(copy => !string.IsNullOrEmpty(copy)).ToList().ForEach(mailMessage.CC.Add);
+        mail.HiddenRecipients?.Where(hidden => !string.IsNullOrEmpty(hidden)).ToList().ForEach(mailMessage.Bcc.Add);
     }
 }

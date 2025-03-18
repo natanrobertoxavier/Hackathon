@@ -14,7 +14,7 @@ public class EmailController : HealthMedController
         [FromServices] ISendMailUseCase useCase,
         [FromBody] RequestSendMail request)
     {
-        var response = await useCase.SendMailAsync(request);
+        var response = await useCase.SendAsync(request);
 
         return Response(response);
     }

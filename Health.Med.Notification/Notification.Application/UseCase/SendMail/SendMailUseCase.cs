@@ -13,23 +13,23 @@ public class SendMailUseCase(
     private readonly IMailSender _mailSender = mailSender;
     private readonly ILogger _logger = logger;
 
-    public async Task<Result<MessageResult>> SendMailAsync(RequestSendMail request)
+    public async Task<Result<MessageResult>> SendAsync(RequestSendMail request)
     {
         var output = new Result<MessageResult>();
 
         try
         {
-            _logger.Information($"Início {nameof(SendMailAsync)}.");
+            _logger.Information($"Início {nameof(SendAsync)}.");
 
             ValidateData(request);
 
             var entity = request.ToEntity();
 
-            _mailSender.Send(entity);
+            await _mailSender.SendAsync(entity);
 
             output.Succeeded(new MessageResult("E-mail enviado com sucesso"));
 
-            _logger.Information($"Fim {nameof(SendMailAsync)}.");
+            _logger.Information($"Fim {nameof(SendAsync)}.");
         }
         catch (ValidationErrorsException ex)
         {

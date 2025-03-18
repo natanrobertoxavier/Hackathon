@@ -5,8 +5,7 @@ public class RequestSendMail(
     List<string> hiddenRecipients,
     string subject,
     string body,
-    bool isHtml,
-    string template)
+    bool isHtml)
 {
     public List<string> Recipients { get; set; } = recipients;
     public List<string> CopyRecipients { get; set; } = copyRecipients;
@@ -14,5 +13,4 @@ public class RequestSendMail(
     public string Subject { get; set; } = subject;
     public string Body { get; set; } = body;
     public bool IsHtml { get; set; } = isHtml;
-    public string Template { get; set; } = template;
 }

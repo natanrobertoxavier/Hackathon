@@ -4,5 +4,5 @@ namespace Notification.Domain.Service;
 
 public interface IMailSender
 {
-    void Send(Mail mail);
+    Task SendAsync(Mail mail);
 }
