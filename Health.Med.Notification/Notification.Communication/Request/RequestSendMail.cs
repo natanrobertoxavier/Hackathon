@@ -1,6 +1,5 @@
 ﻿namespace Notification.Communication.Request;
 public class RequestSendMail(
-    string sender,
     List<string> recipients,
     List<string> copyRecipients,
     List<string> hiddenRecipients,
@@ -9,7 +8,6 @@ public class RequestSendMail(
     bool isHtml,
     string template)
 {
-    public string Sender { get; set; } = sender;
     public List<string> Recipients { get; set; } = recipients;
     public List<string> CopyRecipients { get; set; } = copyRecipients;
     public List<string> HiddenRecipients { get; set; } = hiddenRecipients;

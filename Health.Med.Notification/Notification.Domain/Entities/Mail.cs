@@ -1,6 +1,5 @@
 ﻿namespace Notification.Domain.Entities;
 public class Mail(
-    string sender,
     List<string> recipients,
     List<string> copyRecipiens,
     List<string> hiddenRecipients,
@@ -9,7 +8,6 @@ public class Mail(
     bool isHtml,
     string template)
 {
-    public string Sender { get; set; } = sender;
     public List<string> Recipients { get; set; } = recipients;
     public List<string> CopyRecipients { get; set; } = copyRecipiens;
     public List<string> HiddenRecipients { get; set; } = hiddenRecipients;

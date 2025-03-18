@@ -37,16 +37,18 @@ public class MailSender(
         foreach (var recipient in mail.Recipients)
             mailMessage.To.Add(recipient);
 
-        if (mail.CopyRecipients?.Any() == true)
+        if (mail.CopyRecipients?.Count > 0)
         {
             foreach (var copy in mail.CopyRecipients)
-                mailMessage.CC.Add(copy);
+                if (!string.IsNullOrEmpty(copy))
+                    mailMessage.CC.Add(copy);
         }
 
-        if (mail.HiddenRecipients?.Any() == true)
+        if (mail.HiddenRecipients?.Count > 0)
         {
             foreach (var hidden in mail.HiddenRecipients)
-                mailMessage.Bcc.Add(hidden);
+                if (!string.IsNullOrEmpty(hidden))
+                    mailMessage.Bcc.Add(hidden);
         }
     }
 }

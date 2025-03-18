@@ -8,7 +8,6 @@ public static class MailMapping
     public static Mail ToEntity(this RequestSendMail request)
     {
         return new Mail(
-            request.Sender,
             request.Recipients,
             request.CopyRecipients,
             request.HiddenRecipients,

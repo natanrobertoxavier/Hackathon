@@ -1,13 +1,9 @@
 ﻿namespace Notification.Infrastructure.Settings;
 
-public class MailSettings(
-    string sMTP, 
-    int port, 
-    string from, 
-    string key)
+public class MailSettings
 {
-    public string SMTP { get; set; } = sMTP;
-    public int Port { get; set; } = port;
-    public string From { get; set; } = from;
-    public string Key { get; set; } = key;
+    public string SMTP { get; set; } = string.Empty;
+    public int Port { get; set; }
+    public string From { get; set; } = string.Empty;
+    public string Key { get; set; } = string.Empty;
 }
