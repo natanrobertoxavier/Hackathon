@@ -1,7 +1,7 @@
 ﻿using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace Doctor.Domain.ModelServices;
+namespace Consultation.Domain.ModelServices;
 
 public abstract class Base
 {

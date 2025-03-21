@@ -53,11 +53,11 @@ public class ClientController : HealthMedController
         return Response(result);
     }
 
-    [HttpGet("email/{email}")]
+    [HttpGet("{email}")]
     [ServiceFilter(typeof(AuthenticatedUserAttribute))]
-    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status422UnprocessableEntity)]
+    [ProducesResponseType(typeof(Result<ResponseClient>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<ResponseClient>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Result<ResponseClient>), StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> RecoverByEmailAsync(
         [FromServices] IRecoverByEmailUseCase useCase,
         [FromRoute] string email)
@@ -69,14 +69,27 @@ public class ClientController : HealthMedController
 
     [HttpGet("cpf/{cpf}")]
     [ServiceFilter(typeof(AuthenticatedUserAttribute))]
-    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status422UnprocessableEntity)]
+    [ProducesResponseType(typeof(Result<ResponseClient>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<ResponseClient>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Result<ResponseClient>), StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> RecoverByCPFAsync(
         [FromServices] IRecoverByCPFUseCase useCase,
         [FromRoute] string cpf)
     {
         var result = await useCase.RecoverByCPFAsync(cpf);
+
+        return Response(result);
+    }
+
+    [HttpGet("basic-info/{email}")]
+    [ProducesResponseType(typeof(Result<ResponseClientBasicInfo>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<ResponseClientBasicInfo>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Result<ResponseClientBasicInfo>), StatusCodes.Status422UnprocessableEntity)]
+    public async Task<IActionResult> RecoverBasicInformationByEmailAsync(
+        [FromServices] IRecoverByEmailUseCase useCase,
+        [FromRoute] string email)
+    {
+        var result = await useCase.RecoverBasicInformationByEmailAsync(email);
 
         return Response(result);
     }

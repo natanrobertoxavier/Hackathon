@@ -15,6 +15,7 @@ public class ResponseClient
         Email = email;
         CPF = cPF;
     }
+
     public ResponseClient()
     {
     }

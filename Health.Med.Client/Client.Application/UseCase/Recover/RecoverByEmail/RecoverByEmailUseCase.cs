@@ -42,4 +42,35 @@ public class RecoverByEmailUseCase(
 
         return output;
     }
+
+    public async Task<Result<ResponseClientBasicInfo>> RecoverBasicInformationByEmailAsync(string email)
+    {
+        var output = new Result<ResponseClientBasicInfo>();
+
+        try
+        {
+            _logger.Information($"Início {nameof(RecoverByEmailAsync)}.");
+
+            var entity = await _clientReadOnlyrepository.RecoverByEmailAsync(email);
+
+            if (entity?.Id == Guid.Empty)
+            {
+                output.Succeeded(null);
+                _logger.Information($"Fim {nameof(RecoverByEmailAsync)}. Não foram encontrados dados.");
+            }
+            else
+            {
+                output.Succeeded(entity.ToBasicResponse());
+                _logger.Information($"Fim {nameof(RecoverByEmailAsync)}.");
+            }
+        }
+        catch (Exception ex)
+        {
+            var errorMessage = string.Format("Algo deu errado: {0}", ex.Message);
+            _logger.Error(ex, errorMessage);
+            output.Failure(new List<string>() { errorMessage });
+        }
+
+        return output;
+    }
 }

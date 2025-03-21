@@ -1,11 +1,11 @@
-﻿using Doctor.Domain.ModelServices;
-using Doctor.Domain.Services;
+﻿using Consultation.Domain.ModelServices;
+using Consultation.Domain.Services;
 using Health.Med.Exceptions;
 using Health.Med.Exceptions.ExceptionBase;
 using Microsoft.AspNetCore.Http;
 using Serilog;
 
-namespace Doctor.Infrastructure.Services;
+namespace Consultation.Infrastructure.Services;
 
 public class UserServiceApi(
     IHttpClientFactory httpClientFactory,

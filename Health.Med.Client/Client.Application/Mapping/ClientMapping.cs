@@ -34,4 +34,11 @@ public static class ClientMapping
             token
         );
     }
+
+    public static ResponseClientBasicInfo ToBasicResponse(this Domain.Entities.Client client)
+    {
+        return new ResponseClientBasicInfo(
+            client.Id
+        );
+    }
 }
