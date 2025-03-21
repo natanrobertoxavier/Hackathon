@@ -2,5 +2,5 @@
 
 public interface ILoggedClient
 {
-    Task<Guid> GetLoggedClientIdAsync();
+    Guid GetLoggedClientId();
 }

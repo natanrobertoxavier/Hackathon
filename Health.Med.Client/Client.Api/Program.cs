@@ -66,6 +66,7 @@ UpdateDatabase();
 app.MapControllers();
 
 app.Run();
+
 void UpdateDatabase()
 {
     using var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();

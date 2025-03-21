@@ -133,6 +133,15 @@ namespace Health.Med.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cliente já tem uma consulta agendada para o dia {0}.
+        /// </summary>
+        public static string ClientAlreadyConsultationSchedule {
+            get {
+                return ResourceManager.GetString("ClientAlreadyConsultationSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cliente sem permissão.
         /// </summary>
         public static string ClientWithoutPermission {
@@ -156,6 +165,15 @@ namespace Health.Med.Exceptions {
         public static string CRAlreadyRegistered {
             get {
                 return ResourceManager.GetString("CRAlreadyRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Doutor já tem uma consulta agendada para o dia {0}.
+        /// </summary>
+        public static string DoctorAlreadyConsultationSchedule {
+            get {
+                return ResourceManager.GetString("DoctorAlreadyConsultationSchedule", resourceCulture);
             }
         }
         

@@ -1,4 +1,9 @@
-﻿using Consultation.Domain.Services;
+﻿using Consultation.Domain.Extensions;
+using Consultation.Domain.Repositories;
+using Consultation.Domain.Repositories.Contracts;
+using Consultation.Domain.Services;
+using Consultation.Infrastructure.Repositories;
+using Consultation.Infrastructure.Repositories.Consultation;
 using Consultation.Infrastructure.Services;
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
@@ -50,14 +55,14 @@ public static class Initializer
 
     private static void AddWorkUnit(IServiceCollection services)
     {
-        //services.AddScoped<IWorkUnit, WorkUnit>();
+        services.AddScoped<IWorkUnit, WorkUnit>();
     }
 
     private static void AddRepositories(IServiceCollection services)
     {
-        //services
-        //    .AddScoped<IClientWriteOnly, ClientRepository>()
-        //    .AddScoped<IClientReadOnly, ClientRepository>();
+        services
+            .AddScoped<IConsultationReadOnly, ConsultationReadOnly>()
+            .AddScoped<IConsultationWriteOnly, ConsultationReadOnly>();
     }
 
     private static void AddServices(IServiceCollection services, IConfiguration configurationManager)

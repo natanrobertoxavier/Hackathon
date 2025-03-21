@@ -2,7 +2,18 @@
 
 public class RequestRegisterConsultation
 {
-    public Guid ClientId { get; set; }
+    public RequestRegisterConsultation(
+        Guid doctorId, 
+        DateTime consultationDate)
+    {
+        DoctorId = doctorId;
+        ConsultationDate = consultationDate;
+    }
+
+    public RequestRegisterConsultation()
+    {
+    }
+
     public Guid DoctorId { get; set; }
     public DateTime ConsultationDate { get; set; }
 }

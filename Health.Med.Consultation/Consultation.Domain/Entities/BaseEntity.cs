@@ -1,4 +1,4 @@
-﻿namespace Client.Domain.Entities;
+﻿namespace Consultation.Domain.Entities;
 
 public class BaseEntity
 {

@@ -180,4 +180,10 @@
   <data name="InvalidRecipientEmail" xml:space="preserve">
     <value>E-mail destinatário em branco</value>
   </data>
+  <data name="ClientAlreadyConsultationSchedule" xml:space="preserve">
+    <value>Cliente já tem uma consulta agendada para o dia {0}</value>
+  </data>
+  <data name="DoctorAlreadyConsultationSchedule" xml:space="preserve">
+    <value>Doutor já tem uma consulta agendada para o dia {0}</value>
+  </data>
 </root>
