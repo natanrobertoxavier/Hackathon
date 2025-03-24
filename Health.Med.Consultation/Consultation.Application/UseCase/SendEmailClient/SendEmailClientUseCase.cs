@@ -1,4 +1,5 @@
 ﻿using Consultation.Application.Extensions;
+using Consultation.Application.Services.LoggedClientService;
 using Consultation.Application.Settings;
 using Consultation.Communication.Request;
 using Consultation.Communication.Response;
@@ -14,10 +15,12 @@ namespace Consultation.Application.UseCase.SendEmailClient;
 public class SendEmailClientUseCase(
     IMediator mediator,
     IOptions<TemplateSettings> options,
+    ILoggedClient loggedClient,
     ILogger logger) : ISendEmailClientUseCase
 {
     private readonly IMediator _mediator = mediator;
     private readonly TemplateSettings _options = options.Value;
+    private readonly ILoggedClient _loggedClient = loggedClient;
     private readonly ILogger _logger = logger;
 
     public async Task<Result<MessageResult>> SendEmailClientAsync(RequestRegisterConsultation request, TemplateEmailEnum template)
@@ -28,16 +31,19 @@ public class SendEmailClientUseCase(
         {
             _logger.Information($"Início {nameof(SendEmailClientAsync)}.");
 
+            var client = _loggedClient.GetLoggedClient();
+            var consultationDateTime = request.ConsultationDate.ToSPDateZone();
+
             var content = GetEmailBody(template)
-                .Replace("@@@CLIENT@@@", "Cliente")
+                .Replace("@@@CLIENT@@@", client.PreferredName)
                 .Replace("@@@ESPECIALTY@@@", "Especialidade médico")
                 .Replace("@@@DOCTORNAME@@@", "Nome médico")
-                .Replace("@@@DATE@@@", "Data consulta")
-                .Replace("@@@HOUR@@@", "Hora consulta");
+                .Replace("@@@DATE@@@", consultationDateTime.ToString("dd/MM/yyyy"))
+                .Replace("@@@HOUR@@@", consultationDateTime.ToString("HH:mm"));
 
             await _mediator.Publish(new SendEmailClientEvent(
-                ["natanroberto182@gmail.com"],
-                $"Natan, {_options.Subject}",
+                [client.Email],
+                $"{client.PreferredName}, {_options.Subject}",
                 content)
             );
 
@@ -59,7 +65,6 @@ public class SendEmailClientUseCase(
 
     private string GetEmailBody(TemplateEmailEnum template)
     {
-//Cominho completo C:\Code\Hackathon\Health.Med.Consultation\Consultation.Application\EmailTemplates\ConsultationScheduleClient.html
         var path = $"{_options.PathTemplateClient}.{template.GetDescription()}.html";
 
         using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path))

@@ -9,6 +9,7 @@ public static class ClientMapping
     {
         return new Domain.Entities.Client(
             request.Name,
+            request.PreferredName,
             request.Email.ToLower(),
             request.CPF,
             password
@@ -38,7 +39,9 @@ public static class ClientMapping
     public static ResponseClientBasicInfo ToBasicResponse(this Domain.Entities.Client client)
     {
         return new ResponseClientBasicInfo(
-            client.Id
+            client.Id,
+            client.PreferredName,
+            client.Email
         );
     }
 }

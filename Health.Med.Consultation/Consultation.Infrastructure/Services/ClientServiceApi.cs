@@ -28,6 +28,13 @@ public class ClientServiceApi(
 
             var uri = string.Format("/api/v1/client/basic-info/{0}", email);
 
+            var authorization = GetTokenInRequest();
+
+            if (!string.IsNullOrEmpty(authorization))
+            {
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authorization);
+            }
+
             var response = await client.GetAsync(uri);
 
             if (response.IsSuccessStatusCode)
@@ -55,6 +62,18 @@ public class ClientServiceApi(
 
             return output.Failure(errorMessage);
         }
+    }
+
+    private string GetTokenInRequest()
+    {
+        var authorization = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString();
+
+        if (string.IsNullOrWhiteSpace(authorization))
+        {
+            throw new HealthMedException(ErrorsMessages.TokenNotFound);
+        }
+
+        return authorization["Bearer".Length..].Trim();
     }
 }
 

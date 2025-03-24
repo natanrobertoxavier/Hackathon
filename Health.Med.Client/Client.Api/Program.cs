@@ -45,6 +45,7 @@ builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<AuthenticatedClientAttribute>();
 builder.Services.AddScoped<AuthenticatedUserAttribute>();
+builder.Services.AddScoped<AuthenticatedAttribute>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

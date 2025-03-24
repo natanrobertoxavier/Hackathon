@@ -17,13 +17,13 @@ public class RegisterUseCase(
     IConsultationReadOnly consultationReadOnlyrepository,
     IConsultationWriteOnly consultationWriteOnlyrepository,
     IWorkUnit workUnit,
-    ISendEmailClientUseCase _sendEmailClientUseCase,
+    ISendEmailClientUseCase sendEmailClientUseCase,
     ILogger logger) : IRegisterUseCase
 {
     private readonly ILoggedClient _loggedClient = loggedClient;
     private readonly IConsultationReadOnly _consultationReadOnlyrepository = consultationReadOnlyrepository;
     private readonly IConsultationWriteOnly _consultationWriteOnlyrepository = consultationWriteOnlyrepository;
-    private readonly ISendEmailClientUseCase sendEmailClientUseCase = _sendEmailClientUseCase;
+    private readonly ISendEmailClientUseCase _sendEmailClientUseCase = sendEmailClientUseCase;
     private readonly IWorkUnit _workUnit = workUnit;
     private readonly ILogger _logger = logger;
 

@@ -54,7 +54,7 @@ public class ClientController : HealthMedController
     }
 
     [HttpGet("{email}")]
-    [ServiceFilter(typeof(AuthenticatedUserAttribute))]
+    [ServiceFilter(typeof(AuthenticatedAttribute))]
     [ProducesResponseType(typeof(Result<ResponseClient>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Result<ResponseClient>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(Result<ResponseClient>), StatusCodes.Status422UnprocessableEntity)]
@@ -82,6 +82,7 @@ public class ClientController : HealthMedController
     }
 
     [HttpGet("basic-info/{email}")]
+    [ServiceFilter(typeof(AuthenticatedAttribute))]
     [ProducesResponseType(typeof(Result<ResponseClientBasicInfo>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Result<ResponseClientBasicInfo>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(Result<ResponseClientBasicInfo>), StatusCodes.Status422UnprocessableEntity)]

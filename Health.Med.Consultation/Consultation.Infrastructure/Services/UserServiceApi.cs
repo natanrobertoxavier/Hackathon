@@ -34,6 +34,7 @@ public class UserServiceApi(
             {
                 client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authorization);
             }
+
             var response = await client.GetAsync(uri);
 
             if (response.IsSuccessStatusCode)

@@ -26,7 +26,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="EmailTemplates\ConsultationScheduleClient.html"/>
+		<EmbeddedResource Include="EmailTemplates\ConsultationScheduleClient.html" />
 	</ItemGroup>
 
 </Project>
