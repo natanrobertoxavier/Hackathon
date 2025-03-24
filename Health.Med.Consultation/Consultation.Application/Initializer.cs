@@ -1,5 +1,13 @@
-﻿using Consultation.Application.Services;
+﻿using Consultation.Application.Contracts;
+using Consultation.Application.Messages;
+using Consultation.Application.Messages.Handlers;
+using Consultation.Application.Services;
+using Consultation.Application.Services.LoggedClientService;
+using Consultation.Application.Settings;
 using Consultation.Application.UseCase.Consultation.Register;
+using Consultation.Application.UseCase.SendEmailClient;
+using Consultation.Domain.Messages.DomainEvents;
+using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -16,6 +24,9 @@ public static class Initializer
         AddAdditionalKeyPassword(services, configuration);
         AddJWTToken(services, configuration);
         AddSerilog(services);
+        ConfiguraMailSettings(services, configuration);
+        AddMessagesEvents(services);
+        AddEvents(services);
     }
 
     private static void AddLoggedUsers(IServiceCollection services)
@@ -27,7 +38,8 @@ public static class Initializer
     private static void AddUseCases(IServiceCollection services)
     {
         services
-            .AddScoped<IRegisterUseCase, RegisterUseCase>();
+            .AddScoped<IRegisterUseCase, RegisterUseCase>()
+            .AddScoped<ISendEmailClientUseCase, SendEmailClientUseCase>();
     }
 
     private static void AddAdditionalKeyPassword(IServiceCollection services, IConfiguration configuration)
@@ -49,5 +61,22 @@ public static class Initializer
             .CreateLogger();
 
         services.AddSingleton(Log.Logger);
+    }
+
+    private static IServiceCollection ConfiguraMailSettings(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<TemplateSettings>(options => configuration.GetSection(nameof(TemplateSettings)).Bind(options));
+        return services;
+    }
+
+    private static void AddMessagesEvents(IServiceCollection services)
+    {
+        services.AddScoped<IMessagePublisher, MessagePublisher>();
+        services.AddScoped<INotificationHandler<SendEmailClientEvent>, SendEmailConfirmationClientEventHandler>();
+    }
+
+    private static void AddEvents(IServiceCollection services)
+    {
+        services.AddScoped<IEventAppService, EventsAppService>();
     }
 }

@@ -4,6 +4,8 @@ using Consultation.Application;
 using Consultation.Infrastructure.Repositories;
 using Consultation.Domain.Extensions;
 using Consultation.Infrastructure.Migrations;
+using System.Reflection;
+using Consultation.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,10 +47,13 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddConfiguration(builder.Configuration);
 builder.Services.AddScoped<AuthenticatedAttribute>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
 var app = builder.Build();
 

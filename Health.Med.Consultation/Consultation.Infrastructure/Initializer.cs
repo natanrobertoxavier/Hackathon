@@ -2,6 +2,7 @@
 using Consultation.Domain.Repositories;
 using Consultation.Domain.Repositories.Contracts;
 using Consultation.Domain.Services;
+using Consultation.Infrastructure.Queue;
 using Consultation.Infrastructure.Repositories;
 using Consultation.Infrastructure.Repositories.Consultation;
 using Consultation.Infrastructure.Services;
@@ -22,6 +23,7 @@ public static class Initializer
         AddWorkUnit(services);
         AddRepositories(services);
         AddServices(services, configurationManager);
+        AddRabbitMqDispatcher(services);
     }
 
     private static void AddFluentMigrator(IServiceCollection services, IConfiguration configurationManager)
@@ -82,5 +84,10 @@ public static class Initializer
             client.BaseAddress = new Uri(configurationManager.GetSection("ServicesApiAddress:ClientApi").Value);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
         });
+    }
+
+    private static void AddRabbitMqDispatcher(IServiceCollection services)
+    {
+        services.AddScoped<IRabbitMqEventsDispatcher, RabbitMqEventsDispatcher>();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Consultation.Application.Extensions;
 using Consultation.Application.Mapping;
-using Consultation.Application.Services;
+using Consultation.Application.Services.LoggedClientService;
+using Consultation.Application.UseCase.SendEmailClient;
 using Consultation.Communication.Request;
 using Consultation.Communication.Response;
 using Consultation.Domain.Repositories;
@@ -16,11 +17,13 @@ public class RegisterUseCase(
     IConsultationReadOnly consultationReadOnlyrepository,
     IConsultationWriteOnly consultationWriteOnlyrepository,
     IWorkUnit workUnit,
+    ISendEmailClientUseCase _sendEmailClientUseCase,
     ILogger logger) : IRegisterUseCase
 {
     private readonly ILoggedClient _loggedClient = loggedClient;
     private readonly IConsultationReadOnly _consultationReadOnlyrepository = consultationReadOnlyrepository;
     private readonly IConsultationWriteOnly _consultationWriteOnlyrepository = consultationWriteOnlyrepository;
+    private readonly ISendEmailClientUseCase sendEmailClientUseCase = _sendEmailClientUseCase;
     private readonly IWorkUnit _workUnit = workUnit;
     private readonly ILogger _logger = logger;
 
@@ -35,12 +38,12 @@ public class RegisterUseCase(
             var clientId = _loggedClient.GetLoggedClientId();
 
             await Validate(request, clientId);
-            var teste = request.ToEntity(clientId);
+
             await _consultationWriteOnlyrepository.AddAsync(request.ToEntity(clientId));
 
             await _workUnit.CommitAsync();
 
-            //publicar mensagem na fila para o serviço de notificação
+            await SendEmailAsync(request);
 
             output.Succeeded(new MessageResult("Cadastro realizado com sucesso"));
 
@@ -92,5 +95,12 @@ public class RegisterUseCase(
             var errorMessages = validationResult.Errors.Select(error => error.ErrorMessage).ToList();
             throw new ValidationErrorsException(errorMessages);
         }
+    }
+
+    private async Task SendEmailAsync(RequestRegisterConsultation request)
+    {
+        _logger.Information($"Início {nameof(SendEmailAsync)}.");
+
+        await _sendEmailClientUseCase.SendEmailClientAsync(request, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingEmail);
     }
 }

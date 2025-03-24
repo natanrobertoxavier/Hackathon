@@ -1,4 +1,5 @@
-﻿namespace Notification.Infrastructure.Queue;
+﻿namespace Consultation.Infrastructure.Queue;
+
 public static class RabbitMqConstants
 {
     public const string NotificationExchange = $"notification.exchange";

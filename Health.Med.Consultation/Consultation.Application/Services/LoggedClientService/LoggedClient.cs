@@ -1,7 +1,7 @@
 ﻿using Health.Med.Exceptions.ExceptionBase;
 using Microsoft.AspNetCore.Http;
 
-namespace Consultation.Application.Services;
+namespace Consultation.Application.Services.LoggedClientService;
 
 public class LoggedClient(IHttpContextAccessor httpContextAccessor) : ILoggedClient
 {
