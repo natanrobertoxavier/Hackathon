@@ -186,4 +186,10 @@
   <data name="DoctorAlreadyConsultationSchedule" xml:space="preserve">
     <value>Doutor já tem uma consulta agendada para o dia {0}</value>
   </data>
+  <data name="BlankDescription" xml:space="preserve">
+    <value>Descrição em branco</value>
+  </data>
+  <data name="SpecialtyAlreadyRegistered" xml:space="preserve">
+    <value>Especalidade já cadastrada</value>
+  </data>
 </root>

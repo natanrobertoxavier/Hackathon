@@ -1,4 +1,4 @@
-﻿using Doctor.Application.UseCase.Login;
+﻿using Doctor.Application.UseCase.Doctor.Login;
 using Doctor.Communication.Request;
 using Doctor.Communication.Response;
 using Microsoft.AspNetCore.Mvc;

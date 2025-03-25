@@ -1,4 +1,4 @@
-﻿using Doctor.Domain.Repositories.Contracts;
+﻿using Doctor.Domain.Repositories.Contracts.Doctor;
 using Microsoft.EntityFrameworkCore;
 
 namespace Doctor.Infrastructure.Repositories.Doctor;

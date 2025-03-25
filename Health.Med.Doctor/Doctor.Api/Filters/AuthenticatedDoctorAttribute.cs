@@ -1,5 +1,5 @@
 ﻿using Azure;
-using Doctor.Domain.Repositories.Contracts;
+using Doctor.Domain.Repositories.Contracts.Doctor;
 using Health.Med.Exceptions;
 using Health.Med.Exceptions.ExceptionBase;
 using Microsoft.AspNetCore.Authorization;

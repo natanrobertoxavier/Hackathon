@@ -1,8 +1,8 @@
 ﻿using Doctor.Api.Filters;
-using Doctor.Application.UseCase.ChangePassword;
-using Doctor.Application.UseCase.Recover.RecoverAll;
-using Doctor.Application.UseCase.Recover.RecoverByCR;
-using Doctor.Application.UseCase.Register;
+using Doctor.Application.UseCase.Doctor.ChangePassword;
+using Doctor.Application.UseCase.Doctor.Recover.RecoverAll;
+using Doctor.Application.UseCase.Doctor.Recover.RecoverByCR;
+using Doctor.Application.UseCase.Doctor.Register;
 using Doctor.Communication.Request;
 using Doctor.Communication.Response;
 using Microsoft.AspNetCore.Mvc;
@@ -15,7 +15,7 @@ public class DoctorController : HealthMedController
     [ServiceFilter(typeof(AuthenticatedUserAttribute))]
     [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> RegisterUserAsync(
+    public async Task<IActionResult> RegisterAsync(
         [FromServices] IRegisterUseCase useCase,
         [FromBody] RequestRegisterDoctor request)
     {

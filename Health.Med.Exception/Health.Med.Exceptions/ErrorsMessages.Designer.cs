@@ -88,6 +88,15 @@ namespace Health.Med.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Descrição em branco.
+        /// </summary>
+        public static string BlankDescription {
+            get {
+                return ResourceManager.GetString("BlankDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email em branco.
         /// </summary>
         public static string BlankEmail {
@@ -246,6 +255,15 @@ namespace Health.Med.Exceptions {
         public static string MinimumSixCharacters {
             get {
                 return ResourceManager.GetString("MinimumSixCharacters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Especalidade já cadastrada.
+        /// </summary>
+        public static string SpecialtyAlreadyRegistered {
+            get {
+                return ResourceManager.GetString("SpecialtyAlreadyRegistered", resourceCulture);
             }
         }
         

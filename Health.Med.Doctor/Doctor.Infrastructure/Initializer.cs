@@ -1,9 +1,11 @@
 ﻿using Doctor.Domain.Extensions;
 using Doctor.Domain.Repositories;
-using Doctor.Domain.Repositories.Contracts;
+using Doctor.Domain.Repositories.Contracts.Doctor;
+using Doctor.Domain.Repositories.Contracts.Specialty;
 using Doctor.Domain.Services;
 using Doctor.Infrastructure.Repositories;
 using Doctor.Infrastructure.Repositories.Doctor;
+using Doctor.Infrastructure.Repositories.Specialty;
 using Doctor.Infrastructure.Services;
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
@@ -62,7 +64,9 @@ public static class Initializer
     {
         services
             .AddScoped<IDoctorWriteOnly, DoctorRepository>()
-            .AddScoped<IDoctorReadOnly, DoctorRepository>();
+            .AddScoped<IDoctorReadOnly, DoctorRepository>()
+            .AddScoped<ISpecialtyWriteOnly, SpecialtyRepository>()
+            .AddScoped<ISpecialtyReadOnly, SpecialtyRepository>();
     }
 
     private static void AddServices(IServiceCollection services, IConfiguration configurationManager)
