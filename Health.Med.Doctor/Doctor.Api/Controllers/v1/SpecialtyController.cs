@@ -1,4 +1,5 @@
 ﻿using Doctor.Api.Filters;
+using Doctor.Application.UseCase.Specialty.Recover.RecoverAll;
 using Doctor.Application.UseCase.Specialty.Register;
 using Doctor.Communication.Request;
 using Doctor.Communication.Response;
@@ -19,5 +20,19 @@ public class SpecialtyController : HealthMedController
         var result = await useCase.RegisterSpecialtyAsync(request);
 
         return ResponseCreate(result);
+    }
+
+    [HttpGet]
+    [ProducesResponseType(typeof(Result<IEnumerable<ResponseSpecialty>>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<IEnumerable<ResponseSpecialty>>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Result<IEnumerable<ResponseSpecialty>>), StatusCodes.Status422UnprocessableEntity)]
+    public async Task<IActionResult> RecoverAllAsync(
+        [FromServices] IRecoverAllUseCase useCase,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 5)
+    {
+        var result = await useCase.RecoverAllAsync(page, pageSize);
+
+        return Response(result);
     }
 }

@@ -259,7 +259,7 @@ namespace Health.Med.Exceptions {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Especalidade já cadastrada.
+        ///   Looks up a localized string similar to Especialidade já cadastrada.
         /// </summary>
         public static string SpecialtyAlreadyRegistered {
             get {

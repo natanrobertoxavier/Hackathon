@@ -20,4 +20,11 @@ public class SpecialtyRepository(HealthMedContext context) : ISpecialtyReadOnly,
     public async Task<Domain.Entities.Specialty> RecoverByStandardDescriptionAsync(string standardizedDescription) =>
         await _context.Specialties
         .FirstOrDefaultAsync(d => d.StandardDescription.Equals(standardizedDescription)) ?? new Domain.Entities.Specialty();
+
+    public async Task<IEnumerable<Domain.Entities.Specialty>> RecoverAllAsync(int skip, int pageSize) =>
+        await _context.Specialties
+        .AsNoTracking()
+        .Skip(skip)
+        .Take(pageSize)
+        .ToListAsync();
 }

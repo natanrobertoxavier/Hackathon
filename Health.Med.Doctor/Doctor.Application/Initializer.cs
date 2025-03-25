@@ -39,7 +39,8 @@ public static class Initializer
             .AddScoped<IRecoverByCRUseCase, RecoverByCRUseCase>()
             .AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>()
             .AddScoped<ILoginUseCase, LoginUseCase>()
-            .AddScoped<UseCase.Specialty.Register.IRegisterUseCase, UseCase.Specialty.Register.RegisterUseCase>();
+            .AddScoped<UseCase.Specialty.Register.IRegisterUseCase, UseCase.Specialty.Register.RegisterUseCase>()
+            .AddScoped<UseCase.Specialty.Recover.RecoverAll.IRecoverAllUseCase, UseCase.Specialty.Recover.RecoverAll.RecoverAllUseCase>();
     }
 
     private static void AddAdditionalKeyPassword(IServiceCollection services, IConfiguration configuration)

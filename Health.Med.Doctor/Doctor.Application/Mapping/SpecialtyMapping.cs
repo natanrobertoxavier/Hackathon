@@ -1,4 +1,6 @@
 ﻿using Doctor.Communication.Request;
+using Doctor.Communication.Response;
+using System.Globalization;
 
 namespace Doctor.Application.Mapping;
 
@@ -6,21 +8,22 @@ public static class SpecialtyMapping
 {
     public static Domain.Entities.Specialty ToEntity(this RequestRegisterSpecialty request, string standardDescription, Guid userId)
     {
+        TextInfo stringHelper = CultureInfo.CurrentCulture.TextInfo;
+
         return new Domain.Entities.Specialty(
             userId,
-            request.Description,
+            stringHelper.ToTitleCase(request.Description.ToLower()),
             standardDescription
         );
     }
 
-    //public static ResponseDoctor ToResponse(this Domain.Entities.Doctor doctor)
-    //{
-    //    return new ResponseDoctor(
-    //        doctor.Id,
-    //        doctor.RegistrationDate,
-    //        doctor.Name,
-    //        doctor.Email,
-    //        doctor.CR
-    //    );
-    //}
+    public static ResponseSpecialty ToResponse(this Domain.Entities.Specialty specialty)
+    {
+        return new ResponseSpecialty(
+            specialty.Id,
+            specialty.RegistrationDate,
+            specialty.Description,
+            specialty.StandardDescription
+        );
+    }
 }

@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace Doctor.Communication.Response;
+﻿namespace Doctor.Communication.Response;
 
 public class ResponseDoctor
 {
