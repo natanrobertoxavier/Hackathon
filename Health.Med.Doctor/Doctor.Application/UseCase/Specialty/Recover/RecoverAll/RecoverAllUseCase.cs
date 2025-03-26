@@ -24,7 +24,16 @@ public class RecoverAllUseCase(
 
             var response = entities.Select(entity => entity.ToResponse());
 
-            output.Succeeded(response);
+            if (!entities.Any())
+            {
+                output.Succeeded(null);
+                _logger.Information($"Fim {nameof(RecoverAllAsync)}. Não foram encontrados dados.");
+            }
+            else
+            {
+                output.Succeeded(entities.Select(entity => entity.ToResponse()));
+                _logger.Information($"Fim {nameof(RecoverAllAsync)}.");
+            }
 
             _logger.Information($"Fim {nameof(RecoverAllAsync)}.");
         }

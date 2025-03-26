@@ -12,6 +12,7 @@ public static class DoctorMapping
             request.Email.ToLower(),
             request.CR.ToUpper(),
             password,
+            request.SpecialtyId,
             userId
         );
     }
@@ -23,7 +24,8 @@ public static class DoctorMapping
             doctor.RegistrationDate,
             doctor.Name,
             doctor.Email,
-            doctor.CR
+            doctor.CR,
+            doctor.Specialty.ToSpecialDoctorResponse()
         );
     }
 

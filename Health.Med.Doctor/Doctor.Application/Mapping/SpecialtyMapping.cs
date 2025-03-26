@@ -26,4 +26,13 @@ public static class SpecialtyMapping
             specialty.StandardDescription
         );
     }
+
+    public static ResponseSpecialtyDoctor ToSpecialDoctorResponse(this Domain.Entities.Specialty specialty)
+    {
+        return new ResponseSpecialtyDoctor(
+            specialty.Id,
+            specialty.Description,
+            specialty.StandardDescription
+        );
+    }
 }

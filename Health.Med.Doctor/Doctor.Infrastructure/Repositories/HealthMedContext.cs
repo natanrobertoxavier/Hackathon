@@ -11,4 +11,9 @@ public class HealthMedContext(DbContextOptions<HealthMedContext> options) : DbCo
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(HealthMedContext).Assembly);
     }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.UseLazyLoadingProxies();
+    }
 }

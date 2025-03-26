@@ -31,4 +31,5 @@ public class Specialty : BaseEntity
     public Guid UserId { get; set; }
     public string Description { get; set; }
     public string StandardDescription { get; set; }
+    public virtual ICollection<Doctor> Doctors { get; set; } = new List<Doctor>();
 }
