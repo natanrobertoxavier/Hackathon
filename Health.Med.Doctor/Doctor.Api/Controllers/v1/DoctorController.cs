@@ -40,7 +40,7 @@ public class DoctorController : HealthMedController
     }
 
     [HttpGet]
-    [ServiceFilter(typeof(AuthenticatedUserAttribute))]
+    [ServiceFilter(typeof(AuthenticatedAttribute))]
     [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status422UnprocessableEntity)]
@@ -55,7 +55,7 @@ public class DoctorController : HealthMedController
     }
 
     [HttpGet("cr/{cr}")]
-    [ServiceFilter(typeof(AuthenticatedUserAttribute))]
+    [ServiceFilter(typeof(AuthenticatedAttribute))]
     [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status400BadRequest)]
@@ -69,7 +69,7 @@ public class DoctorController : HealthMedController
     }
 
     [HttpGet("id/{id}")]
-    //[ServiceFilter(typeof(AuthenticatedUserAttribute))]
+    [ServiceFilter(typeof(AuthenticatedAttribute))]
     [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status400BadRequest)]
