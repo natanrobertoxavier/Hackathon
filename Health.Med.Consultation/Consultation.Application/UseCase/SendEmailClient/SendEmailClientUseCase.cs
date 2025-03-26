@@ -5,6 +5,7 @@ using Consultation.Communication.Request;
 using Consultation.Communication.Response;
 using Consultation.Domain.Entities.Enum;
 using Consultation.Domain.Messages.DomainEvents;
+using Consultation.Domain.Services;
 using MediatR;
 using Microsoft.Extensions.Options;
 using Serilog;
@@ -15,11 +16,13 @@ namespace Consultation.Application.UseCase.SendEmailClient;
 public class SendEmailClientUseCase(
     IMediator mediator,
     IOptions<TemplateSettings> options,
+    IDoctorServiceApi doctorServiceApi,
     ILoggedClient loggedClient,
     ILogger logger) : ISendEmailClientUseCase
 {
     private readonly IMediator _mediator = mediator;
     private readonly TemplateSettings _options = options.Value;
+    private readonly IDoctorServiceApi _doctorServiceApi = doctorServiceApi;
     private readonly ILoggedClient _loggedClient = loggedClient;
     private readonly ILogger _logger = logger;
 
@@ -32,12 +35,13 @@ public class SendEmailClientUseCase(
             _logger.Information($"Início {nameof(SendEmailClientAsync)}.");
 
             var client = _loggedClient.GetLoggedClient();
+            var doctor = await _doctorServiceApi.RecoverByIdAsync(request.DoctorId);
             var consultationDateTime = request.ConsultationDate.ToSPDateZone();
 
             var content = GetEmailBody(template)
                 .Replace("@@@CLIENT@@@", client.PreferredName)
-                .Replace("@@@ESPECIALTY@@@", "Especialidade médico")
-                .Replace("@@@DOCTORNAME@@@", "Nome médico")
+                .Replace("@@@ESPECIALTY@@@", doctor.Data.SpecialtyDoctor.Description)
+                .Replace("@@@DOCTORNAME@@@", doctor.Data.Name)
                 .Replace("@@@DATE@@@", consultationDateTime.ToString("dd/MM/yyyy"))
                 .Replace("@@@HOUR@@@", consultationDateTime.ToString("HH:mm"));
 

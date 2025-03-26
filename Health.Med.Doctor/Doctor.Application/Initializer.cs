@@ -4,6 +4,7 @@ using Doctor.Application.UseCase.Doctor.ChangePassword;
 using Doctor.Application.UseCase.Doctor.Login;
 using Doctor.Application.UseCase.Doctor.Recover.RecoverAll;
 using Doctor.Application.UseCase.Doctor.Recover.RecoverByCR;
+using Doctor.Application.UseCase.Doctor.Recover.RecoverById;
 using Doctor.Application.UseCase.Doctor.Register;
 using Doctor.Domain.Entities;
 using Microsoft.Extensions.Configuration;
@@ -37,6 +38,7 @@ public static class Initializer
             .AddScoped<IRegisterUseCase, RegisterUseCase>()
             .AddScoped<IRecoverAllUseCase, RecoverAllUseCase>()
             .AddScoped<IRecoverByCRUseCase, RecoverByCRUseCase>()
+            .AddScoped<IRecoverByIdUseCase, RecoverByIdUseCase>()
             .AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>()
             .AddScoped<ILoginUseCase, LoginUseCase>()
             .AddScoped<UseCase.Specialty.Register.IRegisterUseCase, UseCase.Specialty.Register.RegisterUseCase>()
