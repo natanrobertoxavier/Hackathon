@@ -7,7 +7,7 @@ namespace Consultation.Application.Extensions;
 public static class UsefulExtensions
 {
     public static DateTime TrimMilliseconds(this DateTime dateTime) =>
-        new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
+        new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, 00);
 
     public static string GetDescription(this Enum value)
     {

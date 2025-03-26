@@ -160,6 +160,15 @@ namespace Health.Med.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Horário inválido.
+        /// </summary>
+        public static string ConsultationHourInvalid {
+            get {
+                return ResourceManager.GetString("ConsultationHourInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to CPF já cadastrado.
         /// </summary>
         public static string CPFAlreadyRegistered {
@@ -183,6 +192,15 @@ namespace Health.Med.Exceptions {
         public static string DoctorAlreadyConsultationSchedule {
             get {
                 return ResourceManager.GetString("DoctorAlreadyConsultationSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Médico não encontrado.
+        /// </summary>
+        public static string DoctorNotFound {
+            get {
+                return ResourceManager.GetString("DoctorNotFound", resourceCulture);
             }
         }
         

@@ -37,7 +37,8 @@ public class DoctorServiceApi(
 
             var response = await client.GetAsync(uri);
 
-            if (response.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode ||
+                response.StatusCode is System.Net.HttpStatusCode.NotFound)
             {
                 var content = await response.Content.ReadAsStringAsync();
 

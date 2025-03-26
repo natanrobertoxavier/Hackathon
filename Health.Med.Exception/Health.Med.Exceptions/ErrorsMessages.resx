@@ -192,4 +192,10 @@
   <data name="SpecialtyAlreadyRegistered" xml:space="preserve">
     <value>Especialidade já cadastrada</value>
   </data>
+  <data name="ConsultationHourInvalid" xml:space="preserve">
+    <value>Horário inválido</value>
+  </data>
+  <data name="DoctorNotFound" xml:space="preserve">
+    <value>Médico não encontrado</value>
+  </data>
 </root>
