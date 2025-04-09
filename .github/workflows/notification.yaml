@@ -25,7 +25,7 @@ jobs:
       - name: Replace appsettings for Notification
         run: |
           echo "Replacing appsettings for Notification"
-          cmd /C "copy /Y c:\appsettings\notification\appsettings.json %GITHUB_WORKSPACE%\Hackthon\Health.Med.Notification\Notification.Api\appsettings.json"
+          cmd /C "copy /Y c:\appsettings\notification\appsettings.json %GITHUB_WORKSPACE%\Health.Med.Notification\Notification.Api\appsettings.json"
         #  cmd /C "copy /Y c:\appsettings\appsettings.Test.json %GITHUB_WORKSPACE%\Tech.Challenge.III.User.Query\User.Query\User.Query.Api\appsettings.Test.json"
         #  cmd /C "copy /Y c:\appsettings\appsettings.IntegrationTests.json %GITHUB_WORKSPACE%\Tech.Challenge.III.User.Query\User.Query\User.Query.Api\appsettings.IntegrationTests.json"
 
