@@ -1,0 +1,80 @@
+name: CI/CD for User
+
+on:
+  workflow_dispatch:
+
+jobs:  
+  build-and-push:
+    name: Build, Test, and Publish Docker Image - User
+    runs-on: Windows
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Replace appsettings for User
+        run: |
+          echo "Replacing appsettings for User"
+          cmd /C "copy /Y c:\appsettings\user\appsettings.json %GITHUB_WORKSPACE%\Health.Med.User\User.Api\appsettings.json"
+        #  cmd /C "copy /Y c:\appsettings\appsettings.Test.json %GITHUB_WORKSPACE%\Tech.Challenge.III.User.Query\User.Query\User.Query.Api\appsettings.Test.json"
+        #  cmd /C "copy /Y c:\appsettings\appsettings.IntegrationTests.json %GITHUB_WORKSPACE%\Tech.Challenge.III.User.Query\User.Query\User.Query.Api\appsettings.IntegrationTests.json"
+
+      - name: Restore dependencies
+        run: |
+          echo "Restoring dependencies for User"
+          cd Health.Med.User/
+          dotnet restore
+
+      - name: Build the User
+        run: |
+          echo "Building the User"
+          dotnet build Health.Med.User/Health.Med.User.sln --no-restore --configuration Release
+
+      - name: Run unit tests
+        run: |
+          echo "Running unit tests"
+        #  dotnet test Tech.Challenge.III.User.Query/User.Query/User.Query.Tests/User.Query.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=unit-test-user-query-results.trx"
+
+      - name: Run integration tests
+        run: |
+          echo "Running integration tests"
+        #  dotnet test Tech.Challenge.III.User.Query/User.Query/User.Query.Integration.Tests/User.Query.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=integration-test-user-query-results.trx"
+      
+      - name: Login to Docker Hub
+        run: |
+          echo "Logging into Docker Hub"
+          $env:DOCKERHUB_PASSWORD="${{ secrets.DOCKERHUB_PASSWORD }}"
+          $env:DOCKERHUB_USERNAME="${{ secrets.DOCKERHUB_USERNAME }}"
+          echo "Username: $env:DOCKERHUB_USERNAME"
+          echo "Password: $env:DOCKERHUB_PASSWORD"
+          docker login -u $env:DOCKERHUB_USERNAME -p $env:DOCKERHUB_PASSWORD
+
+      - name: Build and Push Docker Image for User
+        run: |
+          echo "Building and pushing Docker image for User"
+          $IMAGE_NAME="natanroberto182/user:latest"
+          docker build -f Health.Med.User/Dockerfile -t $IMAGE_NAME .
+          docker push $IMAGE_NAME
+
+  notify-config-repo:
+    name: Notify Configurations Repository
+    runs-on: Windows
+    needs: build-and-push
+
+    steps:
+      - name: Set the list of services to notify
+        id: services
+        run: |
+          echo "Determining which services were built successfully"
+          $services="user"
+          echo "Services to notify: $services"
+          echo "services=$services" >> $GITHUB_OUTPUT
+
+      - name: Notify Configuration Repository
+        run: |
+          curl.exe -X POST ^
+            -H "Accept: application/vnd.github.everest-preview+json" ^
+            -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" ^
+            -d "{\"event_type\": \"update-configurations\", \"client_payload\": {\"services\": \"user\"}}" ^
+            https://api.github.com/repos/natanrobertoxavier/Hackathon.Config.Repo/dispatches
+        shell: cmd
