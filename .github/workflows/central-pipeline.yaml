@@ -35,10 +35,12 @@ jobs:
           elif echo "$MESSAGE" | grep -q "user"; then
             echo "Executando workflow User"
             gh workflow run user.yaml
+          elif echo "$MESSAGE" | grep -q "consultation"; then
+            echo "Executando workflow Consultation"
+            gh workflow run consultation.yaml
           else
             echo "Nenhum workflow correspondente encontrado."
           fi
 
         env: 
           GH_TOKEN: ${{ secrets.CONFIG_REPO_TOKEN }}
-          
