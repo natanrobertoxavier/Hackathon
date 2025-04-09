@@ -26,6 +26,9 @@ jobs:
           elif echo "$MESSAGE" | grep -q "notification"; then
             echo "Executando workflow Notification"
             gh workflow run notification.yaml
+          elif echo "$MESSAGE" | grep -q "client"; then
+            echo "Executando workflow Client"
+            gh workflow run client.yaml
           else
             echo "Nenhum workflow correspondente encontrado."
           fi
