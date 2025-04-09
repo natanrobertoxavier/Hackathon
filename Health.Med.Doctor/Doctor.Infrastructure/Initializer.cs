@@ -1,8 +1,12 @@
 ﻿using Doctor.Domain.Extensions;
 using Doctor.Domain.Repositories;
-using Doctor.Domain.Repositories.Contracts;
+using Doctor.Domain.Repositories.Contracts.Doctor;
+using Doctor.Domain.Repositories.Contracts.Specialty;
+using Doctor.Domain.Services;
 using Doctor.Infrastructure.Repositories;
 using Doctor.Infrastructure.Repositories.Doctor;
+using Doctor.Infrastructure.Repositories.Specialty;
+using Doctor.Infrastructure.Services;
 using FluentMigrator.Runner;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +23,7 @@ public static class Initializer
         AddContext(services, configurationManager);
         AddWorkUnit(services);
         AddRepositories(services);
+        AddServices(services, configurationManager);
     }
 
     private static void AddFluentMigrator(IServiceCollection services, IConfiguration configurationManager)
@@ -59,6 +64,27 @@ public static class Initializer
     {
         services
             .AddScoped<IDoctorWriteOnly, DoctorRepository>()
-            .AddScoped<IDoctorReadOnly, DoctorRepository>();
+            .AddScoped<IDoctorReadOnly, DoctorRepository>()
+            .AddScoped<ISpecialtyWriteOnly, SpecialtyRepository>()
+            .AddScoped<ISpecialtyReadOnly, SpecialtyRepository>();
+    }
+
+    private static void AddServices(IServiceCollection services, IConfiguration configurationManager)
+    {
+        services
+            .AddScoped<IUserServiceApi, UserServiceApi>()
+            .AddScoped<IClientServiceApi, ClientServiceApi>();
+
+        services.AddHttpClient("UserApi", client =>
+        {
+            client.BaseAddress = new Uri(configurationManager.GetSection("ServicesApiAddress:UserApi").Value);
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+        });
+
+        services.AddHttpClient("ClientApi", client =>
+        {
+            client.BaseAddress = new Uri(configurationManager.GetSection("ServicesApiAddress:ClientApi").Value);
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+        });
     }
 }

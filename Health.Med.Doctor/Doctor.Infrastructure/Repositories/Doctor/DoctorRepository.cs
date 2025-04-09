@@ -1,4 +1,4 @@
-﻿using Doctor.Domain.Repositories.Contracts;
+﻿using Doctor.Domain.Repositories.Contracts.Doctor;
 using Microsoft.EntityFrameworkCore;
 
 namespace Doctor.Infrastructure.Repositories.Doctor;
@@ -6,6 +6,7 @@ namespace Doctor.Infrastructure.Repositories.Doctor;
 public class DoctorRepository(HealthMedContext context) : IDoctorReadOnly, IDoctorWriteOnly
 {
     private readonly HealthMedContext _context = context;
+
     public async Task AddAsync(Domain.Entities.Doctor doctor) =>
         await _context.AddAsync(doctor);
 

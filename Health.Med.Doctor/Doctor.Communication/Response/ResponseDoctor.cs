@@ -1,6 +1,4 @@
-﻿using System.Xml.Linq;
-
-namespace Doctor.Communication.Response;
+﻿namespace Doctor.Communication.Response;
 
 public class ResponseDoctor
 {
@@ -9,13 +7,15 @@ public class ResponseDoctor
     DateTime registrationDate,
     string name,
     string email,
-    string cr)
+    string cr,
+    ResponseSpecialtyDoctor specialtyDoctor)
     {
         DoctorId = doctorId;
         RegistrationDate = registrationDate;
         Name = name;
         Email = email;
         CR = cr;
+        SpecialtyDoctor = specialtyDoctor;
     }
 
     public ResponseDoctor()
@@ -27,4 +27,26 @@ public class ResponseDoctor
     public string Name { get; set; }
     public string Email { get; set; }
     public string CR { get; set; }
+    public ResponseSpecialtyDoctor SpecialtyDoctor { get; set; }
+}
+
+public class ResponseSpecialtyDoctor
+{
+    public ResponseSpecialtyDoctor(
+        Guid specialtyId, 
+        string description, 
+        string standardDescription)
+    {
+        SpecialtyId = specialtyId;
+        Description = description;
+        StandardDescription = standardDescription;
+    }
+
+    public ResponseSpecialtyDoctor()
+    {
+    }
+
+    public Guid SpecialtyId { get; set; }
+    public string Description { get; set; }
+    public string StandardDescription { get; set; }
 }

@@ -61,6 +61,42 @@ namespace Health.Med.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Corpo do e-mail em branco.
+        /// </summary>
+        public static string BlankBody {
+            get {
+                return ResourceManager.GetString("BlankBody", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CPF em branco.
+        /// </summary>
+        public static string BlankCPF {
+            get {
+                return ResourceManager.GetString("BlankCPF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CR em branco.
+        /// </summary>
+        public static string BlankCR {
+            get {
+                return ResourceManager.GetString("BlankCR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Descrição em branco.
+        /// </summary>
+        public static string BlankDescription {
+            get {
+                return ResourceManager.GetString("BlankDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email em branco.
         /// </summary>
         public static string BlankEmail {
@@ -88,11 +124,83 @@ namespace Health.Med.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Destinatário em branco.
+        /// </summary>
+        public static string BlankRecipient {
+            get {
+                return ResourceManager.GetString("BlankRecipient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assunto em branco.
+        /// </summary>
+        public static string BlankSubject {
+            get {
+                return ResourceManager.GetString("BlankSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cliente já tem uma consulta agendada para o dia {0}.
+        /// </summary>
+        public static string ClientAlreadyConsultationSchedule {
+            get {
+                return ResourceManager.GetString("ClientAlreadyConsultationSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cliente sem permissão.
+        /// </summary>
+        public static string ClientWithoutPermission {
+            get {
+                return ResourceManager.GetString("ClientWithoutPermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Horário inválido.
+        /// </summary>
+        public static string ConsultationHourInvalid {
+            get {
+                return ResourceManager.GetString("ConsultationHourInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to CPF já cadastrado.
+        /// </summary>
+        public static string CPFAlreadyRegistered {
+            get {
+                return ResourceManager.GetString("CPFAlreadyRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cadastro no órgão regional já cadastrado.
         /// </summary>
         public static string CRAlreadyRegistered {
             get {
                 return ResourceManager.GetString("CRAlreadyRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Doutor já tem uma consulta agendada para o dia {0}.
+        /// </summary>
+        public static string DoctorAlreadyConsultationSchedule {
+            get {
+                return ResourceManager.GetString("DoctorAlreadyConsultationSchedule", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Médico não encontrado.
+        /// </summary>
+        public static string DoctorNotFound {
+            get {
+                return ResourceManager.GetString("DoctorNotFound", resourceCulture);
             }
         }
         
@@ -151,11 +259,47 @@ namespace Health.Med.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to E-mail destinatário em branco.
+        /// </summary>
+        public static string InvalidRecipientEmail {
+            get {
+                return ResourceManager.GetString("InvalidRecipientEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Senha deve ter ao menos seis caracteres.
         /// </summary>
         public static string MinimumSixCharacters {
             get {
                 return ResourceManager.GetString("MinimumSixCharacters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Especialidade já cadastrada.
+        /// </summary>
+        public static string SpecialtyAlreadyRegistered {
+            get {
+                return ResourceManager.GetString("SpecialtyAlreadyRegistered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Token não encontrado.
+        /// </summary>
+        public static string TokenNotFound {
+            get {
+                return ResourceManager.GetString("TokenNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Usuário sem permissão.
+        /// </summary>
+        public static string UserWithoutPermission {
+            get {
+                return ResourceManager.GetString("UserWithoutPermission", resourceCulture);
             }
         }
     }

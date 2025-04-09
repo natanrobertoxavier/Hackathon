@@ -1,8 +1,9 @@
 ﻿using Doctor.Api.Filters;
-using Doctor.Application.UseCase.ChangePassword;
-using Doctor.Application.UseCase.Recover.RecoverAll;
-using Doctor.Application.UseCase.Recover.RecoverByCR;
-using Doctor.Application.UseCase.Register;
+using Doctor.Application.UseCase.Doctor.ChangePassword;
+using Doctor.Application.UseCase.Doctor.Recover.RecoverAll;
+using Doctor.Application.UseCase.Doctor.Recover.RecoverByCR;
+using Doctor.Application.UseCase.Doctor.Recover.RecoverById;
+using Doctor.Application.UseCase.Doctor.Register;
 using Doctor.Communication.Request;
 using Doctor.Communication.Response;
 using Microsoft.AspNetCore.Mvc;
@@ -12,9 +13,10 @@ namespace Doctor.Api.Controllers.v1;
 public class DoctorController : HealthMedController
 {
     [HttpPost]
+    [ServiceFilter(typeof(AuthenticatedUserAttribute))]
     [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> RegisterUserAsync(
+    public async Task<IActionResult> RegisterAsync(
         [FromServices] IRegisterUseCase useCase,
         [FromBody] RequestRegisterDoctor request)
     {
@@ -38,9 +40,10 @@ public class DoctorController : HealthMedController
     }
 
     [HttpGet]
-    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status422UnprocessableEntity)]
+    [ServiceFilter(typeof(AuthenticatedAttribute))]
+    [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status422UnprocessableEntity)]
     public async Task<IActionResult> RecoverAllAsync(
         [FromServices] IRecoverAllUseCase useCase,
         [FromQuery] int page = 1,
@@ -52,14 +55,29 @@ public class DoctorController : HealthMedController
     }
 
     [HttpGet("cr/{cr}")]
-    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status404NotFound)]
-    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status400BadRequest)]
+    [ServiceFilter(typeof(AuthenticatedAttribute))]
+    [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> RecoverByCRAsync(
         [FromServices] IRecoverByCRUseCase useCase,
         [FromRoute] string cr)
     {
         var result = await useCase.RecoverByCRAsync(cr);
+
+        return Response(result);
+    }
+
+    [HttpGet("id/{id}")]
+    [ServiceFilter(typeof(AuthenticatedAttribute))]
+    [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> RecoverByCRAsync(
+        [FromServices] IRecoverByIdUseCase useCase,
+        [FromRoute] Guid id)
+    {
+        var result = await useCase.RecoverByIdAsync(id);
 
         return Response(result);
     }

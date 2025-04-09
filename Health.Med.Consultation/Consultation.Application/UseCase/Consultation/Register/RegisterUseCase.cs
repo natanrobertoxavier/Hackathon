@@ -1,0 +1,139 @@
+﻿using Consultation.Application.Extensions;
+using Consultation.Application.Mapping;
+using Consultation.Application.Services.LoggedClientService;
+using Consultation.Application.UseCase.SendEmailClient;
+using Consultation.Communication.Request;
+using Consultation.Communication.Response;
+using Consultation.Domain.ModelServices;
+using Consultation.Domain.Repositories;
+using Consultation.Domain.Repositories.Contracts;
+using Consultation.Domain.Services;
+using Health.Med.Exceptions;
+using Health.Med.Exceptions.ExceptionBase;
+using Serilog;
+using Serilog.Context;
+
+namespace Consultation.Application.UseCase.Consultation.Register;
+
+public class RegisterUseCase(
+    ILoggedClient loggedClient,
+    IConsultationReadOnly consultationReadOnlyrepository,
+    IConsultationWriteOnly consultationWriteOnlyrepository,
+    IDoctorServiceApi doctorServiceApi,
+    IWorkUnit workUnit,
+    ISendEmailClientUseCase sendEmailClientUseCase,
+    ILogger logger) : IRegisterUseCase
+{
+    private readonly ILoggedClient _loggedClient = loggedClient;
+    private readonly IConsultationReadOnly _consultationReadOnlyrepository = consultationReadOnlyrepository;
+    private readonly IConsultationWriteOnly _consultationWriteOnlyrepository = consultationWriteOnlyrepository;
+    private readonly IDoctorServiceApi _doctorServiceApi = doctorServiceApi;
+    private readonly ISendEmailClientUseCase _sendEmailClientUseCase = sendEmailClientUseCase;
+    private readonly IWorkUnit _workUnit = workUnit;
+    private readonly ILogger _logger = logger;
+
+    public async Task<Communication.Response.Result<MessageResult>> RegisterConsultationAsync(RequestRegisterConsultation request)
+    {
+        using (LogContext.PushProperty("Operation", nameof(RegisterConsultationAsync)))
+        using (LogContext.PushProperty("ClientId", _loggedClient.GetLoggedClientId()))
+        {
+            var output = new Communication.Response.Result<MessageResult>();
+
+            try
+            {
+                _logger.Information("Iniciando cadastro de consulta.");
+
+                var clientId = _loggedClient.GetLoggedClientId();
+                var doctor = await ValidateAndGetDoctorAsync(request, clientId);
+
+                await _consultationWriteOnlyrepository.AddAsync(request.ToEntity(clientId));
+                await _workUnit.CommitAsync();
+
+                await SendEmailAsync(request, doctor);
+
+                output.Succeeded(new MessageResult("Cadastro realizado com sucesso"));
+                _logger.Information("Cadastro de consulta finalizado com sucesso.");
+            }
+            catch (ValidationErrorsException ex)
+            {
+                LogValidationErrors(ex);
+                output.Failure(ex.ErrorMessages);
+            }
+            catch (Exception ex)
+            {
+                LogUnexpectedError(ex);
+                output.Failure(new List<string> { $"Algo deu errado: {ex.Message}" });
+            }
+
+            return output;
+        }
+    }
+
+    private async Task<DoctorResult> ValidateAndGetDoctorAsync(RequestRegisterConsultation request, Guid clientId)
+    {
+        _logger.Information($"Início da validação.");
+
+        var validationResult = new RegisterValidator().Validate(request);
+
+        var doctor = await _doctorServiceApi.RecoverByIdAsync(request.DoctorId);
+        ValidateDoctor(doctor, validationResult);
+
+        ValidateConsultationTime(request, validationResult);
+        await ValidateClientAndDoctorScheduleAsync(request, clientId, validationResult);
+
+        if (!validationResult.IsValid)
+        {
+            var errorMessages = validationResult.Errors.Select(error => error.ErrorMessage).ToList();
+            throw new ValidationErrorsException(errorMessages);
+        }
+
+        return doctor.Data;
+    }
+
+    private static void ValidateDoctor(Domain.ModelServices.Result<DoctorResult> doctor, FluentValidation.Results.ValidationResult validationResult)
+    {
+        if (!doctor.Success)
+            validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("doctorApi", doctor.Error));
+        else if (doctor.Data is null)
+            validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("doctor", ErrorsMessages.DoctorNotFound));
+    }
+
+    private static void ValidateConsultationTime(RequestRegisterConsultation request, FluentValidation.Results.ValidationResult validationResult)
+    {
+        if (!HourIsValid(request.ConsultationDate))
+            validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("consultationHour", ErrorsMessages.ConsultationHourInvalid, request.ConsultationDate));
+    }
+
+    private async Task ValidateClientAndDoctorScheduleAsync(RequestRegisterConsultation request, Guid clientId, FluentValidation.Results.ValidationResult validationResult)
+    {
+        var trimmedDate = request.ConsultationDate.TrimMilliseconds();
+
+        if (await _consultationReadOnlyrepository.ThereIsConsultationForClient(clientId, trimmedDate))
+            validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("client", ErrorsMessages.ClientAlreadyConsultationSchedule, request.ConsultationDate));
+
+        if (await _consultationReadOnlyrepository.ThereIsConsultationForDoctor(request.DoctorId, trimmedDate))
+            validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("doctor", ErrorsMessages.DoctorAlreadyConsultationSchedule, request.ConsultationDate));
+    }
+
+    private static bool HourIsValid(DateTime consultationDate) =>
+        consultationDate.Minute == 0 || consultationDate.Minute == 30;
+
+    private async Task SendEmailAsync(RequestRegisterConsultation request, DoctorResult doctor)
+    {
+        _logger.Information($"Início do envio de e-mail.");
+
+        await _sendEmailClientUseCase.SendEmailClientAsync(request, doctor, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingEmail);
+    }
+
+    private void LogValidationErrors(ValidationErrorsException ex)
+    {
+        var errorMessage = $"Ocorreram erros de validação: {string.Join(", ", ex.ErrorMessages)}.";
+        _logger.Error(ex, errorMessage);
+    }
+
+    private void LogUnexpectedError(Exception ex)
+    {
+        var errorMessage = $"Algo deu errado: {ex.Message}";
+        _logger.Error(ex, errorMessage);
+    }
+}

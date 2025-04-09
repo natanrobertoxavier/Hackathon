@@ -1,0 +1,32 @@
+name: Central Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  identify_and_trigger:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Obter mensagem de commit
+        id: commit_message
+        run: echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+
+      - name: Identificar e disparar a pipeline do projeto
+        run: |
+          if echo "$MESSAGE" | grep -q "ocelot"; then
+            echo "Executando workflow Ocelot"
+            gh workflow run ocelot.yaml
+          elif echo "$MESSAGE" | grep -q "notification"; then
+            echo "Executando workflow Notification"
+            gh workflow run notification.yaml
+          else
+            echo "Nenhum workflow correspondente encontrado."
+          fi
+
+        env: 
+          GH_TOKEN: ${{ secrets.CONFIG_REPO_TOKEN }}

@@ -150,4 +150,52 @@
   <data name="DoctorWithoutPermission" xml:space="preserve">
     <value>Médico sem permissão</value>
   </data>
+  <data name="BlankCR" xml:space="preserve">
+    <value>CR em branco</value>
+  </data>
+  <data name="UserWithoutPermission" xml:space="preserve">
+    <value>Usuário sem permissão</value>
+  </data>
+  <data name="TokenNotFound" xml:space="preserve">
+    <value>Token não encontrado</value>
+  </data>
+  <data name="BlankCPF" xml:space="preserve">
+    <value>CPF em branco</value>
+  </data>
+  <data name="CPFAlreadyRegistered" xml:space="preserve">
+    <value>CPF já cadastrado</value>
+  </data>
+  <data name="ClientWithoutPermission" xml:space="preserve">
+    <value>Cliente sem permissão</value>
+  </data>
+  <data name="BlankSubject" xml:space="preserve">
+    <value>Assunto em branco</value>
+  </data>
+  <data name="BlankBody" xml:space="preserve">
+    <value>Corpo do e-mail em branco</value>
+  </data>
+  <data name="BlankRecipient" xml:space="preserve">
+    <value>Destinatário em branco</value>
+  </data>
+  <data name="InvalidRecipientEmail" xml:space="preserve">
+    <value>E-mail destinatário em branco</value>
+  </data>
+  <data name="ClientAlreadyConsultationSchedule" xml:space="preserve">
+    <value>Cliente já tem uma consulta agendada para o dia {0}</value>
+  </data>
+  <data name="DoctorAlreadyConsultationSchedule" xml:space="preserve">
+    <value>Doutor já tem uma consulta agendada para o dia {0}</value>
+  </data>
+  <data name="BlankDescription" xml:space="preserve">
+    <value>Descrição em branco</value>
+  </data>
+  <data name="SpecialtyAlreadyRegistered" xml:space="preserve">
+    <value>Especialidade já cadastrada</value>
+  </data>
+  <data name="ConsultationHourInvalid" xml:space="preserve">
+    <value>Horário inválido</value>
+  </data>
+  <data name="DoctorNotFound" xml:space="preserve">
+    <value>Médico não encontrado</value>
+  </data>
 </root>

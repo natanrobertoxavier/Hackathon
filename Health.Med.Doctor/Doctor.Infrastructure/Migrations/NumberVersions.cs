@@ -2,5 +2,6 @@
 
 public enum NumberVersions
 {
-    CreateDoctorsTable = 1
+    CreateDoctorsTable = 1,
+    CreateSpecialtiesTable = 2
 }

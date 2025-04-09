@@ -1,14 +1,16 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Doctor.Application.Services.Doctor;
+using Doctor.Application.Services.User;
+using Doctor.Application.UseCase.Doctor.ChangePassword;
+using Doctor.Application.UseCase.Doctor.Login;
+using Doctor.Application.UseCase.Doctor.Recover.RecoverAll;
+using Doctor.Application.UseCase.Doctor.Recover.RecoverByCR;
+using Doctor.Application.UseCase.Doctor.Recover.RecoverById;
+using Doctor.Application.UseCase.Doctor.Register;
+using Doctor.Domain.Entities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TokenService.Manager.Controller;
 using Serilog;
-using Doctor.Application.UseCase.Register;
-using Doctor.Application.UseCase.Recover.RecoverAll;
-using Doctor.Application.UseCase.Recover.RecoverByCR;
-using Doctor.Domain.Repositories.Contracts;
-using Doctor.Application.Services;
-using Doctor.Application.UseCase.Login;
-using Doctor.Application.UseCase.ChangePassword;
+using TokenService.Manager.Controller;
 
 namespace Doctor.Application;
 
@@ -26,7 +28,8 @@ public static class Initializer
     private static void AddLoggedUsers(IServiceCollection services)
     {
         services
-            .AddScoped<ILoggedDoctor, LoggedDoctor>();
+            .AddScoped<ILoggedDoctor, LoggedDoctor>()
+            .AddScoped<ILoggedUser, LoggedUser>();
     }
 
     private static void AddUseCases(IServiceCollection services)
@@ -35,8 +38,12 @@ public static class Initializer
             .AddScoped<IRegisterUseCase, RegisterUseCase>()
             .AddScoped<IRecoverAllUseCase, RecoverAllUseCase>()
             .AddScoped<IRecoverByCRUseCase, RecoverByCRUseCase>()
+            .AddScoped<IRecoverByIdUseCase, RecoverByIdUseCase>()
             .AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>()
-            .AddScoped<ILoginUseCase, LoginUseCase>();
+            .AddScoped<ILoginUseCase, LoginUseCase>()
+            .AddScoped<UseCase.Specialty.Register.IRegisterUseCase, UseCase.Specialty.Register.RegisterUseCase>()
+            .AddScoped<UseCase.Specialty.Recover.RecoverAll.IRecoverAllUseCase, UseCase.Specialty.Recover.RecoverAll.RecoverAllUseCase>()
+            .AddScoped<UseCase.Specialty.Recover.RecoverById.IRecoverByIdUseCase, UseCase.Specialty.Recover.RecoverById.RecoverByIdUseCase>();
     }
 
     private static void AddAdditionalKeyPassword(IServiceCollection services, IConfiguration configuration)

@@ -1,5 +1,5 @@
 ﻿using Azure;
-using Doctor.Domain.Repositories.Contracts;
+using Doctor.Domain.Repositories.Contracts.Doctor;
 using Health.Med.Exceptions;
 using Health.Med.Exceptions.ExceptionBase;
 using Microsoft.AspNetCore.Authorization;
@@ -29,7 +29,7 @@ public class AuthenticatedDoctorAttribute(
 
             if (doctor?.Id == Guid.Empty)
             {
-                throw new ValidationException("Usuário não localizado para o token informado");
+                throw new ValidationException("Médico não localizado para o token informado");
             }
         }
         catch (SecurityTokenExpiredException)
