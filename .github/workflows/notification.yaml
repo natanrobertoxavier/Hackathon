@@ -79,3 +79,4 @@ jobs:
             -d "{\"event_type\": \"update-configurations\", \"client_payload\": {\"services\": \"notification\"}}" ^
             https://api.github.com/repos/natanrobertoxavier/Tech.Challenge.III.Config.Repo/dispatches
         shell: cmd
+        
