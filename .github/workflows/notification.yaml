@@ -12,6 +12,16 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Verificar caminhos
+        run: |
+          echo "GITHUB_WORKSPACE=%GITHUB_WORKSPACE%"
+          if exist "%GITHUB_WORKSPACE%\Hackthon\Health.Med.Notification\Notification.Api" (
+            echo "Pasta de destino encontrada"
+          ) else (
+            echo "Pasta de destino NÃO encontrada"
+          )
+        shell: cmd
+
       - name: Replace appsettings for Notification
         run: |
           echo "Replacing appsettings for Notification"
@@ -79,4 +89,3 @@ jobs:
             -d "{\"event_type\": \"update-configurations\", \"client_payload\": {\"services\": \"notification\"}}" ^
             https://api.github.com/repos/natanrobertoxavier/Tech.Challenge.III.Config.Repo/dispatches
         shell: cmd
-        
