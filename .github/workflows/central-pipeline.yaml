@@ -14,7 +14,7 @@ jobs:
 
       - name: Obter mensagem de commit
         id: commit_message
-        run: echo "MESSAGE=$(git log -1 --pretty=%B)" >> $GITHUB_ENV
+        run: echo "MESSAGE=$(git log -1 --pretty=%B | sed 's/:/-/g')" >> $GITHUB_ENV
 
       - name: Identificar e disparar a pipeline do projeto
         run: |
