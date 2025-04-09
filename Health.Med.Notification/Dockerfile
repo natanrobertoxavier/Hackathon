@@ -1,3 +1,4 @@
+# Dockerfile: Health.Med.Notification/Dockerfile
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 80
@@ -5,15 +6,15 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copiando os projetos
-COPY ../../Health.Med.Notification/Notification.Api/Notification.Api.csproj Health.Med.Notification/Notification.Api/
-COPY ../../Health.Med.Exception/Health.Med.Exceptions/Health.Med.Exceptions.csproj Health.Med.Exception/Health.Med.Exceptions/
+# Copiando os projetos necessários
+COPY Health.Med.Notification/Notification.Api/Notification.Api.csproj Health.Med.Notification/Notification.Api/
+COPY Health.Med.Exception/Health.Med.Exceptions/Health.Med.Exceptions.csproj Health.Med.Exception/Health.Med.Exceptions/
 
 # Restaura os pacotes
 RUN dotnet restore Health.Med.Notification/Notification.Api/Notification.Api.csproj
 
-# Copia todo o conteúdo
-COPY .. .
+# Copia o restante dos arquivos
+COPY . .
 
 # Build do projeto
 WORKDIR /src/Health.Med.Notification

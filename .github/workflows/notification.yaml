@@ -52,9 +52,8 @@ jobs:
       - name: Build and Push Docker Image for Notification
         run: |
           echo "Building and pushing Docker image for Notification"
-          cd Health.Med.Notification/
           $IMAGE_NAME="natanroberto182/notification:latest"
-          docker build -t $IMAGE_NAME .
+          docker build -f Health.Med.Notification/Dockerfile -t $IMAGE_NAME .
           docker push $IMAGE_NAME
 
   notify-config-repo:
