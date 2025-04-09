@@ -8,8 +8,8 @@ COPY ["Notification.Api/Notification.Api.csproj", "Notification.Api/"]
 RUN dotnet restore "Notification.Api/Notification.Api.csproj"
 COPY . .
 
-RUN ls -la /src
-RUN ls -la /src/Notification.Api
+RUN echo "Listando conteúdo de /main" && ls -la /main
+RUN echo "Listando conteúdo de /main/Notification.Api" && ls -la /main/Notification.Api
 
 RUN dotnet build "Notification.Api/Notification.Api.csproj" -c Release -o /app/build
 
