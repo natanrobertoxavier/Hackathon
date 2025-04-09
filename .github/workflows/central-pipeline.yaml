@@ -32,6 +32,9 @@ jobs:
           elif echo "$MESSAGE" | grep -q "doctor"; then
             echo "Executando workflow Doctor"
             gh workflow run doctor.yaml
+          elif echo "$MESSAGE" | grep -q "user"; then
+            echo "Executando workflow User"
+            gh workflow run user.yaml
           else
             echo "Nenhum workflow correspondente encontrado."
           fi
