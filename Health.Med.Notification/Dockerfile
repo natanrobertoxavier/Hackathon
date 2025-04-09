@@ -8,6 +8,9 @@ COPY ["Notification.Api/Notification.Api.csproj", "Notification.Api/"]
 RUN dotnet restore "Notification.Api/Notification.Api.csproj"
 COPY . .
 
+RUN ls -la /src
+RUN ls -la /src/Notification.Api
+
 RUN dotnet build "Notification.Api/Notification.Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
