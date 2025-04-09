@@ -32,13 +32,13 @@ jobs:
       - name: Restore dependencies
         run: |
           echo "Restoring dependencies for Notification"
-          cd Hackthon/Health.Med.Notification/
+          cd Health.Med.Notification/
           dotnet restore
 
       - name: Build the Notification
         run: |
           echo "Building the Notification"
-          dotnet build Hackthon/Health.Med.Notification/Health.Med.Notification.sln --no-restore --configuration Release
+          dotnet build Health.Med.Notification/Health.Med.Notification.sln --no-restore --configuration Release
 
       - name: Run unit tests
         run: |
@@ -62,7 +62,7 @@ jobs:
       - name: Build and Push Docker Image for Notification
         run: |
           echo "Building and pushing Docker image for Notification"
-          cd Hackthon/Health.Med.Notification/
+          cd Health.Med.Notification/
           $IMAGE_NAME="natanroberto182/notification:latest"
           docker build -t $IMAGE_NAME .
           docker push $IMAGE_NAME
