@@ -6,7 +6,7 @@ on:
 jobs:  
   build-and-push:
     name: Build, Test, and Publish Docker Image - Notification
-    runs-on: NOTEBOOK-NATAN
+    runs-on: Windows
 
     steps:
       - name: Checkout code
@@ -59,7 +59,7 @@ jobs:
 
   notify-config-repo:
     name: Notify Configurations Repository
-    runs-on: NOTEBOOK-NATAN
+    runs-on: Windows
     needs: build-and-push
 
     steps:
