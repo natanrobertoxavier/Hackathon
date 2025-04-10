@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.15" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="Moq" Version="4.20.72" />
+    <PackageReference Include="xunit" Version="2.5.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Health.Med.Exception\Health.Med.Exceptions\Health.Med.Exceptions.csproj" />
+    <ProjectReference Include="..\Doctor.Api\Doctor.Api.csproj" />
+    <ProjectReference Include="..\Doctor.Application\Doctor.Application.csproj" />
+    <ProjectReference Include="..\Doctor.Communication\Doctor.Communication.csproj" />
+    <ProjectReference Include="..\Doctor.Domain\Doctor.Domain.csproj" />
+    <ProjectReference Include="..\Doctor.Infrastructure\Doctor.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

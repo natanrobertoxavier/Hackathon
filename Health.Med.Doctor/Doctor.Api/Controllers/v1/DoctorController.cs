@@ -73,7 +73,7 @@ public class DoctorController : HealthMedController
     [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> RecoverByCRAsync(
+    public async Task<IActionResult> RecoverByIdAsync(
         [FromServices] IRecoverByIdUseCase useCase,
         [FromRoute] Guid id)
     {
