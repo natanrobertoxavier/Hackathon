@@ -41,7 +41,8 @@ jobs:
         run: |
           echo "Building and pushing Docker image for Ocelot"
           $IMAGE_NAME="natanroberto182/ocelot:latest"
-          docker build -f Health.Med.Ocelot/Dockerfile -t $IMAGE_NAME .
+          cd Health.Med.Ocelot/
+          docker build -f Dockerfile -t $IMAGE_NAME .
           docker push $IMAGE_NAME
 
   notify-config-repo:
