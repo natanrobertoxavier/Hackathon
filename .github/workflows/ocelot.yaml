@@ -1,0 +1,78 @@
+name: CI/CD for Ocelot
+
+on:
+  workflow_dispatch:
+
+jobs:  
+  build-and-push:
+    name: Build, Test, and Publish Docker Image - Ocelot
+    runs-on: Windows
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Replace appsettings for Ocelot
+        run: |
+          echo "Replacing appsettings for Ocelot"
+          cmd /C "copy /Y c:\appsettings\ocelot\appsettings.json %GITHUB_WORKSPACE%\Health.Med.Ocelot\Ocelot.Api\appsettings.json"
+        
+      - name: Restore dependencies
+        run: |
+          echo "Restoring dependencies for Ocelot"
+          cd Health.Med.Ocelot/
+          dotnet restore
+
+      - name: Build the Ocelot
+        run: |
+          echo "Building the Ocelot"
+          dotnet build Health.Med.Ocelot/Health.Med.Ocelot.sln --no-restore --configuration Release
+
+      - name: Run unit tests
+        run: |
+          echo "Running unit tests"
+        #  dotnet test Tech.Challenge.III.User.Query/User.Query/User.Query.Tests/User.Query.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=unit-test-user-query-results.trx"
+
+      - name: Run integration tests
+        run: |
+          echo "Running integration tests"
+        #  dotnet test Tech.Challenge.III.User.Query/User.Query/User.Query.Integration.Tests/User.Query.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=integration-test-user-query-results.trx"
+      
+      - name: Login to Docker Hub
+        run: |
+          echo "Logging into Docker Hub"
+          $env:DOCKERHUB_PASSWORD="${{ secrets.DOCKERHUB_PASSWORD }}"
+          $env:DOCKERHUB_USERNAME="${{ secrets.DOCKERHUB_USERNAME }}"
+          echo "Username: $env:DOCKERHUB_USERNAME"
+          echo "Password: $env:DOCKERHUB_PASSWORD"
+          docker login -u $env:DOCKERHUB_USERNAME -p $env:DOCKERHUB_PASSWORD
+
+      - name: Build and Push Docker Image for Ocelot
+        run: |
+          echo "Building and pushing Docker image for Ocelot"
+          $IMAGE_NAME="natanroberto182/ocelot:latest"
+          docker build -f Health.Med.Ocelot/Dockerfile -t $IMAGE_NAME .
+          docker push $IMAGE_NAME
+
+  notify-config-repo:
+    name: Notify Configurations Repository
+    runs-on: Windows
+    needs: build-and-push
+
+    steps:
+      - name: Set the list of services to notify
+        id: services
+        run: |
+          echo "Determining which services were built successfully"
+          $services="ocelot"
+          echo "Services to notify: $services"
+          echo "services=$services" >> $GITHUB_OUTPUT
+
+      - name: Notify Configuration Repository
+        run: |
+          curl.exe -X POST ^
+            -H "Accept: application/vnd.github.everest-preview+json" ^
+            -H "Authorization: token ${{ secrets.CONFIG_REPO_TOKEN }}" ^
+            -d "{\"event_type\": \"update-configurations\", \"client_payload\": {\"services\": \"ocelot\"}}" ^
+            https://api.github.com/repos/natanrobertoxavier/Hackathon.Config.Repo/dispatches
+        shell: cmd
