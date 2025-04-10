@@ -28,16 +28,6 @@ jobs:
           echo "Building the Ocelot"
           dotnet build Health.Med.Ocelot/Health.Med.Ocelot.sln --no-restore --configuration Release
 
-      - name: Run unit tests
-        run: |
-          echo "Running unit tests"
-        #  dotnet test Tech.Challenge.III.User.Query/User.Query/User.Query.Tests/User.Query.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=unit-test-user-query-results.trx"
-
-      - name: Run integration tests
-        run: |
-          echo "Running integration tests"
-        #  dotnet test Tech.Challenge.III.User.Query/User.Query/User.Query.Integration.Tests/User.Query.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=integration-test-user-query-results.trx"
-      
       - name: Login to Docker Hub
         run: |
           echo "Logging into Docker Hub"
