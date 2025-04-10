@@ -4,7 +4,7 @@ using Doctor.Domain.Repositories.Contracts.Doctor;
 using Moq;
 using Serilog;
 
-namespace Doctor.Tests.UseCases;
+namespace Doctor.Tests.UseCases.Doctor;
 public class RecoverByCRUseCaseTests
 {
     private readonly Mock<IDoctorReadOnly> _doctorReadOnlyMock;
@@ -27,7 +27,7 @@ public class RecoverByCRUseCaseTests
     {
         // Arrange
         var cr = "12345";
-        var specialty = new Specialty(Guid.NewGuid(), DateTime.UtcNow, Guid.NewGuid(), "Specialty 1", "SPECIALITY-1");
+        var specialty = new Domain.Entities.Specialty(Guid.NewGuid(), DateTime.UtcNow, Guid.NewGuid(), "Specialty 1", "SPECIALITY-1");
         var doctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor 1", "email1@example.com", "CR1", "password1", specialty.Id);
 
         doctor.Specialty = specialty;

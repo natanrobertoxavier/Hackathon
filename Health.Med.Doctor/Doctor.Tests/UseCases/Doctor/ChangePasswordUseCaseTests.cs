@@ -7,7 +7,7 @@ using Moq;
 using Serilog;
 using TokenService.Manager.Controller;
 
-namespace Doctor.Tests.UseCases;
+namespace Doctor.Tests.UseCases.Doctor;
 
 public class ChangePasswordUseCaseTests
 {

@@ -5,7 +5,7 @@ using Doctor.Domain.Repositories.Contracts.Specialty;
 using Moq;
 using Serilog;
 
-namespace Doctor.Tests.UseCases;
+namespace Doctor.Tests.UseCases.Doctor;
 
 public class RecoverAllUseCaseTests
 {
@@ -28,7 +28,7 @@ public class RecoverAllUseCaseTests
     public async Task RecoverAllAsync_ShouldReturnSuccess_WhenDoctorsAreFound()
     {
         // Arrange
-        var specialty = new Specialty(Guid.NewGuid(), DateTime.UtcNow, Guid.NewGuid(), "Specialty 1", "SPECIALITY-1");
+        var specialty = new Domain.Entities.Specialty(Guid.NewGuid(), DateTime.UtcNow, Guid.NewGuid(), "Specialty 1", "SPECIALITY-1");
         var doctors = new List<Domain.Entities.Doctor>
         {
             new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor 1", "email1@example.com", "CR1", "password1", specialty.Id),
