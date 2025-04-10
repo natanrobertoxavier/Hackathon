@@ -15,7 +15,7 @@ jobs:
       - name: Replace appsettings for Ocelot
         run: |
           echo "Replacing appsettings for Ocelot"
-          cmd /C "copy /Y c:\appsettings\ocelot\appsettings.json %GITHUB_WORKSPACE%\Health.Med.Ocelot\Ocelot.Api\appsettings.json"
+          cmd /C "copy /Y c:\appsettings\ocelot\appsettings.json %GITHUB_WORKSPACE%\Health.Med.Ocelot\appsettings.json"
         
       - name: Restore dependencies
         run: |
