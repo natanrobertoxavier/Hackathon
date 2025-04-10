@@ -1,12 +1,12 @@
-using Doctor.Api.Controllers.v1;
-using Doctor.Application.UseCase.Doctor.Login;
-using Doctor.Communication.Request;
-using Doctor.Communication.Response;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using User.Api.Controllers.v1;
+using User.Application.UseCase.Login;
+using User.Communication.Request;
+using User.Communication.Response;
 
-namespace Doctor.Tests.Controllers.v1;
+namespace User.Tests.Controllers.v1;
 
 public class LoginControllerTests
 {
@@ -23,12 +23,11 @@ public class LoginControllerTests
     public async Task RecoverByCRPasswordAsync_ShouldReturnOk_WhenLoginIsSuccessful()
     {
         // Arrange
-        var request = new RequestLoginDoctor("12345", "password");
+        var request = new RequestLoginUser("12345", "password");
         var response = new Result<ResponseLogin>();
         response.Succeeded(new ResponseLogin
         {
-            Name = "Doctor Name",
-            CR = "12345",
+            Name = "User Name",
             Email = "email@example.com",
             Token = "token"
         });
@@ -50,7 +49,7 @@ public class LoginControllerTests
     public async Task RecoverByCRPasswordAsync_ShouldReturnUnauthorized_WhenLoginFails()
     {
         // Arrange
-        var request = new RequestLoginDoctor("12345", "wrongpassword");
+        var request = new RequestLoginUser("12345", "wrongpassword");
         var response = new Result<ResponseLogin>();
         response.Failure(new List<string> { "Invalid credentials" });
 
@@ -70,7 +69,7 @@ public class LoginControllerTests
     public async Task RecoverByCRPasswordAsync_ShouldReturnUnprocessableEntity_WhenRequestIsInvalid()
     {
         // Arrange
-        var request = new RequestLoginDoctor("", "");
+        var request = new RequestLoginUser("", "");
         var response = new Result<ResponseLogin>();
         response.Failure(new List<string> { "Validation failed" });
 
