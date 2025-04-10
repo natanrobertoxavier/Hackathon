@@ -1,0 +1,6 @@
+@Health.Med.Ocelot_HostAddress = http://localhost:5069
+
+GET {{Health.Med.Ocelot_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
