@@ -5,7 +5,7 @@ using System.Numerics;
 
 namespace Consultation.Infrastructure.Repositories.Consultation;
 
-public class ConsultationReadOnly(HealthMedContext context) : IConsultationReadOnly, IConsultationWriteOnly
+public class ConsultationRepository(HealthMedContext context) : IConsultationReadOnly, IConsultationWriteOnly
 {
     private readonly HealthMedContext _context = context;
 

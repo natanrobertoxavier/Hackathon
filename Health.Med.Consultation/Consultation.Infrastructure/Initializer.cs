@@ -63,8 +63,8 @@ public static class Initializer
     private static void AddRepositories(IServiceCollection services)
     {
         services
-            .AddScoped<IConsultationReadOnly, ConsultationReadOnly>()
-            .AddScoped<IConsultationWriteOnly, ConsultationReadOnly>();
+            .AddScoped<IConsultationReadOnly, ConsultationRepository>()
+            .AddScoped<IConsultationWriteOnly, ConsultationRepository>();
     }
 
     private static void AddServices(IServiceCollection services, IConfiguration configurationManager)
