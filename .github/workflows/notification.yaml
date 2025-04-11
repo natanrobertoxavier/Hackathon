@@ -33,7 +33,7 @@ jobs:
       - name: Run unit tests
         run: |
           echo "Running unit tests"
-        #  dotnet test Tech.Challenge.III.User.Query/User.Query/User.Query.Tests/User.Query.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=unit-test-user-query-results.trx"
+          dotnet test Health.Med.Notification/Notification.Tests/Notification.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=unit-test-notification-results.trx"
 
       - name: Run integration tests
         run: |
