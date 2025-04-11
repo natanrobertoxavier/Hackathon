@@ -37,11 +37,6 @@ public static class Initializer
                   .WithGlobalConnectionString(configurationManager.GetFullConnection())
                   .ScanIn(Assembly.Load("Doctor.Infrastructure")).For.All());
         }
-        else
-        {
-            services.AddDbContext<HealthMedContext>(options =>
-                options.UseInMemoryDatabase("TestDatabase"));
-        }
     }
 
     private static void AddContext(IServiceCollection services, IConfiguration configurationManager)
