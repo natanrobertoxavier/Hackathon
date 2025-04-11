@@ -1,19 +1,13 @@
-using Doctor.Integration.Tests.Fixture;
-using System.Net.Http;
+﻿using System.Net;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
-using Xunit;
 
-namespace Doctor.Integration.Tests.Controllers.v1;
-public class LoginControllerTests : IClassFixture<CustomWebApplicationFactory<Microsoft.VisualStudio.TestPlatform.TestHost.Program>>
+namespace Doctor.Integration.Tests.Api.Controllers.v1;
+
+public class LoginControllerTests(
+    CustomWebApplicationFactory<Program> factory) : IClassFixture<CustomWebApplicationFactory<Program>>
 {
-    private readonly HttpClient _client;
-
-    public LoginControllerTests(CustomWebApplicationFactory<Microsoft.VisualStudio.TestPlatform.TestHost.Program> factory)
-    {
-        _client = factory.CreateClient();
-    }
+    private readonly HttpClient _client = factory.CreateClient();
 
     [Fact]
     public async Task RecoverByCRPasswordAsync_ShouldReturnSuccess_WhenCredentialsAreValid()
@@ -22,13 +16,13 @@ public class LoginControllerTests : IClassFixture<CustomWebApplicationFactory<Mi
         var request = new
         {
             CR = "12345",
-            Password = "encryptedPassword"
+            Password = "123456"
         };
 
         var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
 
         // Act
-        var response = await _client.PostAsync("/api/v1/Login/RecoverByCRPasswordAsync", content);
+        var response = await _client.PostAsync("/api/v1/login", content);
 
         // Assert
         response.EnsureSuccessStatusCode();
@@ -49,9 +43,9 @@ public class LoginControllerTests : IClassFixture<CustomWebApplicationFactory<Mi
         var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
 
         // Act
-        var response = await _client.PostAsync("/api/v1/Login/RecoverByCRPasswordAsync", content);
+        var response = await _client.PostAsync("/api/v1/login", content);
 
         // Assert
-        Assert.Equal(System.Net.HttpStatusCode.Unauthorized, response.StatusCode);
+        Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
     }
 }
