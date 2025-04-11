@@ -37,7 +37,7 @@ jobs:
       - name: Run integration tests
         run: |
           echo "Running integration tests"
-          dotnet test Health.Med.Doctor/Doctor.Integration.Tests/Doctor.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=unit-integration-test-doctor-results.trx"
+          dotnet test Health.Med.Doctor/Doctor.Integration.Tests/Doctor.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=integration-test-doctor-results.trx"
       
       - name: Login to Docker Hub
         run: |
