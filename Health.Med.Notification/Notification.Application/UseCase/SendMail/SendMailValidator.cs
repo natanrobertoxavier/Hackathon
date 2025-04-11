@@ -8,6 +8,7 @@ public class SendMailValidator : AbstractValidator<RequestSendMail>
     public SendMailValidator(List<string> recipients)
     {
         ValidateEmail(recipients);
+        RuleFor(c => c.Recipients).NotEmpty().WithMessage(ErrorsMessages.BlankRecipient);
         RuleFor(c => c.Subject).NotEmpty().WithMessage(ErrorsMessages.BlankSubject);
         RuleFor(c => c.Body).NotEmpty().WithMessage(ErrorsMessages.BlankBody);
     }
