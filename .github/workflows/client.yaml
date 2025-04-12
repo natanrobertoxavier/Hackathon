@@ -16,8 +16,7 @@ jobs:
         run: |
           echo "Replacing appsettings for Client"
           cmd /C "copy /Y c:\appsettings\client\appsettings.json %GITHUB_WORKSPACE%\Health.Med.Client\Client.Api\appsettings.json"
-        #  cmd /C "copy /Y c:\appsettings\appsettings.Test.json %GITHUB_WORKSPACE%\Tech.Challenge.III.User.Query\User.Query\User.Query.Api\appsettings.Test.json"
-        #  cmd /C "copy /Y c:\appsettings\appsettings.IntegrationTests.json %GITHUB_WORKSPACE%\Tech.Challenge.III.User.Query\User.Query\User.Query.Api\appsettings.IntegrationTests.json"
+          cmd /C "copy /Y c:\appsettings\client\appsettings.IntegrationTests.json %GITHUB_WORKSPACE%\Health.Med.Client\Client.Api\appsettings.IntegrationTests.json"
 
       - name: Restore dependencies
         run: |
@@ -38,7 +37,7 @@ jobs:
       - name: Run integration tests
         run: |
           echo "Running integration tests"
-        #  dotnet test Tech.Challenge.III.User.Query/User.Query/User.Query.Integration.Tests/User.Query.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=integration-test-user-query-results.trx"
+          dotnet test Health.Med.Client/Client.Integration.Tests/Client.Integration.Tests.csproj --no-build --configuration Release --logger "trx;LogFileName=integration-test-client-results.trx"
       
       - name: Login to Docker Hub
         run: |
