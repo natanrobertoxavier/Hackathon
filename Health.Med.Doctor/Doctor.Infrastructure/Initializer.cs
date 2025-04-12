@@ -1,10 +1,12 @@
 ﻿using Doctor.Domain.Extensions;
 using Doctor.Domain.Repositories;
 using Doctor.Domain.Repositories.Contracts.Doctor;
+using Doctor.Domain.Repositories.Contracts.ServiceDay;
 using Doctor.Domain.Repositories.Contracts.Specialty;
 using Doctor.Domain.Services;
 using Doctor.Infrastructure.Repositories;
 using Doctor.Infrastructure.Repositories.Doctor;
+using Doctor.Infrastructure.Repositories.ServiceDay;
 using Doctor.Infrastructure.Repositories.Specialty;
 using Doctor.Infrastructure.Services;
 using FluentMigrator.Runner;
@@ -66,7 +68,9 @@ public static class Initializer
             .AddScoped<IDoctorWriteOnly, DoctorRepository>()
             .AddScoped<IDoctorReadOnly, DoctorRepository>()
             .AddScoped<ISpecialtyWriteOnly, SpecialtyRepository>()
-            .AddScoped<ISpecialtyReadOnly, SpecialtyRepository>();
+            .AddScoped<ISpecialtyReadOnly, SpecialtyRepository>()
+            .AddScoped<IServiceDayWriteOnly, ServiceDayRepository>()
+            .AddScoped<IServiceDayReadOnly, ServiceDayRepository>();
     }
 
     private static void AddServices(IServiceCollection services, IConfiguration configurationManager)

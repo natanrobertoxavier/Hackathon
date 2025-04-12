@@ -43,7 +43,10 @@ public static class Initializer
             .AddScoped<ILoginUseCase, LoginUseCase>()
             .AddScoped<UseCase.Specialty.Register.IRegisterUseCase, UseCase.Specialty.Register.RegisterUseCase>()
             .AddScoped<UseCase.Specialty.Recover.RecoverAll.IRecoverAllUseCase, UseCase.Specialty.Recover.RecoverAll.RecoverAllUseCase>()
-            .AddScoped<UseCase.Specialty.Recover.RecoverById.IRecoverByIdUseCase, UseCase.Specialty.Recover.RecoverById.RecoverByIdUseCase>();
+            .AddScoped<UseCase.Specialty.Recover.RecoverById.IRecoverByIdUseCase, UseCase.Specialty.Recover.RecoverById.RecoverByIdUseCase>()
+            .AddScoped<UseCase.ServiceDay.Register.IRegisterUseCase, UseCase.ServiceDay.Register.RegisterUseCase>()
+            .AddScoped<UseCase.ServiceDay.Delete.IDeleteUseCase, UseCase.ServiceDay.Delete.DeleteUseCase>()
+            .AddScoped<UseCase.ServiceDay.Update.IUpdateUseCase, UseCase.ServiceDay.Update.UpdateUseCase>();
     }
 
     private static void AddAdditionalKeyPassword(IServiceCollection services, IConfiguration configuration)

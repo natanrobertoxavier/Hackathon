@@ -80,7 +80,7 @@ public class DoctorControllerTests
         var response = new Result<IEnumerable<ResponseDoctor>>();
         response.Succeeded(new List<ResponseDoctor>
         {
-            new ResponseDoctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "email@example.com", "12345", null)
+            new ResponseDoctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "email@example.com", "12345", null, null)
         });
 
         _recoverAllUseCaseMock
