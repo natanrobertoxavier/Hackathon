@@ -6,12 +6,14 @@ public class Doctor : BaseEntity
     Guid id,
     DateTime registrationDate,
     string name,
+    string preferredName,
     string email,
     string cr,
     string password,
     Guid specialtyId) : base(id, registrationDate)
     {
         Name = name;
+        PreferredName = preferredName;
         Email = email;
         CR = cr;
         Password = password;
@@ -20,6 +22,7 @@ public class Doctor : BaseEntity
 
     public Doctor(
     string name,
+    string preferredName,
     string email,
     string cr,
     string password,
@@ -27,6 +30,7 @@ public class Doctor : BaseEntity
     Guid userId)
     {
         Name = name;
+        PreferredName = preferredName;
         Email = email;
         CR = cr;
         Password = password;
@@ -39,6 +43,7 @@ public class Doctor : BaseEntity
     }
 
     public string Name { get; set; }
+    public string PreferredName { get; set; }
     public string Email { get; set; }
     public string CR { get; set; }
     public string Password { get; set; }

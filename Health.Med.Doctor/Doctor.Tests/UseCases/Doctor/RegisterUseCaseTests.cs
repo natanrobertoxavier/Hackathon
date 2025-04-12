@@ -42,7 +42,7 @@ public class RegisterUseCaseTests
     public async Task RegisterDoctorAsync_ShouldReturnSuccess_WhenRegistrationIsSuccessful()
     {
         // Arrange
-        var request = new RequestRegisterDoctor("Doctor Name", "email@example.com", "12345", "password", Guid.NewGuid());
+        var request = new RequestRegisterDoctor("Doctor Name", "Name", "email@example.com", "12345", "password", Guid.NewGuid());
         var userId = Guid.NewGuid();
 
         _httpContextAccessorMock
@@ -72,8 +72,8 @@ public class RegisterUseCaseTests
     public async Task RegisterDoctorAsync_ShouldReturnValidationError_WhenEmailIsAlreadyRegistered()
     {
         // Arrange
-        var request = new RequestRegisterDoctor("Doctor Name", "email@example.com", "12345", "password", Guid.NewGuid());
-        var existingDoctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", request.Email, "12345", "password", Guid.NewGuid());
+        var request = new RequestRegisterDoctor("Doctor Name", "Name", "email@example.com", "12345", "password", Guid.NewGuid());
+        var existingDoctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "Name", request.Email, "12345", "password", Guid.NewGuid());
 
         _doctorReadOnlyMock
             .Setup(x => x.RecoverByEmailAsync(request.Email))
@@ -94,8 +94,8 @@ public class RegisterUseCaseTests
     public async Task RegisterDoctorAsync_ShouldReturnValidationError_WhenCRIsAlreadyRegistered()
     {
         // Arrange
-        var request = new RequestRegisterDoctor("Doctor Name", "email@example.com", "12345", "password", Guid.NewGuid());
-        var existingDoctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "otheremail@example.com", request.CR, "password", Guid.NewGuid());
+        var request = new RequestRegisterDoctor("Doctor Name", "Name", "email@example.com", "12345", "password", Guid.NewGuid());
+        var existingDoctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "Name", "otheremail@example.com", request.CR, "password", Guid.NewGuid());
 
         _doctorReadOnlyMock
             .Setup(x => x.RecoverByEmailAsync(request.Email))
@@ -120,7 +120,7 @@ public class RegisterUseCaseTests
     public async Task RegisterDoctorAsync_ShouldReturnFailure_WhenUnexpectedExceptionOccurs()
     {
         // Arrange
-        var request = new RequestRegisterDoctor("Doctor Name", "email@example.com", "12345", "password", Guid.NewGuid());
+        var request = new RequestRegisterDoctor("Doctor Name", "Name", "email@example.com", "12345", "password", Guid.NewGuid());
 
         _doctorReadOnlyMock
             .Setup(x => x.RecoverByEmailAsync(request.Email))

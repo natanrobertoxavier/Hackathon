@@ -6,6 +6,7 @@ public class ResponseDoctor
     Guid doctorId,
     DateTime registrationDate,
     string name,
+    string preferredName,
     string email,
     string cr,
     ResponseSpecialtyDoctor specialtyDoctor,
@@ -14,6 +15,7 @@ public class ResponseDoctor
         DoctorId = doctorId;
         RegistrationDate = registrationDate;
         Name = name;
+        PreferredName = preferredName;
         Email = email;
         CR = cr;
         SpecialtyDoctor = specialtyDoctor;
@@ -27,6 +29,7 @@ public class ResponseDoctor
     public Guid DoctorId { get; set; }
     public DateTime RegistrationDate { get; set; }
     public string Name { get; set; }
+    public string PreferredName { get; set; }
     public string Email { get; set; }
     public string CR { get; set; }
     public ResponseSpecialtyDoctor SpecialtyDoctor { get; set; }

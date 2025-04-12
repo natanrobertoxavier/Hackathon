@@ -84,6 +84,7 @@ public class CustomWebApplicationFactory<TStartup> : WebApplicationFactory<TStar
             Id = Guid.NewGuid(),
             RegistrationDate = DateTime.UtcNow,
             Name = "Test Doctor",
+            PreferredName = "Test",
             Email = "testdoctor@example.com",
             CR = "12345",
             Password = passwordEncryptor.Encrypt("123456"),

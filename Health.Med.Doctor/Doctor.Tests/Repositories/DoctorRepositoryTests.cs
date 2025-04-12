@@ -21,7 +21,7 @@ public class DoctorRepositoryTests
         // Arrange
         var context = new HealthMedContext(_dbContextOptions);
         var repository = new DoctorRepository(context);
-        var doctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "email@example.com", "12345", "password", Guid.NewGuid());
+        var doctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "Name", "email@example.com", "12345", "password", Guid.NewGuid());
 
         // Act
         await repository.AddAsync(doctor);
@@ -39,7 +39,7 @@ public class DoctorRepositoryTests
         // Arrange
         var context = new HealthMedContext(_dbContextOptions);
         var repository = new DoctorRepository(context);
-        var doctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "email@example.com", "12345", "password", Guid.NewGuid());
+        var doctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "Name", "email@example.com", "12345", "password", Guid.NewGuid());
 
         await context.Doctors.AddAsync(doctor);
         await context.SaveChangesAsync();
@@ -61,7 +61,7 @@ public class DoctorRepositoryTests
         // Arrange
         var context = new HealthMedContext(_dbContextOptions);
         var repository = new DoctorRepository(context);
-        var doctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "email@example.com", "12345", "password", Guid.NewGuid());
+        var doctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "Name", "email@example.com", "12345", "password", Guid.NewGuid());
 
         await context.Doctors.AddAsync(doctor);
         await context.SaveChangesAsync();
@@ -97,9 +97,9 @@ public class DoctorRepositoryTests
         var repository = new DoctorRepository(context);
         var doctors = new List<Domain.Entities.Doctor>
         {
-            new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor 1", "email1@example.com", "CR1", "password1", Guid.NewGuid()),
-            new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor 2", "email2@example.com", "CR2", "password2", Guid.NewGuid()),
-            new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor 3", "email3@example.com", "CR3", "password3", Guid.NewGuid())
+            new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor 1", "Name1", "email1@example.com", "CR1", "password1", Guid.NewGuid()),
+            new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor 2", "Name2", "email2@example.com", "CR2", "password2", Guid.NewGuid()),
+            new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor 3", "Name3", "email3@example.com", "CR3", "password3", Guid.NewGuid())
         };
 
         await context.Doctors.AddRangeAsync(doctors);
@@ -119,7 +119,7 @@ public class DoctorRepositoryTests
         // Arrange
         var context = new HealthMedContext(_dbContextOptions);
         var repository = new DoctorRepository(context);
-        var doctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "email@example.com", "12345", "password", Guid.NewGuid());
+        var doctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "Name", "email@example.com", "12345", "password", Guid.NewGuid());
 
         await context.Doctors.AddAsync(doctor);
         await context.SaveChangesAsync();

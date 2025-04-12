@@ -1,7 +1,9 @@
-﻿using Consultation.Application.Extensions;
+﻿using Azure.Core;
+using Consultation.Application.Extensions;
 using Consultation.Application.Mapping;
 using Consultation.Application.Services.LoggedClientService;
 using Consultation.Application.UseCase.SendEmailClient;
+using Consultation.Application.UseCase.SendEmailDoctor;
 using Consultation.Communication.Request;
 using Consultation.Communication.Response;
 using Consultation.Domain.ModelServices;
@@ -12,6 +14,7 @@ using Health.Med.Exceptions;
 using Health.Med.Exceptions.ExceptionBase;
 using Serilog;
 using Serilog.Context;
+using System.Numerics;
 
 namespace Consultation.Application.UseCase.Consultation.Register;
 
@@ -22,6 +25,7 @@ public class RegisterUseCase(
     IDoctorServiceApi doctorServiceApi,
     IWorkUnit workUnit,
     ISendEmailClientUseCase sendEmailClientUseCase,
+    ISendEmailDoctorUseCase sendEmailDoctorUseCase,
     ILogger logger) : IRegisterUseCase
 {
     private readonly ILoggedClient _loggedClient = loggedClient;
@@ -29,6 +33,7 @@ public class RegisterUseCase(
     private readonly IConsultationWriteOnly _consultationWriteOnlyrepository = consultationWriteOnlyrepository;
     private readonly IDoctorServiceApi _doctorServiceApi = doctorServiceApi;
     private readonly ISendEmailClientUseCase _sendEmailClientUseCase = sendEmailClientUseCase;
+    private readonly ISendEmailDoctorUseCase _sendEmailDoctorUseCase = sendEmailDoctorUseCase;
     private readonly IWorkUnit _workUnit = workUnit;
     private readonly ILogger _logger = logger;
 
@@ -49,7 +54,7 @@ public class RegisterUseCase(
                 await _consultationWriteOnlyrepository.AddAsync(request.ToEntity(clientId));
                 await _workUnit.CommitAsync();
 
-                await SendEmailAsync(request, doctor);
+                await SendEmailsAsync(request, doctor);
 
                 output.Succeeded(new MessageResult("Cadastro realizado com sucesso"));
                 _logger.Information("Cadastro de consulta finalizado com sucesso.");
@@ -118,11 +123,28 @@ public class RegisterUseCase(
     private static bool HourIsValid(DateTime consultationDate) =>
         consultationDate.Minute == 0 || consultationDate.Minute == 30;
 
-    private async Task SendEmailAsync(RequestRegisterConsultation request, DoctorResult doctor)
+    private async Task SendEmailsAsync(RequestRegisterConsultation request, DoctorResult doctor)
     {
-        _logger.Information($"Início do envio de e-mail.");
+        await SendEmailToClient(request, doctor);
+        await SendEmailToDoctor(request, doctor);
+    }
 
-        await _sendEmailClientUseCase.SendEmailClientAsync(request, doctor, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingEmail);
+    private async Task SendEmailToClient(RequestRegisterConsultation request, DoctorResult doctor)
+    {
+        _logger.Information($"Início do envio de e-mail para o cliente.");
+
+        await _sendEmailClientUseCase.SendEmailClientAsync(request, doctor, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingClientEmail);
+        
+        _logger.Information($"Fim do envio de e-mail para o cliente.");
+    }
+
+    private async Task SendEmailToDoctor(RequestRegisterConsultation request, DoctorResult doctor)
+    {
+        _logger.Information($"Início do envio de e-mail para o médico.");
+
+        await _sendEmailDoctorUseCase.SendEmailDoctorAsync(request, doctor, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingDoctorEmail);
+
+        _logger.Information($"Fim do envio de e-mail para o médico.");
     }
 
     private void LogValidationErrors(ValidationErrorsException ex)

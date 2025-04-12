@@ -6,53 +6,50 @@ using Consultation.Communication.Response;
 using Consultation.Domain.Entities.Enum;
 using Consultation.Domain.Messages.DomainEvents;
 using Consultation.Domain.ModelServices;
-using Consultation.Domain.Services;
 using MediatR;
 using Microsoft.Extensions.Options;
 using Serilog;
 using System.Reflection;
 
-namespace Consultation.Application.UseCase.SendEmailClient;
+namespace Consultation.Application.UseCase.SendEmailDoctor;
 
-public class SendEmailClientUseCase(
+public class SendEmailDoctorUseCase(
     IMediator mediator,
     IOptions<TemplateSettings> options,
     ILoggedClient loggedClient,
-    ILogger logger) : ISendEmailClientUseCase
+    ILogger logger) : ISendEmailDoctorUseCase
 {
     private readonly IMediator _mediator = mediator;
     private readonly TemplateSettings _options = options.Value;
     private readonly ILoggedClient _loggedClient = loggedClient;
     private readonly ILogger _logger = logger;
 
-    public async Task<Communication.Response.Result<MessageResult>> SendEmailClientAsync(RequestRegisterConsultation request, DoctorResult doctor, TemplateEmailEnum template)
+    public async Task<Communication.Response.Result<MessageResult>> SendEmailDoctorAsync(RequestRegisterConsultation request, DoctorResult doctor, TemplateEmailEnum template)
     {
         var output = new Communication.Response.Result<MessageResult>();
 
         try
         {
-            _logger.Information($"Início {nameof(SendEmailClientAsync)}.");
+            _logger.Information($"Início {nameof(SendEmailDoctorAsync)}.");
 
             var client = _loggedClient.GetLoggedClient();
             var consultationDateTime = request.ConsultationDate.ToSPDateZone();
 
             var content = GetEmailBody(template)
-                .Replace("@@@CLIENT@@@", client.PreferredName.Trim())
-                .Replace("@@@ESPECIALTY@@@", doctor.SpecialtyDoctor.Description.Trim())
-                .Replace("@@@DOCTORNAME@@@", doctor.Name.Trim())
+                .Replace("@@@DOCTOR@@@", doctor.PreferredName.Trim())
                 .Replace("@@@DATE@@@", consultationDateTime.ToString("dd/MM/yyyy"))
                 .Replace("@@@HOUR@@@", consultationDateTime.ToString("HH:mm"))
                 .Replace("@@@CALENDARDATE@@@", CreateDateTimeSchedule(consultationDateTime));
 
             await _mediator.Publish(new SendEmailClientEvent(
-                [client.Email],
-                $"{client.PreferredName}, {_options.ClientSettings.Subject}",
+                [doctor.Email],
+                $"{client.PreferredName}, {_options.DoctorSettings.Subject}",
                 content)
             );
 
             output.Succeeded(new MessageResult("Email enviado com sucesso"));
 
-            _logger.Information($"Fim {nameof(SendEmailClientAsync)}.");
+            _logger.Information($"Fim {nameof(SendEmailDoctorAsync)}.");
         }
         catch (Exception ex)
         {
@@ -68,7 +65,7 @@ public class SendEmailClientUseCase(
 
     private string GetEmailBody(TemplateEmailEnum template)
     {
-        var path = $"{_options.ClientSettings.PathTemplateClient}.{template.GetDescription()}.html";
+        var path = $"{_options.DoctorSettings.PathTemplateDoctor}.{template.GetDescription()}.html";
 
         using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path))
         {

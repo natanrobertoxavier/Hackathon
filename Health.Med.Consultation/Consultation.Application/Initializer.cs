@@ -6,6 +6,7 @@ using Consultation.Application.Services.LoggedClientService;
 using Consultation.Application.Settings;
 using Consultation.Application.UseCase.Consultation.Register;
 using Consultation.Application.UseCase.SendEmailClient;
+using Consultation.Application.UseCase.SendEmailDoctor;
 using Consultation.Domain.Messages.DomainEvents;
 using MediatR;
 using Microsoft.Extensions.Configuration;
@@ -39,7 +40,8 @@ public static class Initializer
     {
         services
             .AddScoped<IRegisterUseCase, RegisterUseCase>()
-            .AddScoped<ISendEmailClientUseCase, SendEmailClientUseCase>();
+            .AddScoped<ISendEmailClientUseCase, SendEmailClientUseCase>()
+            .AddScoped<ISendEmailDoctorUseCase, SendEmailDoctorUseCase>();
     }
 
     private static void AddAdditionalKeyPassword(IServiceCollection services, IConfiguration configuration)
