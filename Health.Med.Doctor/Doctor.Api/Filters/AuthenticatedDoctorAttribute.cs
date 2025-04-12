@@ -23,14 +23,16 @@ public class AuthenticatedDoctorAttribute(
         try
         {
             var token = TokenInRequest(context);
-            var userEmail = _tokenController.RecoverEmail(token);
+            var email = _tokenController.RecoverEmail(token);
 
-            var doctor = await _doctorReadOnlyrepository.RecoverByEmailAsync(userEmail);
+            var doctor = await _doctorReadOnlyrepository.RecoverByEmailAsync(email);
 
             if (doctor?.Id == Guid.Empty)
             {
                 throw new ValidationException("Médico não localizado para o token informado");
             }
+
+            context.HttpContext.Items["AuthenticatedDoctor"] = doctor;
         }
         catch (SecurityTokenExpiredException)
         {

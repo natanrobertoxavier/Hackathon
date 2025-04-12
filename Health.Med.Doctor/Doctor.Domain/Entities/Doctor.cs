@@ -45,4 +45,5 @@ public class Doctor : BaseEntity
     public Guid SpecialtyId { get; set; }
     public Guid UserId { get; set; }
     public virtual Specialty Specialty { get; set; }
+    public virtual ICollection<ServiceDay> ServiceDays { get; set; }
 }

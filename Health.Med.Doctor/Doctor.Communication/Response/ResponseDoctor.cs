@@ -8,7 +8,8 @@ public class ResponseDoctor
     string name,
     string email,
     string cr,
-    ResponseSpecialtyDoctor specialtyDoctor)
+    ResponseSpecialtyDoctor specialtyDoctor,
+    IEnumerable<ResponseServiceDay> serviceDays)
     {
         DoctorId = doctorId;
         RegistrationDate = registrationDate;
@@ -16,6 +17,7 @@ public class ResponseDoctor
         Email = email;
         CR = cr;
         SpecialtyDoctor = specialtyDoctor;
+        ServiceDays = serviceDays;
     }
 
     public ResponseDoctor()
@@ -28,6 +30,7 @@ public class ResponseDoctor
     public string Email { get; set; }
     public string CR { get; set; }
     public ResponseSpecialtyDoctor SpecialtyDoctor { get; set; }
+    public IEnumerable<ResponseServiceDay> ServiceDays { get; set; }
 }
 
 public class ResponseSpecialtyDoctor

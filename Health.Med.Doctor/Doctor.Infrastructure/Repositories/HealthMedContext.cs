@@ -6,6 +6,7 @@ public class HealthMedContext(DbContextOptions<HealthMedContext> options) : DbCo
 {
     public DbSet<Domain.Entities.Doctor> Doctors { get; set; }
     public DbSet<Domain.Entities.Specialty> Specialties { get; set; }
+    public DbSet<Domain.Entities.ServiceDay> ServiceDays { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -25,7 +25,8 @@ public static class DoctorMapping
             doctor.Name,
             doctor.Email,
             doctor.CR,
-            doctor.Specialty.ToSpecialDoctorResponse()
+            doctor.Specialty.ToSpecialDoctorResponse(),
+            doctor.ServiceDays.Select(serviceDay => serviceDay.ToRespose()).ToList()
         );
     }
 
