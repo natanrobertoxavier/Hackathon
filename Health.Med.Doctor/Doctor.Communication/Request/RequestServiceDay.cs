@@ -3,13 +3,37 @@ using System.Text.Json.Serialization;
 
 namespace Doctor.Communication.Request;
 
-public class RequestServiceDay(List<ServiceDay> serviceDays)
+public class RequestServiceDay
 {
-    public List<ServiceDay> ServiceDays { get; set; } = serviceDays;
+    public RequestServiceDay(List<ServiceDay> serviceDays)
+    {
+        ServiceDays = serviceDays;
+    }
+
+    public RequestServiceDay()
+    {
+    }
+
+    public List<ServiceDay> ServiceDays { get; set; }
+
 }
 
 public class ServiceDay
 {
+    public ServiceDay(
+        DayOfWeek day, 
+        TimeSpan startTime, 
+        TimeSpan endTime)
+    {
+        Day = day;
+        StartTime = startTime;
+        EndTime = endTime;
+    }
+
+    public ServiceDay()
+    {
+    }
+
     [JsonConverter(typeof(DayOfWeekConverter))]
     public DayOfWeek Day { get; set; }
     public TimeSpan StartTime { get; set; }

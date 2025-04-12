@@ -1,6 +1,5 @@
-﻿using Doctor.Domain.Entities;
-using Doctor.Domain.Repositories.Contracts.ServiceDay;
-using System.Linq;
+﻿using Doctor.Domain.Repositories.Contracts.ServiceDay;
+using Microsoft.EntityFrameworkCore;
 
 namespace Doctor.Infrastructure.Repositories.ServiceDay;
 
@@ -13,21 +12,6 @@ public class ServiceDayRepository(HealthMedContext context) : IServiceDayWriteOn
     public async Task AddAsync(IEnumerable<Domain.Entities.ServiceDay> serviceDays) =>
         await _context.AddRangeAsync(serviceDays);
 
-    public void Update(IEnumerable<Domain.Entities.ServiceDay> serviceDays)
-    {
-        //var doctorId = serviceDays.FirstOrDefault().DoctorId;
-        //var days = serviceDays.Select(x => x.Day).ToList();
-
-        //var serviceDaysDB = _context.ServiceDays
-        //    .Where(x => x.DoctorId == doctorId && days.Contains(x.Day))
-        //    .ToList();
-
-        //foreach (var day in serviceDaysDB)
-        //{
-        //    day.
-        //}
-    }
-
     public void Remove(Guid doctorId, IEnumerable<string> daysToRemove)
     {
         var serviceDays = _context.ServiceDays
@@ -37,4 +21,15 @@ public class ServiceDayRepository(HealthMedContext context) : IServiceDayWriteOn
         if (serviceDays.Any())
             _context.ServiceDays.RemoveRange(serviceDays);
     }
+
+    public async Task<IEnumerable<Domain.Entities.ServiceDay>> GetByDoctorIdAsync(Guid doctorId) =>
+        await _context.ServiceDays
+            .Where(x => x.DoctorId == doctorId)
+            .AsNoTracking()
+            .ToListAsync();
+
+    public async Task<IEnumerable<Domain.Entities.ServiceDay>> GetByDoctorIdAndDaysAsync(Guid doctorId, List<string> days) =>
+        await _context.ServiceDays
+            .Where(x => x.DoctorId == doctorId && days.Contains(x.Day))
+            .ToListAsync();
 }

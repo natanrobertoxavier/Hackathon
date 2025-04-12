@@ -27,18 +27,20 @@ public class RecoverByIdUseCaseTests
     public async Task RecoverByIdAsync_ShouldReturnSuccess_WhenDoctorIsFound()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        var doctorId = Guid.NewGuid();
+        var serviceDay = new Domain.Entities.ServiceDay(doctorId, "segunda-feira", TimeSpan.FromHours(9), TimeSpan.FromHours(17));
         var specialty = new Domain.Entities.Specialty(Guid.NewGuid(), DateTime.UtcNow, Guid.NewGuid(), "Specialty 1", "SPECIALITY-1");
-        var doctor = new Domain.Entities.Doctor(id, DateTime.UtcNow, "Doctor 1", "email1@example.com", "123456", "password1", specialty.Id);
+        var doctor = new Domain.Entities.Doctor(doctorId, DateTime.UtcNow, "Doctor 1", "email1@example.com", "123456", "password1", specialty.Id);
 
         doctor.Specialty = specialty;
+        doctor.ServiceDays = new List<Domain.Entities.ServiceDay> { serviceDay };
 
         _doctorReadOnlyMock
-            .Setup(x => x.RecoverByIdAsync(id))
+            .Setup(x => x.RecoverByIdAsync(doctorId))
             .ReturnsAsync(doctor);
 
         // Act
-        var result = await _useCase.RecoverByIdAsync(id);
+        var result = await _useCase.RecoverByIdAsync(doctorId);
 
         // Assert
         Assert.True(result.Success);

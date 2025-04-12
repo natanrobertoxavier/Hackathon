@@ -1,23 +1,19 @@
-﻿using Doctor.Application.Services.Doctor;
+﻿using Doctor.Application.UseCase.ServiceDay.Delete;
+using Doctor.Application.UseCase.ServiceDay.Register;
 using Doctor.Communication.Request;
 using Doctor.Communication.Response;
-using Doctor.Domain.Repositories.Contracts.ServiceDay;
-using Doctor.Domain.Repositories;
 using Health.Med.Exceptions.ExceptionBase;
 using Serilog;
-using Doctor.Application.Mapping;
 
 namespace Doctor.Application.UseCase.ServiceDay.Update;
 
 public class UpdateUseCase(
-    IServiceDayWriteOnly serviceDayWriteOnlyrepository,
-    IWorkUnit workUnit,
-    ILoggedDoctor loggedDoctor,
+    IDeleteUseCase deleteUseCase,
+    IRegisterUseCase registerUseCase,
     ILogger logger) : IUpdateUseCase
 {
-    private readonly IServiceDayWriteOnly _serviceDayWriteOnlyrepository = serviceDayWriteOnlyrepository;
-    private readonly IWorkUnit _workUnit = workUnit;
-    private readonly ILoggedDoctor _loggedDoctor = loggedDoctor;
+    private readonly IDeleteUseCase _deleteUseCase = deleteUseCase;
+    private readonly IRegisterUseCase _registerUseCase = registerUseCase;
     private readonly ILogger _logger = logger;
 
     public async Task<Result<MessageResult>> UpdateServiceDayAsync(RequestServiceDay request)
@@ -30,13 +26,9 @@ public class UpdateUseCase(
 
             Validate(request);
 
-            var doctor = await _loggedDoctor.GetLoggedDoctorAsync();
+            await DeleteExistingDays(request.ServiceDays.Select(d => d.Day).ToList());
 
-            var serviceDays = request.ToListEntity(doctor.Id);
-
-            _serviceDayWriteOnlyrepository.Update(serviceDays);
-
-            await _workUnit.CommitAsync();
+            await RegisterNewDays(request);
 
             output.Succeeded(new MessageResult("Atualização realizada com sucesso"));
 
@@ -60,6 +52,42 @@ public class UpdateUseCase(
         }
 
         return output;
+    }
+
+    private async Task DeleteExistingDays(IEnumerable<DayOfWeek> request)
+    {
+        var methodName = nameof(RegisterNewDays);
+        _logger.Information($"Início {methodName}.");
+
+        var requestDeleteDays = request.Select(day => new DaysToRemove(day)).ToList();
+
+        var resultDelete = await _deleteUseCase.DeleteServiceDayAsync(new RequestDeleteServiceDay(requestDeleteDays));
+
+        if (!resultDelete.IsSuccess())
+        {
+            var errorMessage = $"Erro ao remover os dias existentes: {string.Concat(string.Join(", ", resultDelete.Errors), ".")}";
+            _logger.Error($"{methodName} {errorMessage}");
+            throw new Exception(errorMessage);
+        }
+
+        _logger.Information($"Fim {methodName}.");
+    }
+
+    private async Task RegisterNewDays(RequestServiceDay request)
+    {
+        var methodName = nameof(RegisterNewDays);
+        _logger.Information($"Início {methodName}.");
+
+        var resultRegister = await _registerUseCase.RegisterServiceDayAsync(new RequestServiceDay(request.ServiceDays));
+
+        if (!resultRegister.IsSuccess())
+        {
+            var errorMessage = $"Erro ao incluir os novos dias: {string.Concat(string.Join(", ", resultRegister.Errors), ".")}";
+            _logger.Error($"{methodName} {errorMessage}");
+            throw new Exception(errorMessage);
+        }
+
+        _logger.Information($"Fim {methodName}.");
     }
 
     private void Validate(RequestServiceDay request)
