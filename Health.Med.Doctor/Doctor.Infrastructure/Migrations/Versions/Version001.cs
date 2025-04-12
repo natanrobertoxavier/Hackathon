@@ -15,6 +15,7 @@ public class Version001 : Migration
 
         table
             .WithColumn("Name").AsString(100).NotNullable()
+            .WithColumn("PreferredName").AsString(15).NotNullable()
             .WithColumn("Email").AsString().NotNullable()
             .WithColumn("CR").AsString(15).NotNullable()
             .WithColumn("Password").AsString(2000).NotNullable()

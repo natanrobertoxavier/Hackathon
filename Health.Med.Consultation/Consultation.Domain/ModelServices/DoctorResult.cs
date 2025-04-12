@@ -13,6 +13,9 @@ public class DoctorResult
     [JsonProperty("name")]
     public string Name { get; set; } = string.Empty;
 
+    [JsonProperty("preferredName")]
+    public string PreferredName { get; set; } = string.Empty;
+
     [JsonProperty("email")]
     public string Email { get; set; } = string.Empty;
 

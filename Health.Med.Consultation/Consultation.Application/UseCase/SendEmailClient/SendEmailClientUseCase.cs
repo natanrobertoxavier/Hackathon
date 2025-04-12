@@ -46,7 +46,7 @@ public class SendEmailClientUseCase(
 
             await _mediator.Publish(new SendEmailClientEvent(
                 [client.Email],
-                $"{client.PreferredName}, {_options.Subject}",
+                $"{client.PreferredName}, {_options.ClientSettings.Subject}",
                 content)
             );
 
@@ -68,7 +68,7 @@ public class SendEmailClientUseCase(
 
     private string GetEmailBody(TemplateEmailEnum template)
     {
-        var path = $"{_options.PathTemplateClient}.{template.GetDescription()}.html";
+        var path = $"{_options.ClientSettings.PathTemplateClient}.{template.GetDescription()}.html";
 
         using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(path))
         {

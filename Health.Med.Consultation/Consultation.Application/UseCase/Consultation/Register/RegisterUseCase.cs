@@ -3,6 +3,7 @@ using Consultation.Application.Extensions;
 using Consultation.Application.Mapping;
 using Consultation.Application.Services.LoggedClientService;
 using Consultation.Application.UseCase.SendEmailClient;
+using Consultation.Application.UseCase.SendEmailDoctor;
 using Consultation.Communication.Request;
 using Consultation.Communication.Response;
 using Consultation.Domain.ModelServices;
@@ -24,6 +25,7 @@ public class RegisterUseCase(
     IDoctorServiceApi doctorServiceApi,
     IWorkUnit workUnit,
     ISendEmailClientUseCase sendEmailClientUseCase,
+    ISendEmailDoctorUseCase sendEmailDoctorUseCase,
     ILogger logger) : IRegisterUseCase
 {
     private readonly ILoggedClient _loggedClient = loggedClient;
@@ -31,6 +33,7 @@ public class RegisterUseCase(
     private readonly IConsultationWriteOnly _consultationWriteOnlyrepository = consultationWriteOnlyrepository;
     private readonly IDoctorServiceApi _doctorServiceApi = doctorServiceApi;
     private readonly ISendEmailClientUseCase _sendEmailClientUseCase = sendEmailClientUseCase;
+    private readonly ISendEmailDoctorUseCase _sendEmailDoctorUseCase = sendEmailDoctorUseCase;
     private readonly IWorkUnit _workUnit = workUnit;
     private readonly ILogger _logger = logger;
 
@@ -130,7 +133,7 @@ public class RegisterUseCase(
     {
         _logger.Information($"Início do envio de e-mail para o cliente.");
 
-        await _sendEmailClientUseCase.SendEmailClientAsync(request, doctor, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingEmail);
+        await _sendEmailClientUseCase.SendEmailClientAsync(request, doctor, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingClientEmail);
         
         _logger.Information($"Fim do envio de e-mail para o cliente.");
     }
@@ -139,7 +142,7 @@ public class RegisterUseCase(
     {
         _logger.Information($"Início do envio de e-mail para o médico.");
 
-        await _sendEmailClientUseCase.SendEmailClientAsync(request, doctor, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingEmail);
+        await _sendEmailDoctorUseCase.SendEmailDoctorAsync(request, doctor, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingDoctorEmail);
 
         _logger.Information($"Fim do envio de e-mail para o médico.");
     }

@@ -9,6 +9,7 @@ public static class DoctorMapping
     {
         return new Domain.Entities.Doctor(
             request.Name,
+            request.PreferredName,
             request.Email.ToLower(),
             request.CR.ToUpper(),
             password,
@@ -23,6 +24,7 @@ public static class DoctorMapping
             doctor.Id,
             doctor.RegistrationDate,
             doctor.Name,
+            doctor.PreferredName,
             doctor.Email,
             doctor.CR,
             doctor.Specialty.ToSpecialDoctorResponse(),
@@ -34,6 +36,7 @@ public static class DoctorMapping
     {
         return new ResponseLogin(
             doctor.Name,
+            doctor.PreferredName,
             doctor.CR,
             doctor.Email,
             token

@@ -5,5 +5,7 @@ namespace Consultation.Domain.Entities.Enum;
 public enum TemplateEmailEnum
 {
     [Description("ConsultationScheduleClient")]
-    ConsultationSchedulingEmail = 1,
+    ConsultationSchedulingClientEmail = 1,
+    [Description("ConsultationScheduleDoctor")]
+    ConsultationSchedulingDoctorEmail = 2,
 }
