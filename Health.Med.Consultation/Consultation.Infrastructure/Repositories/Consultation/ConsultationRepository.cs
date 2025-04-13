@@ -21,4 +21,14 @@ public class ConsultationRepository(HealthMedContext context) : IConsultationRea
         await _context.Consultations
         .AsNoTracking()
         .AnyAsync(c => c.ClientId == id && c.ConsultationDate == consultationDate);
+
+    public async Task ConfirmConsultationAsync(Guid consultationId, DateTime date)
+    {
+        var consultation = await _context.Consultations.FindAsync(consultationId);
+        if (consultation is not null)
+        {
+            consultation.Confirmed = true;
+            consultation.ConfirmatonDate = date;
+        }
+    }
 }

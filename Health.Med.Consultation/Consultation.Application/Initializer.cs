@@ -4,6 +4,7 @@ using Consultation.Application.Messages.Handlers;
 using Consultation.Application.Services;
 using Consultation.Application.Services.LoggedClientService;
 using Consultation.Application.Settings;
+using Consultation.Application.UseCase.Consultation.Confirm;
 using Consultation.Application.UseCase.Consultation.Register;
 using Consultation.Application.UseCase.SendEmailClient;
 using Consultation.Application.UseCase.SendEmailDoctor;
@@ -41,7 +42,8 @@ public static class Initializer
         services
             .AddScoped<IRegisterUseCase, RegisterUseCase>()
             .AddScoped<ISendEmailClientUseCase, SendEmailClientUseCase>()
-            .AddScoped<ISendEmailDoctorUseCase, SendEmailDoctorUseCase>();
+            .AddScoped<ISendEmailDoctorUseCase, SendEmailDoctorUseCase>()
+            .AddScoped<IConfirmUseCase, ConfirmUseCase>();
     }
 
     private static void AddAdditionalKeyPassword(IServiceCollection services, IConfiguration configuration)
