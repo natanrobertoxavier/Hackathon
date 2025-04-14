@@ -14,11 +14,11 @@ public class ValidateUseCase(
     private readonly IConsultationReadOnly _consultationReadOnly = consultationReadOnly;
     private readonly ILogger _logger = logger;
 
-    public async Task<Result<bool>> ValidateConsultationIdAsync(Guid consultationId, Guid doctorId)
+    public async Task<Result<DateTime>> ValidateConsultationIdAsync(Guid consultationId, Guid doctorId)
     {
         using (LogContext.PushProperty("Operation", nameof(ValidateConsultationIdAsync)))
         {
-            var output = new Result<bool>();
+            var output = new Result<DateTime>();
 
             try
             {
@@ -27,7 +27,7 @@ public class ValidateUseCase(
                 var response = await _consultationReadOnly.ThereIsConsultationAsync(consultationId, doctorId);
 
                 output.Succeeded(response);
-                _logger.Information($"A consulta pertence ao médico logado? {response}");
+                _logger.Information($"A consulta pertence ao médico logado? {response == default}");
             }
             catch (ValidationErrorsException ex)
             {
