@@ -27,7 +27,7 @@ public class ValidateUseCase(
                 var response = await _consultationReadOnly.ThereIsConsultationAsync(consultationId, doctorId);
 
                 output.Succeeded(response);
-                _logger.Information($"A consulta pertence ao médico logado? {response == default}");
+                _logger.Information($"Consulta não localizada ou já confirmada? {response == default}");
             }
             catch (ValidationErrorsException ex)
             {

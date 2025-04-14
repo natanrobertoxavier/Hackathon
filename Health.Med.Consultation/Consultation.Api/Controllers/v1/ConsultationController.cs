@@ -23,6 +23,22 @@ public class ConsultationController : HealthMedController
         return ResponseCreate(result);
     }
 
+    [HttpGet("confirmed/{id}")]
+    [ServiceFilter(typeof(AuthenticatedAttribute))]
+    [ProducesResponseType(typeof(Result<ResponseConsultation>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<ResponseConsultation>), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> RecoverAllConfirmedAsync(
+        [FromServices] IRecoverAllUseCase useCase,
+        [FromRoute] Guid id)
+    {
+        var result = await useCase.AcceptConsultationAsync(id);
+
+        if (result.IsSuccess())
+            return Redirect(result.Data.UrlRedirect);
+
+        return ResponseCreate(result);
+    }
+
     [HttpGet("accept/{id}/{token}")]
     [ProducesResponseType(typeof(Result<MessageResultAcceptConsultation>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(Result<MessageResultAcceptConsultation>), StatusCodes.Status400BadRequest)]
