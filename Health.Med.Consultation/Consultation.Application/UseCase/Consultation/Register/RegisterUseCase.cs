@@ -142,9 +142,16 @@ public class RegisterUseCase(
     {
         _logger.Information($"Início do envio de e-mail para o médico.");
 
-        await _sendEmailDoctorUseCase.SendEmailDoctorAsync(request, doctor, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingDoctorEmail);
+        var consultationId = await GetConsultationId(request);
+
+        await _sendEmailDoctorUseCase.SendEmailDoctorAsync(request, doctor, consultationId, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingDoctorEmail);
 
         _logger.Information($"Fim do envio de e-mail para o médico.");
+    }
+
+    private async Task<Guid> GetConsultationId(RequestRegisterConsultation request)
+    {
+        return await _consultationReadOnlyrepository.GetIdByDateTimeAndDoctorAsync(request.ConsultationDate.TrimMilliseconds(), request.DoctorId);
     }
 
     private void LogValidationErrors(ValidationErrorsException ex)

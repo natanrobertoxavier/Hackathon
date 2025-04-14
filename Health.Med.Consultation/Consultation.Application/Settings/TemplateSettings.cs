@@ -16,4 +16,5 @@ public class DoctorSettings
 {
     public string PathTemplateDoctor { get; set; } = string.Empty;
     public string Subject { get; set; } = string.Empty;
+    public string BasePath { get; set; } = string.Empty;
 }

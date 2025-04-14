@@ -7,5 +7,5 @@ namespace Consultation.Application.UseCase.SendEmailDoctor;
 
 public interface ISendEmailDoctorUseCase
 {
-    Task<Communication.Response.Result<MessageResult>> SendEmailDoctorAsync(RequestRegisterConsultation request, DoctorResult doctor, TemplateEmailEnum template);
+    Task<Communication.Response.Result<MessageResult>> SendEmailDoctorAsync(RequestRegisterConsultation request, DoctorResult doctor, Guid consultationId, TemplateEmailEnum template);
 }
