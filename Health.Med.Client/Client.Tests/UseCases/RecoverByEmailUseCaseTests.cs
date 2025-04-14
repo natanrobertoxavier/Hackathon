@@ -10,14 +10,14 @@ public class RecoverByEmailUseCaseTests
 {
     private readonly Mock<IClientReadOnly> _clientReadOnlyMock;
     private readonly Mock<ILogger> _loggerMock;
-    private readonly RecoverByIdUseCase _useCase;
+    private readonly RecoverByEmailUseCase _useCase;
 
     public RecoverByEmailUseCaseTests()
     {
         _clientReadOnlyMock = new Mock<IClientReadOnly>();
         _loggerMock = new Mock<ILogger>();
 
-        _useCase = new RecoverByIdUseCase(
+        _useCase = new RecoverByEmailUseCase(
             _clientReadOnlyMock.Object,
             _loggerMock.Object
         );
