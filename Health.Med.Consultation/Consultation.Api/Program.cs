@@ -63,6 +63,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseTokenFromConsultationLinks();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

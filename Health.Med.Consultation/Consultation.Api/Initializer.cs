@@ -35,3 +35,32 @@ public static class Initializer
             ;
     }
 }
+public static class ConsultationTokenMiddlewareExtensions
+{
+    public static IApplicationBuilder UseTokenFromConsultationLinks(this IApplicationBuilder app)
+    {
+        return app.Use(async (context, next) =>
+        {
+            var path = context.Request.Path;
+
+            if ((path.StartsWithSegments("/api/v1/consultation/accept", out var remaining) ||
+                 path.StartsWithSegments("/api/v1/consultation/refuse", out remaining)))
+            {
+                var segments = remaining.Value.Trim('/').Split('/');
+
+                if (segments.Length == 2)
+                {
+                    var id = segments[0];
+                    var token = segments[1];
+
+                    if (Guid.TryParse(id, out _) && !string.IsNullOrWhiteSpace(token))
+                    {
+                        context.Request.Headers["Authorization"] = $"Bearer {token}";
+                    }
+                }
+            }
+
+            await next();
+        });
+    }
+}
