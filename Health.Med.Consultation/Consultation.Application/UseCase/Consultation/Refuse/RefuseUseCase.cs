@@ -1,12 +1,10 @@
-﻿using Consultation.Application.Services.LoggedClientService;
-using Consultation.Application.UseCase.Consultation.Confirm;
+﻿using Consultation.Application.UseCase.Consultation.Validate;
 using Consultation.Communication.Response;
-using Consultation.Domain.Repositories.Contracts;
 using Consultation.Domain.Repositories;
+using Consultation.Domain.Repositories.Contracts;
 using Health.Med.Exceptions.ExceptionBase;
-using Serilog.Context;
 using Serilog;
-using Consultation.Application.UseCase.Consultation.Validate;
+using Serilog.Context;
 
 namespace Consultation.Application.UseCase.Consultation.Refuse;
 
