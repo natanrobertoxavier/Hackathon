@@ -10,21 +10,24 @@ using MediatR;
 using Microsoft.Extensions.Options;
 using Serilog;
 using System.Reflection;
+using TokenService.Manager.Controller;
 
 namespace Consultation.Application.UseCase.SendEmailDoctor;
 
 public class SendEmailDoctorUseCase(
     IMediator mediator,
+    TokenController tokenController,
     IOptions<TemplateSettings> options,
     ILoggedClient loggedClient,
     ILogger logger) : ISendEmailDoctorUseCase
 {
     private readonly IMediator _mediator = mediator;
+    private readonly TokenController _tokenController = tokenController;
     private readonly TemplateSettings _options = options.Value;
     private readonly ILoggedClient _loggedClient = loggedClient;
     private readonly ILogger _logger = logger;
 
-    public async Task<Communication.Response.Result<MessageResult>> SendEmailDoctorAsync(RequestRegisterConsultation request, DoctorResult doctor, TemplateEmailEnum template)
+    public async Task<Communication.Response.Result<MessageResult>> SendEmailDoctorAsync(RequestRegisterConsultation request, DoctorResult doctor, Guid consultationId, TemplateEmailEnum template)
     {
         var output = new Communication.Response.Result<MessageResult>();
 
@@ -39,7 +42,7 @@ public class SendEmailDoctorUseCase(
                 .Replace("@@@DOCTOR@@@", doctor.PreferredName.Trim())
                 .Replace("@@@DATE@@@", consultationDateTime.ToString("dd/MM/yyyy"))
                 .Replace("@@@HOUR@@@", consultationDateTime.ToString("HH:mm"))
-                .Replace("@@@CALENDARDATE@@@", CreateDateTimeSchedule(consultationDateTime));
+                .Replace("@@@ACCEPTLINK@@@", CreateAcceptLink(consultationId, doctor.Email));
 
             await _mediator.Publish(new SendEmailClientEvent(
                 [doctor.Email],
@@ -63,6 +66,12 @@ public class SendEmailDoctorUseCase(
         return output;
     }
 
+    private string CreateAcceptLink(Guid consultationId, string doctorEmail)
+    {
+        var token = _tokenController.GenerateToken(doctorEmail);
+        return $"{_options.DoctorSettings.BasePath}/accept/{consultationId}/{token}";
+    }
+
     private string GetEmailBody(TemplateEmailEnum template)
     {
         var path = $"{_options.DoctorSettings.PathTemplateDoctor}.{template.GetDescription()}.html";
@@ -75,28 +84,5 @@ public class SendEmailDoctorUseCase(
             using (var reader = new StreamReader(stream))
                 return reader.ReadToEnd();
         }
-    }
-
-    private static string CreateDateTimeSchedule(DateTime consultationDateTime)
-    {
-        var endAppointment = consultationDateTime.AddMinutes(30);
-
-        return string.Concat(
-            consultationDateTime.ToString("yyyy"),
-            consultationDateTime.ToString("MM"),
-            consultationDateTime.ToString("dd"),
-            "T",
-            consultationDateTime.ToString("HH"),
-            consultationDateTime.ToString("mm"),
-            consultationDateTime.ToString("ss"),
-            "/",
-            consultationDateTime.ToString("yyyy"),
-            consultationDateTime.ToString("MM"),
-            consultationDateTime.ToString("dd"),
-            "T",
-            endAppointment.ToString("HH"),
-            endAppointment.AddMinutes(30).ToString("mm"),
-            endAppointment.ToString("ss"),
-            "&ctz=America/Sao_Paulo");
     }
 }
