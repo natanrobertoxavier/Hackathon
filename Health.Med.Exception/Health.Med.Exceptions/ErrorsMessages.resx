@@ -198,4 +198,7 @@
   <data name="DoctorNotFound" xml:space="preserve">
     <value>Médico não encontrado</value>
   </data>
+  <data name="DoctorNotAvailable" xml:space="preserve">
+    <value>Médico não disponível</value>
+  </data>
 </root>

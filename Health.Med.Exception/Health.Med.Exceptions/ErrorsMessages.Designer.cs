@@ -196,6 +196,15 @@ namespace Health.Med.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Médico não disponível.
+        /// </summary>
+        public static string DoctorNotAvailable {
+            get {
+                return ResourceManager.GetString("DoctorNotAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Médico não encontrado.
         /// </summary>
         public static string DoctorNotFound {

@@ -12,8 +12,10 @@ using Consultation.Domain.Repositories.Contracts;
 using Consultation.Domain.Services;
 using Health.Med.Exceptions;
 using Health.Med.Exceptions.ExceptionBase;
+using MediatR;
 using Serilog;
 using Serilog.Context;
+using System.Globalization;
 using System.Numerics;
 
 namespace Consultation.Application.UseCase.Consultation.Register;
@@ -81,7 +83,7 @@ public class RegisterUseCase(
         var validationResult = new RegisterValidator().Validate(request);
 
         var doctor = await _doctorServiceApi.RecoverByIdAsync(request.DoctorId);
-        ValidateDoctor(doctor, validationResult);
+        ValidateDoctor(doctor, validationResult, request);
 
         ValidateConsultationTime(request, validationResult);
         await ValidateClientAndDoctorScheduleAsync(request, clientId, validationResult);
@@ -95,12 +97,19 @@ public class RegisterUseCase(
         return doctor.Data;
     }
 
-    private static void ValidateDoctor(Domain.ModelServices.Result<DoctorResult> doctor, FluentValidation.Results.ValidationResult validationResult)
+    private static void ValidateDoctor(Domain.ModelServices.Result<DoctorResult> doctor, FluentValidation.Results.ValidationResult validationResult, RequestRegisterConsultation request)
     {
         if (!doctor.Success)
             validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("doctorApi", doctor.Error));
         else if (doctor.Data is null)
             validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("doctor", ErrorsMessages.DoctorNotFound));
+        else
+        {
+            var dayAvailable = ValidateServiceDayAvailable(request.ConsultationDate, doctor.Data.ServiceDays);
+
+            if (!dayAvailable)
+                validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("doctor", ErrorsMessages.DoctorNotAvailable, request.ConsultationDate));
+        }
     }
 
     private static void ValidateConsultationTime(RequestRegisterConsultation request, FluentValidation.Results.ValidationResult validationResult)
@@ -122,6 +131,18 @@ public class RegisterUseCase(
 
     private static bool HourIsValid(DateTime consultationDate) =>
         consultationDate.Minute == 0 || consultationDate.Minute == 30;
+
+    private static bool ValidateServiceDayAvailable(DateTime consultationDate, IEnumerable<ResponseServiceDay> serviceDays)
+    {
+        var consultationTime = consultationDate.TimeOfDay;
+        var consultationDay = CultureInfo.GetCultureInfo("pt-BR").DateTimeFormat.GetDayName(consultationDate.DayOfWeek);
+
+        return serviceDays.Any(day =>
+            day.Day.Equals(consultationDay, StringComparison.OrdinalIgnoreCase) &&
+            consultationTime >= day.StartTime && consultationTime <= day.EndTime);
+
+    }
+
 
     private async Task SendEmailsAsync(RequestRegisterConsultation request, DoctorResult doctor)
     {
