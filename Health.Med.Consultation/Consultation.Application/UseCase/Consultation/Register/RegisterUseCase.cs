@@ -143,7 +143,6 @@ public class RegisterUseCase(
 
     }
 
-
     private async Task SendEmailsAsync(RequestRegisterConsultation request, DoctorResult doctor)
     {
         await SendEmailToClient(request, doctor);
