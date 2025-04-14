@@ -2,6 +2,7 @@
 using Doctor.Application.UseCase.Doctor.ChangePassword;
 using Doctor.Application.UseCase.Doctor.Recover.RecoverAll;
 using Doctor.Application.UseCase.Doctor.Recover.RecoverByCR;
+using Doctor.Application.UseCase.Doctor.Recover.RecoverByEmail;
 using Doctor.Application.UseCase.Doctor.Recover.RecoverById;
 using Doctor.Application.UseCase.Doctor.Register;
 using Doctor.Communication.Request;
@@ -76,6 +77,20 @@ public class DoctorController : HealthMedController
         [FromRoute] Guid id)
     {
         var result = await useCase.RecoverByIdAsync(id);
+
+        return Response(result);
+    }
+
+    [HttpGet("email/{email}")]
+    [ServiceFilter(typeof(AuthenticatedAttribute))]
+    [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> RecoverByEmailAsync(
+        [FromServices] IRecoverByEmailUseCase useCase,
+        [FromRoute] string email)
+    {
+        var result = await useCase.RecoverByEmailAsync(email);
 
         return Response(result);
     }

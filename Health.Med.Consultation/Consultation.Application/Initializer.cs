@@ -3,8 +3,12 @@ using Consultation.Application.Messages;
 using Consultation.Application.Messages.Handlers;
 using Consultation.Application.Services;
 using Consultation.Application.Services.LoggedClientService;
+using Consultation.Application.Services.LoggedDoctor;
 using Consultation.Application.Settings;
+using Consultation.Application.UseCase.Consultation.Confirm;
+using Consultation.Application.UseCase.Consultation.Refuse;
 using Consultation.Application.UseCase.Consultation.Register;
+using Consultation.Application.UseCase.Consultation.Validate;
 using Consultation.Application.UseCase.SendEmailClient;
 using Consultation.Application.UseCase.SendEmailDoctor;
 using Consultation.Domain.Messages.DomainEvents;
@@ -33,7 +37,8 @@ public static class Initializer
     private static void AddLoggedUsers(IServiceCollection services)
     {
         services
-            .AddScoped<ILoggedClient, LoggedClient>();
+            .AddScoped<ILoggedClient, LoggedClient>()
+            .AddScoped<ILoggedDoctor, LoggedDoctor>();
     }
 
     private static void AddUseCases(IServiceCollection services)
@@ -41,7 +46,10 @@ public static class Initializer
         services
             .AddScoped<IRegisterUseCase, RegisterUseCase>()
             .AddScoped<ISendEmailClientUseCase, SendEmailClientUseCase>()
-            .AddScoped<ISendEmailDoctorUseCase, SendEmailDoctorUseCase>();
+            .AddScoped<ISendEmailDoctorUseCase, SendEmailDoctorUseCase>()
+            .AddScoped<IAcceptUseCase, AcceptUseCase>()
+            .AddScoped<IRefuseUseCase, RefuseUseCase>()
+            .AddScoped<IValidateUseCase, ValidateUseCase>();
     }
 
     private static void AddAdditionalKeyPassword(IServiceCollection services, IConfiguration configuration)

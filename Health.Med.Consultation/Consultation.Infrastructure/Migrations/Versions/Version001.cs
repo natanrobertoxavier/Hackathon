@@ -16,6 +16,8 @@ public class Version001 : Migration
         table
             .WithColumn("ClientId").AsGuid().NotNullable()
             .WithColumn("DoctorId").AsGuid().NotNullable()
-            .WithColumn("ConsultationDate").AsDateTime().NotNullable();
+            .WithColumn("ConsultationDate").AsDateTime().NotNullable()
+            .WithColumn("Confirmed").AsBoolean().NotNullable()
+            .WithColumn("ConfirmatonDate").AsDateTime().Nullable();
     }
 }

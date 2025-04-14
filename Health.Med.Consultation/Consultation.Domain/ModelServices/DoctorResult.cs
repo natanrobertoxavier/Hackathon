@@ -24,7 +24,11 @@ public class DoctorResult
 
     [JsonProperty("specialtyDoctor")]
     public ResponseSpecialtyDoctor SpecialtyDoctor { get; set; } = new ResponseSpecialtyDoctor();
+
+    [JsonProperty("serviceDays")]
+    public IEnumerable<ResponseServiceDay> ServiceDays { get; set; } = [];
 }
+
 public class ResponseSpecialtyDoctor
 {
     [JsonProperty("specialtyId")]
@@ -35,4 +39,18 @@ public class ResponseSpecialtyDoctor
 
     [JsonProperty("standardDescription")]
     public string StandardDescription { get; set; } = string.Empty;
+}
+
+public class ResponseServiceDay
+{
+    [JsonProperty("day")]
+    public string Day { get; set; }
+
+    [JsonProperty("startTime")]
+    public TimeSpan StartTime { get; set; }
+
+    [JsonProperty("endTime")]
+    public TimeSpan EndTime { get; set; }
+
+
 }

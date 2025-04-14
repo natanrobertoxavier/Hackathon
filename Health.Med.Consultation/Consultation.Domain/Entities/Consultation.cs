@@ -31,4 +31,6 @@ public class Consultation : BaseEntity
     public Guid ClientId { get; set; }
     public Guid DoctorId { get; set; }
     public DateTime ConsultationDate { get; set; }
+    public bool Confirmed { get; set; } = false;
+    public DateTime? ConfirmatonDate { get; set; } = null;
 }

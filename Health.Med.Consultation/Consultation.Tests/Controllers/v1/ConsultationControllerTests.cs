@@ -21,7 +21,7 @@ public class ConsultationControllerTests
     }
 
     [Fact]
-    public async Task RegisterUserAsync_ShouldReturn201Created_WhenUseCaseSucceeds()
+    public async Task RegisterConsultationAsync_ShouldReturn201Created_WhenUseCaseSucceeds()
     {
         // Arrange
         var request = new RequestRegisterConsultation
@@ -38,7 +38,7 @@ public class ConsultationControllerTests
             .ReturnsAsync(result);
 
         // Act
-        var response = await _controller.RegisterUserAsync(_mockRegisterUseCase.Object, request) as ObjectResult; ;
+        var response = await _controller.RegisterConsultationAsync(_mockRegisterUseCase.Object, request) as ObjectResult; ;
 
         // Assert
         Assert.NotNull(response);
@@ -47,7 +47,7 @@ public class ConsultationControllerTests
     }
 
     [Fact]
-    public async Task RegisterUserAsync_ShouldReturn400BadRequest_WhenUseCaseFails()
+    public async Task RegisterConsultationAsync_ShouldReturn400BadRequest_WhenUseCaseFails()
     {
         // Arrange
         var request = new RequestRegisterConsultation
@@ -64,7 +64,7 @@ public class ConsultationControllerTests
             .ReturnsAsync(result);
 
         // Act
-        var response = await _controller.RegisterUserAsync(_mockRegisterUseCase.Object, request);
+        var response = await _controller.RegisterConsultationAsync(_mockRegisterUseCase.Object, request);
 
         // Assert
         var badRequestResult = Assert.IsType<ObjectResult>(response);
