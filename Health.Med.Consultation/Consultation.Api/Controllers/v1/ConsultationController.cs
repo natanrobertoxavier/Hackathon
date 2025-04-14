@@ -5,7 +5,6 @@ using Consultation.Application.UseCase.Consultation.Register;
 using Consultation.Communication.Request;
 using Consultation.Communication.Response;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace Consultation.Api.Controllers.v1;
 
