@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Consultation.Domain.ModelServices;
+namespace Client.Domain.ModelServices;
 
 public class DoctorResult
 {

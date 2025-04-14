@@ -55,7 +55,7 @@ public class RegisterUseCaseTests
         var request = new RequestRegisterConsultation
         {
             DoctorId = Guid.NewGuid(),
-            ConsultationDate = DateTime.Parse("2025/04/10 10:00:00")
+            ConsultationDate = DateTime.Parse("2026/04/16 10:00:00")
         };
 
         var loggedClientId = Guid.NewGuid();
@@ -91,7 +91,7 @@ public class RegisterUseCaseTests
         Assert.Equal("Cadastro realizado com sucesso", result.Data.Message);
         _mockConsultationWriteOnly.Verify(x => x.AddAsync(It.IsAny<Domain.Entities.Consultation>()), Times.Once);
         _mockWorkUnit.Verify(x => x.CommitAsync(), Times.Once);
-        _mockSendEmailClientUseCase.Verify(x => x.SendEmailClientAsync(request, doctorResult.Data, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingClientEmail), Times.Once);
+        _mockSendEmailClientUseCase.Verify(x => x.SendEmailSchedulingConsultationClientAsync(request, doctorResult.Data, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingClientEmail), Times.Once);
     }
 
     [Fact]

@@ -160,6 +160,15 @@ namespace Health.Med.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A data/hora da consulta não pode ser menor que a data/hora atual.
+        /// </summary>
+        public static string ConsultationDateInPast {
+            get {
+                return ResourceManager.GetString("ConsultationDateInPast", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Horário inválido.
         /// </summary>
         public static string ConsultationHourInvalid {

@@ -10,6 +10,7 @@ public class ClientSettings
 {
     public string PathTemplateClient { get; set; } = string.Empty;
     public string Subject { get; set; } = string.Empty;
+    public string SubjectConfirmation { get; set; } = string.Empty;
 }
 
 public class DoctorSettings
