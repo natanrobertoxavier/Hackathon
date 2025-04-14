@@ -34,7 +34,7 @@ public class SendEmailClientUseCase(
             _logger.Information($"Início {nameof(SendEmailClientAsync)}.");
 
             var client = _loggedClient.GetLoggedClient();
-            var consultationDateTime = request.ConsultationDate.ToSPDateZone();
+            var consultationDateTime = request.ConsultationDate;
 
             var content = GetEmailBody(template)
                 .Replace("@@@CLIENT@@@", client.PreferredName.Trim())
