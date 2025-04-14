@@ -6,6 +6,8 @@ using Consultation.Communication.Request;
 using Consultation.Domain.Entities.Enum;
 using Consultation.Domain.Messages.DomainEvents;
 using Consultation.Domain.ModelServices;
+using Consultation.Domain.Repositories;
+using Consultation.Domain.Services;
 using MediatR;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -19,6 +21,8 @@ public class SendEmailClientUseCaseTests
     private readonly Mock<IOptions<TemplateSettings>> _mockOptions;
     private readonly Mock<ILoggedClient> _mockLoggedClient;
     private readonly Mock<ILogger> _mockLogger;
+    private readonly Mock<IClientServiceApi> _mockClientServiceApi;
+    private readonly Mock<IConsultationReadOnly> _mockConsultationReadOnly;
     private SendEmailClientUseCase _useCase;
 
     public SendEmailClientUseCaseTests()
@@ -26,6 +30,8 @@ public class SendEmailClientUseCaseTests
         _mockMediator = new Mock<IMediator>();
         _mockOptions = new Mock<IOptions<TemplateSettings>>();
         _mockLoggedClient = new Mock<ILoggedClient>();
+        _mockClientServiceApi = new Mock<IClientServiceApi>();
+        _mockConsultationReadOnly = new Mock<IConsultationReadOnly>();
         _mockLogger = new Mock<ILogger>();
     }
 
@@ -142,10 +148,33 @@ public class SendEmailClientUseCaseTests
             }
         });
 
+        _mockClientServiceApi
+        .Setup(x => x.RecoverBasicInformationByClientIdAsync(It.IsAny<Guid>()))
+        .ReturnsAsync(new Result<ClientBasicInformationResult>
+        {
+            Data = new ClientBasicInformationResult
+            {
+                Id = Guid.NewGuid(),
+                PreferredName = "John Smith",
+                Email = "john.smith@example.com"
+            },
+            Success = true
+        });
+
+        _mockConsultationReadOnly
+            .Setup(x => x.GetConsultationByIdAsync(It.IsAny<Guid>()))
+            .ReturnsAsync(new Domain.Entities.Consultation()
+            {
+                ClientId = Guid.NewGuid(),
+                Id = Guid.NewGuid(),
+            });
+
         _useCase = new SendEmailClientUseCase(
             _mockMediator.Object,
             _mockOptions.Object,
             _mockLoggedClient.Object,
+            _mockClientServiceApi.Object,
+            _mockConsultationReadOnly.Object,
             _mockLogger.Object
         );
     }
