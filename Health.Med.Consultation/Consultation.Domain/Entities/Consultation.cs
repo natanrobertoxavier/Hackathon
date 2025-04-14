@@ -17,11 +17,13 @@ public class Consultation : BaseEntity
     public Consultation(
         Guid clientId,
         Guid doctorId,
-        DateTime consultationDate)
+        DateTime consultationDate,
+        bool confirmed = false)
     {
         ClientId = clientId;
         DoctorId = doctorId;
         ConsultationDate = consultationDate;
+        Confirmed = confirmed;
     }
 
     public Consultation()

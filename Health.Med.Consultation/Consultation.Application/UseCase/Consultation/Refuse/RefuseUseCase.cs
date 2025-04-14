@@ -76,7 +76,7 @@ public class RefuseUseCase(
     {
         var thereIsConsultation = await _validateUseCase.ValidateConsultationIdAsync(consultationId, doctorId);
 
-        if (!thereIsConsultation.IsSuccess() || !thereIsConsultation.Data)
+        if (!thereIsConsultation.IsSuccess() || thereIsConsultation.Data == default)
             throw new ValidationErrorsException(new List<string> { "Consulta não encontrada." });
     }
 

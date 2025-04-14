@@ -8,6 +8,7 @@ using Consultation.Domain.Messages.DomainEvents;
 using Consultation.Domain.ModelServices;
 using MediatR;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
 using Serilog;
 using System.Reflection;
 using TokenService.Manager.Controller;
@@ -36,13 +37,15 @@ public class SendEmailDoctorUseCase(
             _logger.Information($"Início {nameof(SendEmailDoctorAsync)}.");
 
             var client = _loggedClient.GetLoggedClient();
-            var consultationDateTime = request.ConsultationDate.ToSPDateZone();
+            var consultationDateTime = request.ConsultationDate;
+            var token = _tokenController.GenerateToken(doctor.Email);
 
             var content = GetEmailBody(template)
                 .Replace("@@@DOCTOR@@@", doctor.PreferredName.Trim())
                 .Replace("@@@DATE@@@", consultationDateTime.ToString("dd/MM/yyyy"))
                 .Replace("@@@HOUR@@@", consultationDateTime.ToString("HH:mm"))
-                .Replace("@@@ACCEPTLINK@@@", CreateAcceptLink(consultationId, doctor.Email));
+                .Replace("@@@ACCEPTLINK@@@", CreateAcceptLink(consultationId, token))
+                .Replace("@@@REFUSELINK@@@", CreateRefuseLink(consultationId, token));
 
             await _mediator.Publish(new SendEmailClientEvent(
                 [doctor.Email],
@@ -66,11 +69,11 @@ public class SendEmailDoctorUseCase(
         return output;
     }
 
-    private string CreateAcceptLink(Guid consultationId, string doctorEmail)
-    {
-        var token = _tokenController.GenerateToken(doctorEmail);
-        return $"{_options.DoctorSettings.BasePath}/accept/{consultationId}/{token}";
-    }
+    private string CreateAcceptLink(Guid consultationId, string token) =>
+        $"{_options.DoctorSettings.BasePath}/accept/{consultationId}/{token}";
+
+    private string CreateRefuseLink(Guid consultationId, string token) =>
+        $"{_options.DoctorSettings.BasePath}/refuse/{consultationId}/{token}";
 
     private string GetEmailBody(TemplateEmailEnum template)
     {

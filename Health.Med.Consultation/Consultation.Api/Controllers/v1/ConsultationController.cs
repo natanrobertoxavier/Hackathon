@@ -25,8 +25,8 @@ public class ConsultationController : HealthMedController
     }
 
     [HttpGet("accept/{id}/{token}")]
-    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status201Created)]
-    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(Result<MessageResultAcceptConsultation>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(Result<MessageResultAcceptConsultation>), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> AcceptConsultationAsync(
         [FromServices] IAcceptUseCase useCase,
         [FromRoute] Guid id,
@@ -35,16 +35,7 @@ public class ConsultationController : HealthMedController
         var result = await useCase.AcceptConsultationAsync(id, token);
 
         if (result.IsSuccess())
-        {
-            var text = Uri.EscapeDataString("Consulta Médica");
-            var details = Uri.EscapeDataString("Consulta confirmada");
-            var location = Uri.EscapeDataString("Clínica Health Med");
-            var dates = "20250413T130000Z/20250413T140000Z";
-
-            var googleCalendarUrl = $"https://www.google.com/calendar/render?action=TEMPLATE&text={text}&details={details}&location={location}&dates={dates}";
-
-            return Redirect(googleCalendarUrl);
-        }
+            return Redirect(result.Data.UrlRedirect);
 
         return ResponseCreate(result);
     }

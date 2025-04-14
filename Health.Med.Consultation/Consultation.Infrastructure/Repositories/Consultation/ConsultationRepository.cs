@@ -15,17 +15,19 @@ public class ConsultationRepository(HealthMedContext context) : IConsultationRea
     public async Task<bool> ThereIsConsultationForDoctor(Guid id, DateTime consultationDate) =>
         await _context.Consultations
         .AsNoTracking()
-        .AnyAsync(c => c.DoctorId == id && c.ConsultationDate == consultationDate);
+        .AnyAsync(c => c.DoctorId == id && c.ConsultationDate == consultationDate && c.Confirmed == true);
 
-    public async Task<bool> ThereIsConsultationAsync(Guid id, Guid doctorId) =>
+    public async Task<DateTime> ThereIsConsultationAsync(Guid id, Guid doctorId) =>
         await _context.Consultations
         .AsNoTracking()
-        .AnyAsync(c => c.Id == id && c.DoctorId == doctorId);
+        .Where(c => c.Id == id && c.DoctorId == doctorId)
+        .Select(c => c.ConsultationDate)
+        .FirstOrDefaultAsync();
 
     public async Task<bool> ThereIsConsultationForClient(Guid id, DateTime consultationDate) =>
         await _context.Consultations
         .AsNoTracking()
-        .AnyAsync(c => c.ClientId == id && c.ConsultationDate == consultationDate);
+        .AnyAsync(c => c.ClientId == id && c.ConsultationDate == consultationDate && c.Confirmed == true);
 
     public async Task<Guid> GetIdByDateTimeAndDoctorAsync(DateTime dateTime, Guid doctorId) =>
         await _context.Consultations

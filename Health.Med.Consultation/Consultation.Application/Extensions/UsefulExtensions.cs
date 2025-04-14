@@ -15,6 +15,7 @@ public static class UsefulExtensions
         DescriptionAttribute? attribute = Attribute.GetCustomAttribute(field, typeof(DescriptionAttribute)) as DescriptionAttribute;
         return attribute == null ? value.ToString() : attribute.Description;
     }
+
     public static DateTime ToSPDateZone(this DateTime utcDate)
     {
         if (utcDate.Kind != DateTimeKind.Utc)
