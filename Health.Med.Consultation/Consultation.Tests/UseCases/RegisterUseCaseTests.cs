@@ -9,6 +9,7 @@ using Consultation.Domain.Repositories.Contracts;
 using Consultation.Domain.Services;
 using Moq;
 using Serilog;
+using System.Globalization;
 
 namespace Consultation.Tests.UseCases;
 
@@ -54,14 +55,27 @@ public class RegisterUseCaseTests
         var request = new RequestRegisterConsultation
         {
             DoctorId = Guid.NewGuid(),
-            ConsultationDate = DateTime.Parse("2025/04/10 10:00:00.000")
+            ConsultationDate = DateTime.Parse("2025/04/10 10:00:00")
         };
 
         var loggedClientId = Guid.NewGuid();
+        var serviceDays = new List<ResponseServiceDay>()
+        {
+            new ResponseServiceDay()
+            {
+                Day = CultureInfo.GetCultureInfo("pt-BR").DateTimeFormat.GetDayName(DayOfWeek.Thursday),
+                StartTime = new TimeSpan(8, 0, 0),
+                EndTime = new TimeSpan(17, 0, 0)
+            }
+        };
         var doctorResult = new Domain.ModelServices.Result<DoctorResult>
         {
             Success = true,
-            Data = new DoctorResult { DoctorId = request.DoctorId }
+            Data = new DoctorResult 
+            {
+                DoctorId = request.DoctorId, 
+                ServiceDays = serviceDays
+            }
         };
 
         _mockLoggedClient.Setup(x => x.GetLoggedClientId()).Returns(loggedClientId);
