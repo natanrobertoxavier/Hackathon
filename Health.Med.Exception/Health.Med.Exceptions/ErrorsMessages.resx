@@ -201,4 +201,7 @@
   <data name="DoctorNotAvailable" xml:space="preserve">
     <value>Médico não disponível</value>
   </data>
+  <data name="ConsultationDateInPast" xml:space="preserve">
+    <value>A data/hora da consulta não pode ser menor que a data/hora atual</value>
+  </data>
 </root>

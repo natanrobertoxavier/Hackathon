@@ -3,6 +3,7 @@ using Client.Application.UseCase.ChangePassword;
 using Client.Application.UseCase.Recover.RecoverAll;
 using Client.Application.UseCase.Recover.RecoverByCPF;
 using Client.Application.UseCase.Recover.RecoverByEmail;
+using Client.Application.UseCase.Recover.RecoverById;
 using Client.Application.UseCase.Register;
 using Client.Communication.Request;
 using Client.Communication.Response;
@@ -91,6 +92,20 @@ public class ClientController : HealthMedController
         [FromRoute] string email)
     {
         var result = await useCase.RecoverBasicInformationByEmailAsync(email);
+
+        return Response(result);
+    }
+
+    [HttpGet("basic-info/id/{id}")]
+    [ServiceFilter(typeof(AuthenticatedAttribute))]
+    [ProducesResponseType(typeof(Result<ResponseClientBasicInfo>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<ResponseClientBasicInfo>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Result<ResponseClientBasicInfo>), StatusCodes.Status422UnprocessableEntity)]
+    public async Task<IActionResult> RecoverBasicInformationByEmailAsync(
+        [FromServices] IRecoverByIdUseCase useCase,
+        [FromRoute] Guid id)
+    {
+        var result = await useCase.RecoverBasicInformationByIdAsync(id);
 
         return Response(result);
     }

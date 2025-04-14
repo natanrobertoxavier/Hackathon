@@ -8,4 +8,6 @@ public enum TemplateEmailEnum
     ConsultationSchedulingClientEmail = 1,
     [Description("ConsultationScheduleDoctor")]
     ConsultationSchedulingDoctorEmail = 2,
+    [Description("ConfirmationConsultationClient")]
+    ConfirmationConsultationClientEmail = 3,
 }

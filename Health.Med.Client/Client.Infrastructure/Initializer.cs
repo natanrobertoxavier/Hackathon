@@ -68,11 +68,18 @@ public static class Initializer
     private static void AddServices(IServiceCollection services, IConfiguration configurationManager)
     {
         services
-            .AddScoped<IUserServiceApi, UserServiceApi>();
+            .AddScoped<IUserServiceApi, UserServiceApi>()
+            .AddScoped<IDoctorServiceApi, DoctorServiceApi>();
 
         services.AddHttpClient("UserApi", client =>
         {
             client.BaseAddress = new Uri(configurationManager.GetSection("ServicesApiAddress:UserApi").Value);
+            client.DefaultRequestHeaders.Add("Accept", "application/json");
+        });
+
+        services.AddHttpClient("DoctorApi", client =>
+        {
+            client.BaseAddress = new Uri(configurationManager.GetSection("ServicesApiAddress:DoctorApi").Value);
             client.DefaultRequestHeaders.Add("Accept", "application/json");
         });
     }

@@ -4,6 +4,7 @@ using Client.Application.UseCase.Login;
 using Client.Application.UseCase.Recover.RecoverAll;
 using Client.Application.UseCase.Recover.RecoverByCPF;
 using Client.Application.UseCase.Recover.RecoverByEmail;
+using Client.Application.UseCase.Recover.RecoverById;
 using Client.Application.UseCase.Register;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,6 +37,7 @@ public static class Initializer
             .AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>()
             .AddScoped<IRecoverAllUseCase, RecoverAllUseCase>()
             .AddScoped<IRecoverByEmailUseCase, RecoverByEmailUseCase>()
+            .AddScoped<IRecoverByIdUseCase, RecoverByIdUseCase>()
             .AddScoped<IRecoverByCPFUseCase, RecoverByCPFUseCase>()
             .AddScoped<ILoginUseCase, LoginUseCase>();
     }

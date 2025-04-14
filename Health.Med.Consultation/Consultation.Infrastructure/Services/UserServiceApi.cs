@@ -64,6 +64,54 @@ public class UserServiceApi(
         }
     }
 
+    public async Task<Result<UserResult>> RecoverByIdAsync(Guid clientId)
+    {
+        _logger.Information($"{nameof(RecoverByIdAsync)} - Iniciando a chamada para API de usuários. Usuário: {clientId}.");
+
+        var output = new Result<UserResult>();
+
+        try
+        {
+            var client = _httpClientFactory.CreateClient("UserApi");
+
+            var uri = string.Format("/api/v1/user/id/{0}", clientId);
+
+            var authorization = GetTokenInRequest();
+
+            if (!string.IsNullOrEmpty(authorization))
+            {
+                client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authorization);
+            }
+
+            var response = await client.GetAsync(uri);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var content = await response.Content.ReadAsStringAsync();
+
+                var responseApi = DeserializeResponseObject<Result<UserResult>>(content);
+
+                _logger.Information($"{nameof(RecoverByIdAsync)} - Encerrando chamada para API de usuários. Usuário: {clientId}.");
+
+                return responseApi;
+            }
+
+            var failMessage = $"{nameof(RecoverByIdAsync)} - Ocorreu um erro ao chamar a API de usuários. StatusCode: {response.StatusCode}";
+
+            _logger.Error(failMessage);
+
+            return output.Failure(failMessage);
+        }
+        catch (Exception ex)
+        {
+            var errorMessage = $"{nameof(RecoverByIdAsync)} - Ocorreu um erro ao chamar a API de usuários. Erro: {ex.Message}";
+
+            _logger.Error(errorMessage);
+
+            return output.Failure(errorMessage);
+        }
+    }
+
     private string GetTokenInRequest()
     {
         var authorization = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString();

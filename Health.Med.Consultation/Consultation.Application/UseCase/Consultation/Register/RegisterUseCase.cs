@@ -1,5 +1,4 @@
-﻿using Azure.Core;
-using Consultation.Application.Extensions;
+﻿using Consultation.Application.Extensions;
 using Consultation.Application.Mapping;
 using Consultation.Application.Services.LoggedClientService;
 using Consultation.Application.UseCase.SendEmailClient;
@@ -12,11 +11,9 @@ using Consultation.Domain.Repositories.Contracts;
 using Consultation.Domain.Services;
 using Health.Med.Exceptions;
 using Health.Med.Exceptions.ExceptionBase;
-using MediatR;
 using Serilog;
 using Serilog.Context;
 using System.Globalization;
-using System.Numerics;
 
 namespace Consultation.Application.UseCase.Consultation.Register;
 
@@ -116,6 +113,10 @@ public class RegisterUseCase(
     {
         if (!HourIsValid(request.ConsultationDate))
             validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("consultationHour", ErrorsMessages.ConsultationHourInvalid, request.ConsultationDate));
+
+        var consultationDateUtc = request.ConsultationDate.ToUniversalTime();
+        if (consultationDateUtc <= DateTime.UtcNow)
+            validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("consultationDate", ErrorsMessages.ConsultationDateInPast, request.ConsultationDate));
     }
 
     private async Task ValidateClientAndDoctorScheduleAsync(RequestRegisterConsultation request, Guid clientId, FluentValidation.Results.ValidationResult validationResult)
@@ -153,7 +154,7 @@ public class RegisterUseCase(
     {
         _logger.Information($"Início do envio de e-mail para o cliente.");
 
-        await _sendEmailClientUseCase.SendEmailClientAsync(request, doctor, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingClientEmail);
+        await _sendEmailClientUseCase.SendEmailSchedulingConsultationClientAsync(request, doctor, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingClientEmail);
         
         _logger.Information($"Fim do envio de e-mail para o cliente.");
     }

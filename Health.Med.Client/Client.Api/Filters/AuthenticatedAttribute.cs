@@ -8,17 +8,20 @@ using Microsoft.IdentityModel.Tokens;
 using TokenService.Manager.Controller;
 using System.ComponentModel.DataAnnotations;
 using Client.Domain.Repositories.Contracts;
+using System.Reflection;
 
 namespace Client.Api.Filters;
 
 public class AuthenticatedAttribute(
     TokenController tokenController,
     IClientReadOnly clientReadOnlyrepository,
-    IUserServiceApi userServiceApi) : AuthorizeAttribute, IAsyncAuthorizationFilter
+    IUserServiceApi userServiceApi,
+    IDoctorServiceApi doctorServiceApi) : AuthorizeAttribute, IAsyncAuthorizationFilter
 {
     private readonly TokenController _tokenController = tokenController;
     private readonly IClientReadOnly _clientReadOnlyrepository = clientReadOnlyrepository;
     private readonly IUserServiceApi _userServiceApi = userServiceApi;
+    private readonly IDoctorServiceApi _doctorServiceApi = doctorServiceApi;
 
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
@@ -38,6 +41,13 @@ public class AuthenticatedAttribute(
             if (user.Success)
             {
                 context.HttpContext.Items["AuthenticatedUser"] = user.Data;
+                return;
+            }
+
+            var doctor = await _doctorServiceApi.RecoverByEmailAsync(email);
+            if (doctor.Success)
+            {
+                context.HttpContext.Items["AuthenticatedDoctor"] = doctor.Data;
                 return;
             }
 

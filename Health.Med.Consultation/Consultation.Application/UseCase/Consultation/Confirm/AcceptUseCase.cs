@@ -1,6 +1,6 @@
-﻿
-using Consultation.Application.Services.LoggedClientService;
-using Consultation.Application.UseCase.Consultation.Validate;
+﻿using Consultation.Application.UseCase.Consultation.Validate;
+using Consultation.Application.UseCase.SendEmailClient;
+using Consultation.Communication.Request;
 using Consultation.Communication.Response;
 using Consultation.Domain.Repositories;
 using Consultation.Domain.Repositories.Contracts;
@@ -15,6 +15,7 @@ namespace Consultation.Application.UseCase.Consultation.Confirm;
 public class AcceptUseCase(
     IValidateUseCase validateUseCase,
     IConsultationWriteOnly consultationWriteOnlyrepository,
+    ISendEmailClientUseCase sendEmailClientUseCase,
     IDoctorServiceApi doctorServiceApi,
     IWorkUnit workUnit,
     TokenController tokenController,
@@ -22,6 +23,7 @@ public class AcceptUseCase(
 {
     private readonly IValidateUseCase _validateUseCase = validateUseCase;
     private readonly IConsultationWriteOnly _consultationWriteOnlyrepository = consultationWriteOnlyrepository;
+    private readonly ISendEmailClientUseCase _sendEmailClientUseCase = sendEmailClientUseCase;
     private readonly IDoctorServiceApi _doctorServiceApi = doctorServiceApi;
     private readonly IWorkUnit _workUnit = workUnit;
     private readonly TokenController _tokenController = tokenController;
@@ -37,10 +39,12 @@ public class AcceptUseCase(
             {
                 _logger.Information("Iniciando aceite de consulta.");
 
-                var doctorId = await ValidateDoctorToken(token);
-                var consultationDate = await Validate(consultationId, doctorId);
+                var doctor = await ValidateDoctorToken(token);
+                var consultationDate = await Validate(consultationId, doctor.DoctorId);
+
                 await _consultationWriteOnlyrepository.AcceptConsultationAsync(consultationId, DateTime.UtcNow);
                 await _workUnit.CommitAsync();
+                await SendEmailToClient(consultationId, consultationDate, doctor);
 
                 var successMesagem = "Consulta aceita com sucesso";
                 output.Succeeded(new MessageResultAcceptConsultation(successMesagem, CreateLinkRedirect(consultationDate)));
@@ -61,7 +65,7 @@ public class AcceptUseCase(
         }
     }
 
-    private async Task<Guid> ValidateDoctorToken(string token)
+    private async Task<Domain.ModelServices.DoctorResult> ValidateDoctorToken(string token)
     {
         var email = _tokenController.RecoverEmail(token);
         var doctor = await _doctorServiceApi.RecoverByEmailAsync(email);
@@ -71,7 +75,7 @@ public class AcceptUseCase(
             throw new ValidationErrorsException(new List<string>() { doctor.Error });
         }
 
-        return doctor.Data.DoctorId;
+        return doctor.Data;
     }
 
     private async Task<DateTime> Validate(Guid consultationId, Guid doctorId)
@@ -113,9 +117,24 @@ public class AcceptUseCase(
             consultationDateTime.ToString("dd"),
             "T",
             endAppointment.ToString("HH"),
-            endAppointment.AddMinutes(30).ToString("mm"),
+            endAppointment.ToString("mm"),
             endAppointment.ToString("ss"),
             "&ctz=America/Sao_Paulo");
+    }
+
+    private async Task SendEmailToClient(Guid consultationId, DateTime consultationDate, Domain.ModelServices.DoctorResult doctor)
+    {
+        _logger.Information($"Início do envio de e-mail para o cliente.");
+        var request = new RequestRegisterConsultation(doctor.DoctorId, consultationDate);
+
+        await _sendEmailClientUseCase
+            .SendEmailConfirmationConsultationClientAsync(
+                consultationId,
+                new RequestRegisterConsultation(doctor.DoctorId, consultationDate), 
+                doctor, 
+                Domain.Entities.Enum.TemplateEmailEnum.ConfirmationConsultationClientEmail);
+
+        _logger.Information($"Fim do envio de e-mail para o cliente.");
     }
 
     private void LogValidationErrors(ValidationErrorsException ex)

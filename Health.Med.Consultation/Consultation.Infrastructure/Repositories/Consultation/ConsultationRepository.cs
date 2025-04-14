@@ -55,4 +55,10 @@ public class ConsultationRepository(HealthMedContext context) : IConsultationRea
             consultation.ConfirmatonDate = date;
         }
     }
+
+    public async Task<Domain.Entities.Consultation> GetConsultationByIdAsync(Guid consultationId) =>
+        await _context.Consultations
+            .AsNoTracking()
+            .FirstOrDefaultAsync(c => c.Id == consultationId) ??
+        new Domain.Entities.Consultation();
 }
