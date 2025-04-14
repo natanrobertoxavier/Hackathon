@@ -57,7 +57,7 @@ public class SendEmailClientUseCaseTests
         GetInstanceUseCase("Consultation.Application.EmailTemplates");
 
         // Act
-        var result = await _useCase.SendEmailClientAsync(request, doctor, TemplateEmailEnum.ConsultationSchedulingEmail);
+        var result = await _useCase.SendEmailClientAsync(request, doctor, TemplateEmailEnum.ConsultationSchedulingClientEmail);
 
         // Assert
         Assert.True(result.Success);
@@ -89,7 +89,7 @@ public class SendEmailClientUseCaseTests
         GetInstanceUseCase("InvalidPath");
 
         // Act
-        var result = await _useCase.SendEmailClientAsync(request, doctor, TemplateEmailEnum.ConsultationSchedulingEmail);
+        var result = await _useCase.SendEmailClientAsync(request, doctor, TemplateEmailEnum.ConsultationSchedulingClientEmail);
 
         // Assert
         Assert.False(result.Success);
@@ -124,7 +124,7 @@ public class SendEmailClientUseCaseTests
         GetInstanceUseCase("Consultation.Application.EmailTemplates");
 
         // Act
-        var result = await _useCase.SendEmailClientAsync(request, doctor, TemplateEmailEnum.ConsultationSchedulingEmail);
+        var result = await _useCase.SendEmailClientAsync(request, doctor, TemplateEmailEnum.ConsultationSchedulingClientEmail);
 
         // Assert
         Assert.False(result.Success);
@@ -133,10 +133,13 @@ public class SendEmailClientUseCaseTests
 
     private void GetInstanceUseCase(string path)
     {
-        _mockOptions.Setup(o => o.Value).Returns(new TemplateSettings
+        _mockOptions.Setup(o => o.Value).Returns(new TemplateSettings()
         {
-            PathTemplateClient = path,
-            Subject = "Consulta Agendada"
+            ClientSettings = new ClientSettings()
+            {
+                PathTemplateClient = path,
+                Subject = "Consulta Agendada"
+            }
         });
 
         _useCase = new SendEmailClientUseCase(

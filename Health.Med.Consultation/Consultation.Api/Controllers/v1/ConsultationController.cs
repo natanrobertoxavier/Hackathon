@@ -1,5 +1,6 @@
 ﻿using Consultation.Api.Filters;
 using Consultation.Application.UseCase.Consultation.Confirm;
+using Consultation.Application.UseCase.Consultation.Refuse;
 using Consultation.Application.UseCase.Consultation.Register;
 using Consultation.Communication.Request;
 using Consultation.Communication.Response;
@@ -22,15 +23,28 @@ public class ConsultationController : HealthMedController
         return ResponseCreate(result);
     }
 
-    [HttpPost("confirm/{id}")]
-    //[ServiceFilter(typeof(AuthenticatedAttribute))]
+    [HttpPost("accept/{id}")]
+    [ServiceFilter(typeof(AuthenticatedAttribute))]
     [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> ConfirmConsultationAsync(
-        [FromServices] IConfirmUseCase useCase,
+    public async Task<IActionResult> AcceptConsultationAsync(
+        [FromServices] IAcceptUseCase useCase,
         [FromRoute] Guid id)
     {
-        var result = await useCase.ConfirmConsultationAsync(id);
+        var result = await useCase.AcceptConsultationAsync(id);
+
+        return ResponseCreate(result);
+    }
+
+    [HttpPost("refuse/{id}")]
+    [ServiceFilter(typeof(AuthenticatedAttribute))]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> RefuseConsultationAsync(
+        [FromServices] IRefuseUseCase useCase,
+        [FromRoute] Guid id)
+    {
+        var result = await useCase.RefuseConsultationAsync(id);
 
         return ResponseCreate(result);
     }

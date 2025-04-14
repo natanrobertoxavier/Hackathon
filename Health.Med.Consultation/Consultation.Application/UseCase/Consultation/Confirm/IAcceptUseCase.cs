@@ -2,7 +2,7 @@
 
 namespace Consultation.Application.UseCase.Consultation.Confirm;
 
-public interface IConfirmUseCase
+public interface IAcceptUseCase
 {
-    Task<Result<MessageResult>> ConfirmConsultationAsync(Guid consultationId);
+    Task<Result<MessageResult>> AcceptConsultationAsync(Guid consultationId);
 }

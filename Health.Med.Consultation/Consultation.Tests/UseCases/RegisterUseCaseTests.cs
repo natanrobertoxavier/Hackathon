@@ -1,8 +1,8 @@
 ﻿using Consultation.Application.Services.LoggedClientService;
 using Consultation.Application.UseCase.Consultation.Register;
 using Consultation.Application.UseCase.SendEmailClient;
+using Consultation.Application.UseCase.SendEmailDoctor;
 using Consultation.Communication.Request;
-using Consultation.Communication.Response;
 using Consultation.Domain.ModelServices;
 using Consultation.Domain.Repositories;
 using Consultation.Domain.Repositories.Contracts;
@@ -20,6 +20,7 @@ public class RegisterUseCaseTests
     private readonly Mock<IDoctorServiceApi> _mockDoctorServiceApi;
     private readonly Mock<IWorkUnit> _mockWorkUnit;
     private readonly Mock<ISendEmailClientUseCase> _mockSendEmailClientUseCase;
+    private readonly Mock<ISendEmailDoctorUseCase> _mockSendEmailDoctorUseCase;
     private readonly Mock<ILogger> _mockLogger;
     private readonly RegisterUseCase _useCase;
 
@@ -31,6 +32,7 @@ public class RegisterUseCaseTests
         _mockDoctorServiceApi = new Mock<IDoctorServiceApi>();
         _mockWorkUnit = new Mock<IWorkUnit>();
         _mockSendEmailClientUseCase = new Mock<ISendEmailClientUseCase>();
+        _mockSendEmailDoctorUseCase = new Mock<ISendEmailDoctorUseCase>();
         _mockLogger = new Mock<ILogger>();
 
         _useCase = new RegisterUseCase(
@@ -40,6 +42,7 @@ public class RegisterUseCaseTests
             _mockDoctorServiceApi.Object,
             _mockWorkUnit.Object,
             _mockSendEmailClientUseCase.Object,
+            _mockSendEmailDoctorUseCase.Object,
             _mockLogger.Object
         );
     }
@@ -74,7 +77,7 @@ public class RegisterUseCaseTests
         Assert.Equal("Cadastro realizado com sucesso", result.Data.Message);
         _mockConsultationWriteOnly.Verify(x => x.AddAsync(It.IsAny<Domain.Entities.Consultation>()), Times.Once);
         _mockWorkUnit.Verify(x => x.CommitAsync(), Times.Once);
-        _mockSendEmailClientUseCase.Verify(x => x.SendEmailClientAsync(request, doctorResult.Data, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingEmail), Times.Once);
+        _mockSendEmailClientUseCase.Verify(x => x.SendEmailClientAsync(request, doctorResult.Data, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingClientEmail), Times.Once);
     }
 
     [Fact]

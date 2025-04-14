@@ -7,17 +7,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using TokenService.Manager.Controller;
 using System.ComponentModel.DataAnnotations;
+using Doctor.Domain.Repositories.Contracts.Doctor;
 
 namespace Doctor.Api.Filters;
 
 public class AuthenticatedAttribute(
     TokenController tokenController,
     IClientServiceApi clientServiceApi,
-    IUserServiceApi userServiceApi) : AuthorizeAttribute, IAsyncAuthorizationFilter
+    IUserServiceApi userServiceApi,
+    IDoctorReadOnly doctorRepository) : AuthorizeAttribute, IAsyncAuthorizationFilter
 {
     private readonly TokenController _tokenController = tokenController;
     private readonly IClientServiceApi _clientServiceApi = clientServiceApi;
     private readonly IUserServiceApi _userServiceApi = userServiceApi;
+    private readonly IDoctorReadOnly _doctorRepository = doctorRepository;
 
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
@@ -26,8 +29,14 @@ public class AuthenticatedAttribute(
             var token = TokenInRequest(context);
             var email = _tokenController.RecoverEmail(token);
 
-            var client = await _clientServiceApi.RecoverBasicInformationByEmailAsync(email);
+            var doctor = await _doctorRepository.RecoverByEmailAsync(email);
+            if (doctor?.Id != Guid.Empty)
+            {
+                context.HttpContext.Items["AuthenticatedDoctor"] = doctor;
+                return;
+            }
 
+            var client = await _clientServiceApi.RecoverBasicInformationByEmailAsync(email);
             if (client.Success)
             {
                 context.HttpContext.Items["AuthenticatedClient"] = client.Data;

@@ -13,11 +13,13 @@ namespace Consultation.Api.Filters;
 public class AuthenticatedAttribute(
     TokenController tokenController,
     IClientServiceApi clientServiceApi,
-    IUserServiceApi userServiceApi) : AuthorizeAttribute, IAsyncAuthorizationFilter
+    IUserServiceApi userServiceApi,
+    IDoctorServiceApi doctorServiceApi) : AuthorizeAttribute, IAsyncAuthorizationFilter
 {
     private readonly TokenController _tokenController = tokenController;
     private readonly IClientServiceApi _clientServiceApi = clientServiceApi;
     private readonly IUserServiceApi _userServiceApi = userServiceApi;
+    private readonly IDoctorServiceApi _doctorServiceApi = doctorServiceApi;
 
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
@@ -38,6 +40,13 @@ public class AuthenticatedAttribute(
             if (user.Success)
             {
                 context.HttpContext.Items["AuthenticatedUser"] = user.Data;
+                return;
+            }
+
+            var doctor = await _doctorServiceApi.RecoverByEmailAsync(email);
+            if (doctor.Success)
+            {
+                context.HttpContext.Items["AuthenticatedDoctor"] = doctor.Data;
                 return;
             }
 

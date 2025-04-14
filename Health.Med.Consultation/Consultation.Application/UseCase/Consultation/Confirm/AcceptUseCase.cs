@@ -1,5 +1,6 @@
 ﻿
 using Consultation.Application.Services.LoggedClientService;
+using Consultation.Application.UseCase.Consultation.Validate;
 using Consultation.Communication.Response;
 using Consultation.Domain.Repositories;
 using Consultation.Domain.Repositories.Contracts;
@@ -9,31 +10,31 @@ using Serilog.Context;
 
 namespace Consultation.Application.UseCase.Consultation.Confirm;
 
-public class ConfirmUseCase(
-    ILoggedClient loggedClient,
+public class AcceptUseCase(
+    IValidateUseCase validateUseCase,
     IConsultationWriteOnly consultationWriteOnlyrepository,
     IWorkUnit workUnit,
-    ILogger logger) : IConfirmUseCase
+    ILogger logger) : IAcceptUseCase
 {
-    private readonly ILoggedClient _loggedClient = loggedClient;
+    private readonly IValidateUseCase _validateUseCase = validateUseCase;
     private readonly IConsultationWriteOnly _consultationWriteOnlyrepository = consultationWriteOnlyrepository;
     private readonly IWorkUnit _workUnit = workUnit;
     private readonly ILogger _logger = logger;
 
-    public async Task<Result<MessageResult>> ConfirmConsultationAsync(Guid consultationId)
+    public async Task<Result<MessageResult>> AcceptConsultationAsync(Guid consultationId)
     {
-        using (LogContext.PushProperty("Operation", nameof(ConfirmConsultationAsync)))
+        using (LogContext.PushProperty("Operation", nameof(AcceptConsultationAsync)))
         {
             var output = new Result<MessageResult>();
 
             try
             {
-                _logger.Information("Iniciando cadastro de consulta.");
+                _logger.Information("Iniciando aceite de consulta.");
                 
-                await _consultationWriteOnlyrepository.ConfirmConsultationAsync(consultationId, DateTime.UtcNow);
+                await _consultationWriteOnlyrepository.AcceptConsultationAsync(consultationId, DateTime.UtcNow);
                 await _workUnit.CommitAsync();
 
-                var successMesagem = "Consulta confirmada com suceso";
+                var successMesagem = "Consulta aceita com suceso";
                 output.Succeeded(new MessageResult(successMesagem));
                 _logger.Information(successMesagem);
             }
