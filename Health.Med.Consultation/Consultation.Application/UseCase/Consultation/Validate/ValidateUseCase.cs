@@ -8,15 +8,13 @@ using Serilog.Context;
 namespace Consultation.Application.UseCase.Consultation.Validate;
 
 public class ValidateUseCase(
-    ILoggedDoctor loggedDoctor,
     IConsultationReadOnly consultationReadOnly,
     ILogger logger) : IValidateUseCase
 {
-    private readonly ILoggedDoctor _loggedDoctor = loggedDoctor;
     private readonly IConsultationReadOnly _consultationReadOnly = consultationReadOnly;
     private readonly ILogger _logger = logger;
 
-    public async Task<Result<bool>> ValidateConsultationIdAsync(Guid consultationId)
+    public async Task<Result<bool>> ValidateConsultationIdAsync(Guid consultationId, Guid doctorId)
     {
         using (LogContext.PushProperty("Operation", nameof(ValidateConsultationIdAsync)))
         {
@@ -25,8 +23,6 @@ public class ValidateUseCase(
             try
             {
                 _logger.Information("Iniciando aceite de consulta.");
-
-                var doctorId = _loggedDoctor.GetLoggedDoctorId();
 
                 var response = await _consultationReadOnly.ThereIsConsultationAsync(consultationId, doctorId);
 

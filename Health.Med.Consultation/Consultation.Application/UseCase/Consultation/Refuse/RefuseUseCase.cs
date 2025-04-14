@@ -2,24 +2,30 @@
 using Consultation.Communication.Response;
 using Consultation.Domain.Repositories;
 using Consultation.Domain.Repositories.Contracts;
+using Consultation.Domain.Services;
 using Health.Med.Exceptions.ExceptionBase;
 using Serilog;
 using Serilog.Context;
+using TokenService.Manager.Controller;
 
 namespace Consultation.Application.UseCase.Consultation.Refuse;
 
 public class RefuseUseCase(
     IValidateUseCase validateUseCase,
     IConsultationWriteOnly consultationWriteOnlyrepository,
+    IDoctorServiceApi doctorServiceApi,
     IWorkUnit workUnit,
+    TokenController tokenController,
     ILogger logger) : IRefuseUseCase
 {
     private readonly IValidateUseCase _validateUseCase = validateUseCase;
     private readonly IConsultationWriteOnly _consultationWriteOnlyrepository = consultationWriteOnlyrepository;
+    private readonly IDoctorServiceApi _doctorServiceApi = doctorServiceApi;
     private readonly IWorkUnit _workUnit = workUnit;
+    private readonly TokenController _tokenController = tokenController;
     private readonly ILogger _logger = logger;
 
-    public async Task<Result<MessageResult>> RefuseConsultationAsync(Guid consultationId)
+    public async Task<Result<MessageResult>> RefuseConsultationAsync(Guid consultationId, string token)
     {
         using (LogContext.PushProperty("Operation", nameof(RefuseConsultationAsync)))
         {
@@ -29,11 +35,12 @@ public class RefuseUseCase(
             {
                 _logger.Information("Iniciando aceite de consulta.");
 
-                await Validate(consultationId);
+                var doctorId = await ValidateDoctorToken(token);
+                await Validate(consultationId, doctorId);
                 await _consultationWriteOnlyrepository.RefuseConsultationAsync(consultationId, DateTime.UtcNow);
                 await _workUnit.CommitAsync();
 
-                var successMesagem = "Consulta recusada com suceso";
+                var successMesagem = "Consulta recusada com sucesso";
                 output.Succeeded(new MessageResult(successMesagem));
                 _logger.Information(successMesagem);
             }
@@ -52,9 +59,22 @@ public class RefuseUseCase(
         }
     }
 
-    private async Task Validate(Guid consultationId)
+    private async Task<Guid> ValidateDoctorToken(string token)
     {
-        var thereIsConsultation = await _validateUseCase.ValidateConsultationIdAsync(consultationId);
+        var email = _tokenController.RecoverEmail(token);
+        var doctor = await _doctorServiceApi.RecoverByEmailAsync(email);
+        if (!doctor.Success)
+        {
+            _logger.Error(doctor.Error);
+            throw new ValidationErrorsException(new List<string>() { doctor.Error });
+        }
+
+        return doctor.Data.DoctorId;
+    }
+
+    private async Task Validate(Guid consultationId, Guid doctorId)
+    {
+        var thereIsConsultation = await _validateUseCase.ValidateConsultationIdAsync(consultationId, doctorId);
 
         if (!thereIsConsultation.IsSuccess() || !thereIsConsultation.Data)
             throw new ValidationErrorsException(new List<string> { "Consulta não encontrada." });
