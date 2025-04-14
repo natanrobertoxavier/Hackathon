@@ -34,6 +34,18 @@ public class ConsultationController : HealthMedController
     {
         var result = await useCase.AcceptConsultationAsync(id, token);
 
+        if (result.IsSuccess())
+        {
+            var text = Uri.EscapeDataString("Consulta Médica");
+            var details = Uri.EscapeDataString("Consulta confirmada");
+            var location = Uri.EscapeDataString("Clínica Health Med");
+            var dates = "20250413T130000Z/20250413T140000Z";
+
+            var googleCalendarUrl = $"https://www.google.com/calendar/render?action=TEMPLATE&text={text}&details={details}&location={location}&dates={dates}";
+
+            return Redirect(googleCalendarUrl);
+        }
+
         return ResponseCreate(result);
     }
 
@@ -46,18 +58,6 @@ public class ConsultationController : HealthMedController
         [FromRoute] string token)
     {
         var result = await useCase.RefuseConsultationAsync(id, token);
-
-        if (result.IsSuccess())
-        {
-            var text = Uri.EscapeDataString("Consulta Médica");
-            var details = Uri.EscapeDataString("Consulta confirmada");
-            var location = Uri.EscapeDataString("Clínica Health Med");
-            var dates = "20250413T130000Z/20250413T140000Z";
-
-            var googleCalendarUrl = $"https://www.google.com/calendar/render?action=TEMPLATE&text={text}&details={details}&location={location}&dates={dates}";
-
-            return Redirect(googleCalendarUrl);
-        }
 
         return ResponseCreate(result);
     }
