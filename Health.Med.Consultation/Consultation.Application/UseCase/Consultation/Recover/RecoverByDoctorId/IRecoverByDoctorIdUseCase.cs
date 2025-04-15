@@ -4,5 +4,5 @@ namespace Consultation.Application.UseCase.Consultation.Recover.RecoverByDoctorI
 
 public interface IRecoverByDoctorIdUseCase
 {
-    Task<Result<IEnumerable<ResponseConsultation>>> RecoverByDoctorIdAsync(Guid doctorId);
+    Task<Result<IEnumerable<ResponseConsultation>>> RecoverByDoctorIdAsync();
 }
