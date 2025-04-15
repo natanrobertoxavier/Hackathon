@@ -9,4 +9,5 @@ public interface IConsultationReadOnly
     Task<bool> ThereIsConsultationForClient(Guid id, DateTime consultationDate);
     Task<Guid> GetIdByDateTimeAndDoctorAsync(DateTime dateTime, Guid doctorId);
     Task<Entities.Consultation> GetConsultationByIdAsync(Guid consultationId);
+    Task<IEnumerable<Entities.Consultation>> GetConsultationByDoctorIdAsync(Guid doctorId);
 }

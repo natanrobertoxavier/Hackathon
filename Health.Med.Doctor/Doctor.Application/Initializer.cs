@@ -7,7 +7,6 @@ using Doctor.Application.UseCase.Doctor.Recover.RecoverByCR;
 using Doctor.Application.UseCase.Doctor.Recover.RecoverByEmail;
 using Doctor.Application.UseCase.Doctor.Recover.RecoverById;
 using Doctor.Application.UseCase.Doctor.Register;
-using Doctor.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;

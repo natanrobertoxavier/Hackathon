@@ -6,6 +6,7 @@ using Consultation.Application.Services.LoggedClientService;
 using Consultation.Application.Services.LoggedDoctor;
 using Consultation.Application.Settings;
 using Consultation.Application.UseCase.Consultation.Confirm;
+using Consultation.Application.UseCase.Consultation.Recover.RecoverByDoctorId;
 using Consultation.Application.UseCase.Consultation.Refuse;
 using Consultation.Application.UseCase.Consultation.Register;
 using Consultation.Application.UseCase.Consultation.Validate;
@@ -45,6 +46,7 @@ public static class Initializer
     {
         services
             .AddScoped<IRegisterUseCase, RegisterUseCase>()
+            .AddScoped<IRecoverByDoctorIdUseCase, RecoverByDoctorIdUseCase>()
             .AddScoped<ISendEmailClientUseCase, SendEmailClientUseCase>()
             .AddScoped<ISendEmailDoctorUseCase, SendEmailDoctorUseCase>()
             .AddScoped<IAcceptUseCase, AcceptUseCase>()
