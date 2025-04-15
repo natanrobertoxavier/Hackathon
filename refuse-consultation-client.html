@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulário Estilizado</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Verdana, Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .form-container {
+            max-width: 700px;
+            margin: 50px auto;
+            background-color: #0078ff;
+            color: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+        }
+
+        .form-title {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .form-description {
+            font-size: 18px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            font-size: 18px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .form-actions button {
+            background-color: #02eeae;
+            color: #000;
+            font-weight: bold;
+            padding: 10px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .form-actions button.cancel {
+            background-color: #ff4d4d;
+            color: white;
+        }
+
+        .form-actions button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+
+<div class="form-container">
+    <div class="form-title">
+        Que pena que deseja cancelar a consulta.
+    </div>
+    <div class="form-description">
+        Use o campo abaixo para nos contar o que aconteceu. Estamos ouvindo!
+    </div>
+
+    <form>
+        <div class="form-group">
+            <label for="mensagem">Mensagem:</label>
+            <textarea id="mensagem" name="mensagem" placeholder="Digite sua mensagem aqui..."></textarea>
+        </div>
+        <div class="form-actions">
+            <button type="submit"><i class="fa-solid fa-paper-plane"></i> Sair</button>
+            <button type="button" class="cancel"><i class="fa-solid fa-xmark"></i> Cancelar</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

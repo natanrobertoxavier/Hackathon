@@ -63,6 +63,9 @@ public class ConsultationController : HealthMedController
     {
         var result = await useCase.RefuseConsultationAsync(id, token);
 
+        if (result.IsSuccess())
+            return Redirect("http://191.252.179.169/confirmation-of-refuse.html");
+
         return ResponseCreate(result, successStatusCode: HttpStatusCode.OK);
     }
 }
