@@ -64,6 +64,6 @@ public class ConsultationRepository(HealthMedContext context) : IConsultationRea
     public async Task<IEnumerable<Domain.Entities.Consultation>> GetConsultationByDoctorIdAsync(Guid doctorId) =>
         await _context.Consultations
         .AsNoTracking()
-        .Where(c => c.DoctorId == doctorId && c.Confirmed == true)
+        .Where(c => c.DoctorId == doctorId && c.Confirmed == true && c.ConsultationDate.Date >= DateTime.UtcNow.Date)
         .ToListAsync();
 }

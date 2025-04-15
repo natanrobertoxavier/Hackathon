@@ -33,11 +33,11 @@ public class DeleteUseCase(
         {
             _logger.Information($"Início {nameof(DeleteServiceDayAsync)}.");
 
-            var doctor = _loggedDoctor.GetLoggedDoctor();
 
-            await Validate(doctor.Id, request);
+            await Validate(request);
 
             var serviceDays = request.ToDeleteEntity();
+            var doctor = _loggedDoctor.GetLoggedDoctor();
 
             _serviceDayWriteOnlyrepository.Remove(doctor.Id, serviceDays);
 
@@ -67,11 +67,11 @@ public class DeleteUseCase(
         return output;
     }
 
-    private async Task Validate(Guid doctorId, RequestDeleteServiceDay request)
+    private async Task Validate(RequestDeleteServiceDay request)
     {
         var validationResult = ValidateRequest(request);
 
-        var consultations = await _consultationServiceApi.RecoverConsultationByDoctorIdAsync(doctorId);
+        var consultations = await _consultationServiceApi.RecoverConsultationByDoctorIdAsync();
 
         ValidateConsultations(request, consultations, validationResult);
 

@@ -15,9 +15,9 @@ public class ConsultationServiceApi(
     private readonly IHttpClientFactory _httpClientFactory = httpClientFactory;
     private readonly ILogger _logger = logger;
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
-    public async Task<Result<IEnumerable<ConsultationResult>>> RecoverConsultationByDoctorIdAsync(Guid doctorId)
+    public async Task<Result<IEnumerable<ConsultationResult>>> RecoverConsultationByDoctorIdAsync()
     {
-        _logger.Information($"{nameof(RecoverConsultationByDoctorIdAsync)} - Iniciando a chamada para API de consultas. Médico: {doctorId}.");
+        _logger.Information($"{nameof(RecoverConsultationByDoctorIdAsync)} - Iniciando a chamada para API de consultas.");
 
         var output = new Result<IEnumerable<ConsultationResult>>();
 
@@ -25,7 +25,7 @@ public class ConsultationServiceApi(
         {
             var client = _httpClientFactory.CreateClient("ConsultationApi");
 
-            var uri = string.Format("/api/v1/consultation/confirmed/{0}", doctorId);
+            var uri = string.Format("/api/v1/consultation/confirmed");
 
             var authorization = GetTokenInRequest();
 
@@ -42,7 +42,7 @@ public class ConsultationServiceApi(
 
                 var responseApi = DeserializeResponseObject<Result<IEnumerable<ConsultationResult>>>(content);
 
-                _logger.Information($"{nameof(RecoverConsultationByDoctorIdAsync)} - Encerrando chamada para API de consultas. Médico: {doctorId}.");
+                _logger.Information($"{nameof(RecoverConsultationByDoctorIdAsync)} - Encerrando chamada para API de consultas.");
 
                 return responseApi;
             }

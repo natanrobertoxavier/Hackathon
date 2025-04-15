@@ -25,15 +25,14 @@ public class ConsultationController : HealthMedController
         return ResponseCreate(result);
     }
 
-    [HttpGet("confirmed/{id}")]
+    [HttpGet("confirmed")]
     [ServiceFilter(typeof(AuthenticatedAttribute))]
     [ProducesResponseType(typeof(Result<ResponseConsultation>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(Result<ResponseConsultation>), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> RecoverAllConfirmedAsync(
-        [FromServices] IRecoverByDoctorIdUseCase useCase,
-        [FromRoute] Guid id)
+        [FromServices] IRecoverByDoctorIdUseCase useCase)
     {
-        var result = await useCase.RecoverByDoctorIdAsync(id);
+        var result = await useCase.RecoverByDoctorIdAsync();
 
         return Response(result);
     }
