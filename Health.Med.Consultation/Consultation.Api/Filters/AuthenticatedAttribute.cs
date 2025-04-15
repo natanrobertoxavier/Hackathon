@@ -47,7 +47,7 @@ public class AuthenticatedAttribute(
             else
                 _logger.Error(client.Error);
 
-                _logger.Information($"{methodName} - Iniciando chamada a API de usuários.");
+            _logger.Information($"{methodName} - Iniciando chamada a API de usuários.");
             var user = await _userServiceApi.RecoverByEmailAsync(email);
             _logger.Information($"{methodName} - Sucesso na chamada da API de usuários?: {user.Success}.");
             if (user.Success)

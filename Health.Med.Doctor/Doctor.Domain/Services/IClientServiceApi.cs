@@ -4,5 +4,5 @@ namespace Doctor.Domain.Services;
 
 public interface IClientServiceApi
 {
-    Task<Result<ClientBasicInformationResult>> RecoverBasicInformationByEmailAsync(string userEmail);
+    Task<Result<ClientBasicInformationResult>> RecoverConsultationByDoctorIdAsync(string userEmail);
 }

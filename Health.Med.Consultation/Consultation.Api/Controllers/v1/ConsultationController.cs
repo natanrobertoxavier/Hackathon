@@ -1,10 +1,12 @@
 ﻿using Consultation.Api.Filters;
 using Consultation.Application.UseCase.Consultation.Confirm;
+using Consultation.Application.UseCase.Consultation.Recover.RecoverByDoctorId;
 using Consultation.Application.UseCase.Consultation.Refuse;
 using Consultation.Application.UseCase.Consultation.Register;
 using Consultation.Communication.Request;
 using Consultation.Communication.Response;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Consultation.Api.Controllers.v1;
 
@@ -21,6 +23,19 @@ public class ConsultationController : HealthMedController
         var result = await useCase.RegisterConsultationAsync(request);
 
         return ResponseCreate(result);
+    }
+
+    [HttpGet("confirmed/{id}")]
+    [ServiceFilter(typeof(AuthenticatedAttribute))]
+    [ProducesResponseType(typeof(Result<ResponseConsultation>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<ResponseConsultation>), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> RecoverAllConfirmedAsync(
+        [FromServices] IRecoverByDoctorIdUseCase useCase,
+        [FromRoute] Guid id)
+    {
+        var result = await useCase.RecoverByDoctorIdAsync(id);
+
+        return Response(result);
     }
 
     [HttpGet("accept/{id}/{token}")]
@@ -49,6 +64,6 @@ public class ConsultationController : HealthMedController
     {
         var result = await useCase.RefuseConsultationAsync(id, token);
 
-        return ResponseCreate(result);
+        return ResponseCreate(result, successStatusCode: HttpStatusCode.OK);
     }
 }

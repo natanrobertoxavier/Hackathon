@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Net;
 
-namespace Consultation.Api.Tests.Controllers.v1;
+namespace Consultation.Tests.Controllers.v1;
 
 public class ConsultationControllerTests
 {

@@ -33,7 +33,7 @@ public class ChangePasswordUseCase(
         {
             _logger.Information($"Início {nameof(ChangePasswordAsync)}.");
 
-            var loggedDoctor = await _loggedDoctor.GetLoggedDoctorAsync();
+            var loggedDoctor = _loggedDoctor.GetLoggedDoctor();
 
             Validate(request, loggedDoctor);
 

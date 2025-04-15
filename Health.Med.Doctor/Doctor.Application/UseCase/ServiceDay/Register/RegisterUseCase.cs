@@ -34,7 +34,7 @@ public class RegisterUseCase(
 
             Validate(request);
 
-            var doctor = await _loggedDoctor.GetLoggedDoctorAsync();
+            var doctor = _loggedDoctor.GetLoggedDoctor();
 
             var serviceDays = request.ToListEntity(doctor.Id);
 

@@ -1,5 +1,6 @@
-﻿using Consultation.Communication.Request;
-using Consultation.Application.Extensions;
+﻿using Consultation.Application.Extensions;
+using Consultation.Communication.Request;
+using Consultation.Communication.Response;
 
 namespace Consultation.Application.Mapping;
 
@@ -13,4 +14,7 @@ public static class ConsultationMapping
             request.ConsultationDate.TrimMilliseconds()
         );
     }
+
+    public static ResponseConsultation ToResponse(this Domain.Entities.Consultation entity) =>
+        new ResponseConsultation(entity.ConsultationDate);
 }

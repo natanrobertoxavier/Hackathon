@@ -65,9 +65,9 @@ public class UpdateUseCase(
 
         if (!resultDelete.IsSuccess())
         {
-            var errorMessage = $"Erro ao remover os dias existentes: {string.Concat(string.Join(", ", resultDelete.Errors), ".")}";
+            var errorMessage = $"{string.Concat(string.Join(", ", resultDelete.Errors), ".")}";
             _logger.Error($"{methodName} {errorMessage}");
-            throw new Exception(errorMessage);
+            throw new ValidationErrorsException(new List<string>() { errorMessage });
         }
 
         _logger.Information($"Fim {methodName}.");

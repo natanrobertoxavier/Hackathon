@@ -46,8 +46,8 @@ public class ChangePasswordUseCaseTests
         var loggedDoctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "Name", "email@example.com", "12345", GetOldPassword(), Guid.NewGuid());
 
         _loggedDoctorMock
-            .Setup(x => x.GetLoggedDoctorAsync())
-            .ReturnsAsync(loggedDoctor);
+            .Setup(x => x.GetLoggedDoctor())
+            .Returns(loggedDoctor);
 
         _doctorReadOnlyMock
             .Setup(x => x.RecoverByIdAsync(loggedDoctor.Id))
@@ -72,8 +72,8 @@ public class ChangePasswordUseCaseTests
         var loggedDoctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "Name", "email@example.com", "12345", "encryptedOldPassword", Guid.NewGuid());
 
         _loggedDoctorMock
-            .Setup(x => x.GetLoggedDoctorAsync())
-            .ReturnsAsync(loggedDoctor);
+            .Setup(x => x.GetLoggedDoctor())
+            .Returns(loggedDoctor);
 
         _doctorReadOnlyMock
             .Setup(x => x.RecoverByIdAsync(loggedDoctor.Id))
@@ -97,8 +97,8 @@ public class ChangePasswordUseCaseTests
         var request = new RequestChangePassword("oldPassword", "newPassword");
 
         _loggedDoctorMock
-            .Setup(x => x.GetLoggedDoctorAsync())
-            .ThrowsAsync(new Exception("Unexpected error"));
+            .Setup(x => x.GetLoggedDoctor())
+            .Throws(new Exception("Unexpected error"));
 
         // Act
         var result = await _useCase.ChangePasswordAsync(request);

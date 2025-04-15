@@ -94,7 +94,7 @@ public class UpdateUseCaseTests
 
         // Assert
         Assert.False(result.IsSuccess());
-        Assert.Contains("Erro ao remover os dias existentes", result.Errors.First());
+        Assert.Contains("Fail", result.Errors.First());
     }
 
     [Fact]

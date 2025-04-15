@@ -1,7 +1,6 @@
 ﻿using Consultation.Domain.Repositories;
 using Consultation.Domain.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
-using System.Numerics;
 
 namespace Consultation.Infrastructure.Repositories.Consultation;
 
@@ -20,7 +19,7 @@ public class ConsultationRepository(HealthMedContext context) : IConsultationRea
     public async Task<DateTime> ThereIsConsultationAsync(Guid id, Guid doctorId) =>
         await _context.Consultations
         .AsNoTracking()
-        .Where(c => c.Id == id && c.DoctorId == doctorId)
+        .Where(c => c.Id == id && c.DoctorId == doctorId && c.Confirmed == false && c.ConfirmatonDate == default)
         .Select(c => c.ConsultationDate)
         .FirstOrDefaultAsync();
 
@@ -58,7 +57,13 @@ public class ConsultationRepository(HealthMedContext context) : IConsultationRea
 
     public async Task<Domain.Entities.Consultation> GetConsultationByIdAsync(Guid consultationId) =>
         await _context.Consultations
-            .AsNoTracking()
-            .FirstOrDefaultAsync(c => c.Id == consultationId) ??
+        .AsNoTracking()
+        .FirstOrDefaultAsync(c => c.Id == consultationId) ??
         new Domain.Entities.Consultation();
+
+    public async Task<IEnumerable<Domain.Entities.Consultation>> GetConsultationByDoctorIdAsync(Guid doctorId) =>
+        await _context.Consultations
+        .AsNoTracking()
+        .Where(c => c.DoctorId == doctorId && c.Confirmed == true)
+        .ToListAsync();
 }
