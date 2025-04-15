@@ -78,7 +78,7 @@ public class DoctorController : HealthMedController
     {
         var result = await useCase.RecoverScheduleByCRAsync(cr);
 
-        return ResponseCreate(result);
+        return Response(result);
     }
 
     [HttpGet("id/{id}")]
