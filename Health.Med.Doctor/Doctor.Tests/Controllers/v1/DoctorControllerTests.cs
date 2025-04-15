@@ -35,7 +35,7 @@ public class DoctorControllerTests
     public async Task RegisterAsync_ShouldReturnCreated_WhenRegistrationIsSuccessful()
     {
         // Arrange
-        var request = new RequestRegisterDoctor("Doctor Name", "Name", "email@example.com", "12345", "password", Guid.NewGuid());
+        var request = new RequestRegisterDoctor("Doctor Name", "Name", "email@example.com", "12345", "password", Guid.NewGuid(), 0.0m);
         var response = new Result<MessageResult>();
         response.Succeeded(new MessageResult("Doctor registered successfully"));
 
@@ -80,7 +80,7 @@ public class DoctorControllerTests
         var response = new Result<IEnumerable<ResponseDoctor>>();
         response.Succeeded(new List<ResponseDoctor>
         {
-            new ResponseDoctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "Name", "email@example.com", "12345", null, null)
+            new ResponseDoctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "Name", "email@example.com", "12345", null, null, 0.0m)
         });
 
         _recoverAllUseCaseMock

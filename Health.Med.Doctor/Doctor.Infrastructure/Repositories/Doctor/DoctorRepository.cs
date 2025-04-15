@@ -43,4 +43,10 @@ public class DoctorRepository(HealthMedContext context) : IDoctorReadOnly, IDoct
     public async Task<Domain.Entities.Doctor> RecoverByIdAsync(Guid id) =>
         await _context.Doctors
         .FirstOrDefaultAsync(d => d.Id.Equals(id)) ?? new Domain.Entities.Doctor();
+
+    public async Task<IEnumerable<Domain.Entities.Doctor>> RecoverBySpecialtyIdAsync(Guid specialtyId) =>
+        await _context.Doctors
+        .AsNoTracking()
+        .Where(d => d.SpecialtyId.Equals(specialtyId))
+        .ToListAsync();
 }

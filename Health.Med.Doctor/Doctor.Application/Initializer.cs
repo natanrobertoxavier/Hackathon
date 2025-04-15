@@ -6,6 +6,8 @@ using Doctor.Application.UseCase.Doctor.Recover.RecoverAll;
 using Doctor.Application.UseCase.Doctor.Recover.RecoverByCR;
 using Doctor.Application.UseCase.Doctor.Recover.RecoverByEmail;
 using Doctor.Application.UseCase.Doctor.Recover.RecoverById;
+using Doctor.Application.UseCase.Doctor.Recover.RecoverBySpecialtyId;
+using Doctor.Application.UseCase.Doctor.Recover.RecoverScheduleByCRM;
 using Doctor.Application.UseCase.Doctor.Register;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,12 +42,14 @@ public static class Initializer
             .AddScoped<IRecoverByCRUseCase, RecoverByCRUseCase>()
             .AddScoped<IRecoverByEmailUseCase, RecoverByEmailUseCase>()
             .AddScoped<IRecoverByIdUseCase, RecoverByIdUseCase>()
+            .AddScoped<IRecoverBySpecialtyIdUseCase, RecoverBySpecialtyIdUseCase>()
             .AddScoped<IChangePasswordUseCase, ChangePasswordUseCase>()
             .AddScoped<ILoginUseCase, LoginUseCase>()
             .AddScoped<UseCase.Specialty.Register.IRegisterUseCase, UseCase.Specialty.Register.RegisterUseCase>()
             .AddScoped<UseCase.Specialty.Recover.RecoverAll.IRecoverAllUseCase, UseCase.Specialty.Recover.RecoverAll.RecoverAllUseCase>()
             .AddScoped<UseCase.Specialty.Recover.RecoverById.IRecoverByIdUseCase, UseCase.Specialty.Recover.RecoverById.RecoverByIdUseCase>()
             .AddScoped<UseCase.ServiceDay.Register.IRegisterUseCase, UseCase.ServiceDay.Register.RegisterUseCase>()
+            .AddScoped<IRecoverScheduleByCRUseCase, RecoverScheduleByCRUseCase>()
             .AddScoped<UseCase.ServiceDay.Delete.IDeleteUseCase, UseCase.ServiceDay.Delete.DeleteUseCase>()
             .AddScoped<UseCase.ServiceDay.Update.IUpdateUseCase, UseCase.ServiceDay.Update.UpdateUseCase>();
     }

@@ -1,5 +1,4 @@
-﻿using Consultation.Application.Services.LoggedClientService;
-using Health.Med.Exceptions.ExceptionBase;
+﻿using Health.Med.Exceptions.ExceptionBase;
 using Microsoft.AspNetCore.Http;
 
 namespace Consultation.Application.Services.LoggedDoctor;

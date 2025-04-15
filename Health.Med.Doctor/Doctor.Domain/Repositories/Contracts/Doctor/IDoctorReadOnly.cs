@@ -7,4 +7,5 @@ public interface IDoctorReadOnly
     Task<IEnumerable<Entities.Doctor>> RecoverAllAsync(int page, int pageSize);
     Task<Entities.Doctor> RecoverByCRPasswordAsync(string cr, string password);
     Task<Entities.Doctor> RecoverByIdAsync(Guid id);
+    Task<IEnumerable<Entities.Doctor>> RecoverBySpecialtyIdAsync(Guid specialtyId);
 }

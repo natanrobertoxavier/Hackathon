@@ -1,4 +1,5 @@
-﻿using Doctor.Domain.Repositories.Contracts.ServiceDay;
+﻿using Doctor.Domain.Entities;
+using Doctor.Domain.Repositories.Contracts.ServiceDay;
 using Microsoft.EntityFrameworkCore;
 
 namespace Doctor.Infrastructure.Repositories.ServiceDay;
@@ -22,13 +23,13 @@ public class ServiceDayRepository(HealthMedContext context) : IServiceDayWriteOn
             _context.ServiceDays.RemoveRange(serviceDays);
     }
 
-    public async Task<IEnumerable<Domain.Entities.ServiceDay>> GetByDoctorIdAsync(Guid doctorId) =>
+    public async Task<IEnumerable<Domain.Entities.ServiceDay>> RecoverByDoctorIdAsync(Guid doctorId) =>
         await _context.ServiceDays
             .Where(x => x.DoctorId == doctorId)
             .AsNoTracking()
             .ToListAsync();
 
-    public async Task<IEnumerable<Domain.Entities.ServiceDay>> GetByDoctorIdAndDaysAsync(Guid doctorId, List<string> days) =>
+    public async Task<IEnumerable<Domain.Entities.ServiceDay>> RecoverByDoctorIdAndDaysAsync(Guid doctorId, List<string> days) =>
         await _context.ServiceDays
             .Where(x => x.DoctorId == doctorId && days.Contains(x.Day))
             .ToListAsync();

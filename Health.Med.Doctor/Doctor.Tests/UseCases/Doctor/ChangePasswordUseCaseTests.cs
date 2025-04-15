@@ -43,7 +43,7 @@ public class ChangePasswordUseCaseTests
     {
         // Arrange
         var request = new RequestChangePassword("oldPassword", "newPassword");
-        var loggedDoctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "Name", "email@example.com", "12345", GetOldPassword(), Guid.NewGuid());
+        var loggedDoctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "Name", "email@example.com", "12345", GetOldPassword(), Guid.NewGuid(), 0.0m);
 
         _loggedDoctorMock
             .Setup(x => x.GetLoggedDoctor())
@@ -69,7 +69,7 @@ public class ChangePasswordUseCaseTests
     {
         // Arrange
         var request = new RequestChangePassword("wrongPassword", "newPassword");
-        var loggedDoctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "Name", "email@example.com", "12345", "encryptedOldPassword", Guid.NewGuid());
+        var loggedDoctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "Name", "email@example.com", "12345", "encryptedOldPassword", Guid.NewGuid(), 0.0m);
 
         _loggedDoctorMock
             .Setup(x => x.GetLoggedDoctor())

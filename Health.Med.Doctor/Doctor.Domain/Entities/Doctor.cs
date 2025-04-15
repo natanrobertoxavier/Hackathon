@@ -10,7 +10,8 @@ public class Doctor : BaseEntity
     string email,
     string cr,
     string password,
-    Guid specialtyId) : base(id, registrationDate)
+    Guid specialtyId,
+    decimal consultationPrice) : base(id, registrationDate)
     {
         Name = name;
         PreferredName = preferredName;
@@ -18,6 +19,7 @@ public class Doctor : BaseEntity
         CR = cr;
         Password = password;
         SpecialtyId = specialtyId;
+        ConsultationPrice = consultationPrice;
     }
 
     public Doctor(
@@ -27,7 +29,8 @@ public class Doctor : BaseEntity
     string cr,
     string password,
     Guid specialtyId,
-    Guid userId)
+    Guid userId,
+    decimal consultationPrice)
     {
         Name = name;
         PreferredName = preferredName;
@@ -36,6 +39,7 @@ public class Doctor : BaseEntity
         Password = password;
         SpecialtyId = specialtyId;
         UserId = userId;
+        ConsultationPrice = consultationPrice;
     }
 
     public Doctor()
@@ -49,6 +53,7 @@ public class Doctor : BaseEntity
     public string Password { get; set; }
     public Guid SpecialtyId { get; set; }
     public Guid UserId { get; set; }
+    public decimal ConsultationPrice { get; set; } = 0.0m;
     public virtual Specialty Specialty { get; set; }
     public virtual ICollection<ServiceDay> ServiceDays { get; set; }
 }
