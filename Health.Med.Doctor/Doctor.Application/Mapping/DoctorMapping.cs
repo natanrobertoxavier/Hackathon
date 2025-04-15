@@ -1,5 +1,6 @@
 ﻿using Doctor.Communication.Request;
 using Doctor.Communication.Response;
+using Doctor.Domain.Entities;
 
 namespace Doctor.Application.Mapping;
 
@@ -14,7 +15,8 @@ public static class DoctorMapping
             request.CR.ToUpper(),
             password,
             request.SpecialtyId,
-            userId
+            userId,
+            request.ConsultationPrice
         );
     }
 
@@ -28,7 +30,8 @@ public static class DoctorMapping
             doctor.Email,
             doctor.CR,
             doctor.Specialty.ToSpecialDoctorResponse(),
-            doctor.ServiceDays.Select(serviceDay => serviceDay.ToRespose()).ToList()
+            doctor.ServiceDays.Select(serviceDay => serviceDay.ToRespose()).ToList(),
+            doctor.ConsultationPrice
         );
     }
 
@@ -41,5 +44,13 @@ public static class DoctorMapping
             doctor.Email,
             token
         );
+    }
+
+    public static ResponseScheduleDoctor ToResponseSchedule(this Domain.Entities.Doctor doctor)
+    {
+        return new ResponseScheduleDoctor(
+            doctor.Name,
+            doctor.ConsultationPrice,
+            doctor.ServiceDays.Select(serviceDay => serviceDay.ToRespose()).ToList());
     }
 }

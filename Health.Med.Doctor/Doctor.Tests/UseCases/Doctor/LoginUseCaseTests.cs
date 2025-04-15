@@ -36,7 +36,7 @@ public class LoginUseCaseTests
         // Arrange
         var request = new RequestLoginDoctor("12345", "password");
         var encryptedPassword = GetEncryptedPassword();
-        var doctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "Name", "email@example.com", "12345", encryptedPassword, Guid.NewGuid());
+        var doctor = new Domain.Entities.Doctor(Guid.NewGuid(), DateTime.UtcNow, "Doctor Name", "Name", "email@example.com", "12345", encryptedPassword, Guid.NewGuid(), 0.0m);
 
         _doctorReadOnlyMock
             .Setup(x => x.RecoverByCRPasswordAsync(request.CR.ToUpper(), It.IsAny<string>()))

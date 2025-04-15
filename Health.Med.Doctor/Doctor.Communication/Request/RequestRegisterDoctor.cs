@@ -6,7 +6,8 @@ public class RequestRegisterDoctor(
     string email, 
     string cr, 
     string password,
-    Guid specialtyId)
+    Guid specialtyId,
+    decimal consultationPrice)
 {
     public string Name { get; set; } = name;
     public string PreferredName { get; set; } = preferredName;
@@ -14,4 +15,5 @@ public class RequestRegisterDoctor(
     public string CR { get; set; } = cr;
     public string Password { get; set; } = password;
     public Guid SpecialtyId { get; set; } = specialtyId;
+    public decimal ConsultationPrice { get; set; } = consultationPrice;
 }

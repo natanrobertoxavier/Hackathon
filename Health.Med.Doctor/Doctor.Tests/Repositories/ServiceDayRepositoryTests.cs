@@ -157,7 +157,7 @@ public class ServiceDayRepositoryTests
         context.SaveChanges();
 
         // Act
-        var result = await repository.GetByDoctorIdAsync(doctorId);
+        var result = await repository.RecoverByDoctorIdAsync(doctorId);
 
         // Assert
         Assert.Equal(2, result.Count());
@@ -197,7 +197,7 @@ public class ServiceDayRepositoryTests
         context.SaveChanges();
 
         // Act
-        var result = await repository.GetByDoctorIdAndDaysAsync(doctorId, new List<string> { "Monday" });
+        var result = await repository.RecoverByDoctorIdAndDaysAsync(doctorId, new List<string> { "Monday" });
 
         // Assert
         Assert.Single(result);

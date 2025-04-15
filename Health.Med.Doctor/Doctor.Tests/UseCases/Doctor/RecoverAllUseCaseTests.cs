@@ -37,8 +37,8 @@ public class RecoverAllUseCaseTests
         var specialty = new Domain.Entities.Specialty(Guid.NewGuid(), DateTime.UtcNow, Guid.NewGuid(), "Specialty 1", "SPECIALITY-1");
         var doctors = new List<Domain.Entities.Doctor>
         {
-            new Domain.Entities.Doctor(doctorId1, DateTime.UtcNow, "Doctor 1", "Name1", "email1@example.com", "CR1", "password1", specialty.Id),
-            new Domain.Entities.Doctor(doctorId2, DateTime.UtcNow, "Doctor 2", "Name2", "email2@example.com", "CR2", "password2", specialty.Id)
+            new Domain.Entities.Doctor(doctorId1, DateTime.UtcNow, "Doctor 1", "Name1", "email1@example.com", "CR1", "password1", specialty.Id, 0.0m),
+            new Domain.Entities.Doctor(doctorId2, DateTime.UtcNow, "Doctor 2", "Name2", "email2@example.com", "CR2", "password2", specialty.Id, 0.0m)
         };
 
         doctors[0].Specialty = specialty;

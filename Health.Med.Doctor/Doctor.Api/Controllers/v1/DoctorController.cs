@@ -4,6 +4,8 @@ using Doctor.Application.UseCase.Doctor.Recover.RecoverAll;
 using Doctor.Application.UseCase.Doctor.Recover.RecoverByCR;
 using Doctor.Application.UseCase.Doctor.Recover.RecoverByEmail;
 using Doctor.Application.UseCase.Doctor.Recover.RecoverById;
+using Doctor.Application.UseCase.Doctor.Recover.RecoverBySpecialtyId;
+using Doctor.Application.UseCase.Doctor.Recover.RecoverScheduleByCRM;
 using Doctor.Application.UseCase.Doctor.Register;
 using Doctor.Communication.Request;
 using Doctor.Communication.Response;
@@ -67,6 +69,18 @@ public class DoctorController : HealthMedController
         return Response(result);
     }
 
+    [HttpGet("schedule/{cr}")]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status201Created)]
+    [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> RecoverScheduleByCRAsync(
+        [FromServices] IRecoverScheduleByCRUseCase useCase,
+        [FromRoute] string cr)
+    {
+        var result = await useCase.RecoverScheduleByCRAsync(cr);
+
+        return ResponseCreate(result);
+    }
+
     [HttpGet("id/{id}")]
     [ServiceFilter(typeof(AuthenticatedAttribute))]
     [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status200OK)]
@@ -77,6 +91,19 @@ public class DoctorController : HealthMedController
         [FromRoute] Guid id)
     {
         var result = await useCase.RecoverByIdAsync(id);
+
+        return Response(result);
+    }
+
+    [HttpGet("specialty/{id}")]
+    [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(Result<ResponseDoctor>), StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> RecoverBySpecialtyIdAsync(
+        [FromServices] IRecoverBySpecialtyIdUseCase useCase,
+        [FromRoute] Guid id)
+    {
+        var result = await useCase.RecoverBySpecialtyIdAsync(id);
 
         return Response(result);
     }

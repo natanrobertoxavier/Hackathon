@@ -20,6 +20,7 @@ public class Version001 : Migration
             .WithColumn("CR").AsString(15).NotNullable()
             .WithColumn("Password").AsString(2000).NotNullable()
             .WithColumn("SpecialtyId").AsGuid().NotNullable()
-            .WithColumn("UserId").AsGuid().NotNullable();
+            .WithColumn("UserId").AsGuid().NotNullable()
+            .WithColumn("ConsultationPrice").AsDecimal().NotNullable();
     }
 }
