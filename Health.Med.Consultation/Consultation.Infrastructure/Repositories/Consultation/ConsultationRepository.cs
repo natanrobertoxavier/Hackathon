@@ -19,7 +19,7 @@ public class ConsultationRepository(HealthMedContext context) : IConsultationRea
     public async Task<DateTime> ThereIsConsultationAsync(Guid id, Guid doctorId) =>
         await _context.Consultations
         .AsNoTracking()
-        .Where(c => c.Id == id && c.DoctorId == doctorId && c.Confirmed == false && c.ConfirmatonDate == default)
+        .Where(c => c.Id == id && c.DoctorId == doctorId && c.Confirmed == false && c.ConfirmatonDate == null)
         .Select(c => c.ConsultationDate)
         .FirstOrDefaultAsync();
 
