@@ -2,5 +2,6 @@
 
 public interface ILoggedDoctor
 {
-    Task<Domain.Entities.Doctor> GetLoggedDoctorAsync();
+    Guid GetLoggedDoctorId();
+    Domain.Entities.Doctor GetLoggedDoctor();
 }

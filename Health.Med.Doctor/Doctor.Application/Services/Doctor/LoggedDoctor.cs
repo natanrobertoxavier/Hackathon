@@ -1,27 +1,32 @@
 ﻿using Doctor.Domain.Repositories.Contracts.Doctor;
+using Health.Med.Exceptions.ExceptionBase;
 using Microsoft.AspNetCore.Http;
 using TokenService.Manager.Controller;
 
 namespace Doctor.Application.Services.Doctor;
 
-public class LoggedDoctor(
-    IHttpContextAccessor httpContextAccessor,
-    TokenController tokenController,
-    IDoctorReadOnly repository) : ILoggedDoctor
+public class LoggedDoctor(IHttpContextAccessor httpContextAccessor) : ILoggedDoctor
 {
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
-    private readonly TokenController _tokenController = tokenController;
-    private readonly IDoctorReadOnly _repository = repository; 
 
-    public async Task<Domain.Entities.Doctor> GetLoggedDoctorAsync()
+    public Guid GetLoggedDoctorId()
     {
-        var authorization = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString();
+        if (_httpContextAccessor.HttpContext?.Items["AuthenticatedDoctor"]
+            is not Domain.Entities.Doctor doctor)
+        {
+            throw new HealthMedException("Médico não localizado");
+        }
 
-        var token = authorization["Bearer".Length..].Trim();
+        return doctor.Id;
+    }
 
-        var email = _tokenController.RecoverEmail(token);
-
-        var doctor = await _repository.RecoverByEmailAsync(email);
+    public Domain.Entities.Doctor GetLoggedDoctor()
+    {
+        if (_httpContextAccessor.HttpContext?.Items["AuthenticatedDoctor"]
+            is not Domain.Entities.Doctor doctor)
+        {
+            throw new HealthMedException("Médico não localizado");
+        }
 
         return doctor;
     }

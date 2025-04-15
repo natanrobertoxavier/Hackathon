@@ -1,32 +1,31 @@
 ﻿using Doctor.Domain.ModelServices;
 using Doctor.Domain.Services;
-using Health.Med.Exceptions;
 using Health.Med.Exceptions.ExceptionBase;
+using Health.Med.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Serilog;
 
 namespace Doctor.Infrastructure.Services;
 
-public class ClientServiceApi(
+public class ConsultationServiceApi(
     IHttpClientFactory httpClientFactory,
     ILogger logger,
-    IHttpContextAccessor httpContextAccessor) : Base, IClientServiceApi
+    IHttpContextAccessor httpContextAccessor) : Base, IConsultationServiceApi
 {
     private readonly IHttpClientFactory _httpClientFactory = httpClientFactory;
     private readonly ILogger _logger = logger;
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
-
-    public async Task<Result<ClientBasicInformationResult>> RecoverConsultationByDoctorIdAsync(string email)
+    public async Task<Result<IEnumerable<ConsultationResult>>> RecoverConsultationByDoctorIdAsync(Guid doctorId)
     {
-        _logger.Information($"{nameof(RecoverConsultationByDoctorIdAsync)} - Iniciando a chamada para API de clientes. Cliente: {email}.");
+        _logger.Information($"{nameof(RecoverConsultationByDoctorIdAsync)} - Iniciando a chamada para API de consultas. Médico: {doctorId}.");
 
-        var output = new Result<ClientBasicInformationResult>();
+        var output = new Result<IEnumerable<ConsultationResult>>();
 
         try
         {
-            var client = _httpClientFactory.CreateClient("ClientApi");
+            var client = _httpClientFactory.CreateClient("ConsultationApi");
 
-            var uri = string.Format("/api/v1/client/basic-info/{0}", email);
+            var uri = string.Format("/api/v1/consultation/confirmed/{0}", doctorId);
 
             var authorization = GetTokenInRequest();
 
@@ -41,14 +40,14 @@ public class ClientServiceApi(
             {
                 var content = await response.Content.ReadAsStringAsync();
 
-                var responseApi = DeserializeResponseObject<Result<ClientBasicInformationResult>>(content);
+                var responseApi = DeserializeResponseObject<Result<IEnumerable<ConsultationResult>>>(content);
 
-                _logger.Information($"{nameof(RecoverConsultationByDoctorIdAsync)} - Encerrando chamada para API de clientes. Cliente: {email}.");
+                _logger.Information($"{nameof(RecoverConsultationByDoctorIdAsync)} - Encerrando chamada para API de consultas. Médico: {doctorId}.");
 
                 return responseApi;
             }
 
-            var failMessage = $"{nameof(RecoverConsultationByDoctorIdAsync)} - Ocorreu um erro ao chamar a API de clientes. StatusCode: {response.StatusCode}";
+            var failMessage = $"{nameof(RecoverConsultationByDoctorIdAsync)} - Ocorreu um erro ao chamar a API de consultas. StatusCode: {response.StatusCode}";
 
             _logger.Error(failMessage);
 
@@ -56,7 +55,7 @@ public class ClientServiceApi(
         }
         catch (Exception ex)
         {
-            var errorMessage = $"{nameof(RecoverConsultationByDoctorIdAsync)} - Ocorreu um erro ao chamar a API de clientes. Erro: {ex.Message}";
+            var errorMessage = $"{nameof(RecoverConsultationByDoctorIdAsync)} - Ocorreu um erro ao chamar a API de consultas. Erro: {ex.Message}";
 
             _logger.Error(errorMessage);
 
@@ -76,4 +75,3 @@ public class ClientServiceApi(
         return authorization["Bearer".Length..].Trim();
     }
 }
-

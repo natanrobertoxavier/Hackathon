@@ -36,7 +36,7 @@ public class AuthenticatedAttribute(
                 return;
             }
 
-            var client = await _clientServiceApi.RecoverBasicInformationByEmailAsync(email);
+            var client = await _clientServiceApi.RecoverConsultationByDoctorIdAsync(email);
             if (client.Success)
             {
                 context.HttpContext.Items["AuthenticatedClient"] = client.Data;

@@ -241,6 +241,15 @@ namespace Health.Med.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Erro ao chamar API de consultas.
+        /// </summary>
+        public static string ErrorCallingConsultationApi {
+            get {
+                return ResourceManager.GetString("ErrorCallingConsultationApi", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Token expirado.
         /// </summary>
         public static string ExpiredToken {

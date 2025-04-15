@@ -204,4 +204,7 @@
   <data name="ConsultationDateInPast" xml:space="preserve">
     <value>A data/hora da consulta não pode ser menor que a data/hora atual</value>
   </data>
+  <data name="ErrorCallingConsultationApi" xml:space="preserve">
+    <value>Erro ao chamar API de consultas</value>
+  </data>
 </root>
