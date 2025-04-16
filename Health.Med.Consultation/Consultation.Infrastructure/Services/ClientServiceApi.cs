@@ -64,7 +64,7 @@ public class ClientServiceApi(
         }
     }
 
-    public async Task<Result<ClientBasicInformationResult>> RecoverBasicInformationByEmailAsync(string email)
+    public async Task<Result<ClientBasicInformationResult>> RecoverBasicInformationByEmailAsync(string email, string token = "")
     {
         _logger.Information($"{nameof(RecoverBasicInformationByEmailAsync)} - Iniciando a chamada para API de clientes. Cliente: {email}.");
 
@@ -76,7 +76,7 @@ public class ClientServiceApi(
 
             var uri = string.Format("/api/v1/client/basic-info/{0}", email);
 
-            var authorization = GetTokenInRequest();
+            var authorization = !string.IsNullOrEmpty(token) ? token : GetTokenInRequest();
 
             if (!string.IsNullOrEmpty(authorization))
             {
