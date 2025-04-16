@@ -148,15 +148,15 @@ public class RegisterUseCase(
 
     private async Task SendEmailsAsync(RequestRegisterConsultation request, DoctorResult doctor, Guid consultationId)
     {
-        await SendEmailToClient(request, doctor);
+        await SendEmailToClient(request, doctor, consultationId);
         await SendEmailToDoctor(request, doctor, consultationId);
     }
 
-    private async Task SendEmailToClient(RequestRegisterConsultation request, DoctorResult doctor)
+    private async Task SendEmailToClient(RequestRegisterConsultation request, DoctorResult doctor, Guid consultationId)
     {
         _logger.Information($"Início do envio de e-mail para o cliente.");
 
-        await _sendEmailClientUseCase.SendEmailSchedulingConsultationClientAsync(request, doctor, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingClientEmail);
+        await _sendEmailClientUseCase.SendEmailSchedulingConsultationClientAsync(request, doctor, consultationId, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingClientEmail);
         
         _logger.Information($"Fim do envio de e-mail para o cliente.");
     }

@@ -5,6 +5,7 @@ using Consultation.Application.Services;
 using Consultation.Application.Services.LoggedClientService;
 using Consultation.Application.Services.LoggedDoctor;
 using Consultation.Application.Settings;
+using Consultation.Application.UseCase.Consultation.ClientCancel;
 using Consultation.Application.UseCase.Consultation.Confirm;
 using Consultation.Application.UseCase.Consultation.Recover.RecoverByDoctorId;
 using Consultation.Application.UseCase.Consultation.Refuse;
@@ -51,7 +52,8 @@ public static class Initializer
             .AddScoped<ISendEmailDoctorUseCase, SendEmailDoctorUseCase>()
             .AddScoped<IAcceptUseCase, AcceptUseCase>()
             .AddScoped<IRefuseUseCase, RefuseUseCase>()
-            .AddScoped<IValidateUseCase, ValidateUseCase>();
+            .AddScoped<IValidateUseCase, ValidateUseCase>()
+            .AddScoped<IClientCancelUseCase, ClientCancelUseCase>();
     }
 
     private static void AddAdditionalKeyPassword(IServiceCollection services, IConfiguration configuration)

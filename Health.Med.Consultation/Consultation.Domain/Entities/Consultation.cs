@@ -18,11 +18,13 @@ public class Consultation : BaseEntity
         Guid clientId,
         Guid doctorId,
         DateTime consultationDate,
+        string reason = "",
         bool confirmed = false)
     {
         ClientId = clientId;
         DoctorId = doctorId;
         ConsultationDate = consultationDate;
+        Reason = reason;
         Confirmed = confirmed;
     }
 
@@ -35,4 +37,5 @@ public class Consultation : BaseEntity
     public DateTime ConsultationDate { get; set; }
     public bool Confirmed { get; set; } = false;
     public DateTime? ConfirmatonDate { get; set; } = null;
+    public string Reason { get; set; }
 }

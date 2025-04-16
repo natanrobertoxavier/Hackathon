@@ -18,6 +18,7 @@ public class Version001 : Migration
             .WithColumn("DoctorId").AsGuid().NotNullable()
             .WithColumn("ConsultationDate").AsDateTime().NotNullable()
             .WithColumn("Confirmed").AsBoolean().NotNullable()
-            .WithColumn("ConfirmatonDate").AsDateTime().Nullable();
+            .WithColumn("ConfirmatonDate").AsDateTime().Nullable()
+            .WithColumn("Reason").AsString(255).Nullable();
     }
 }
