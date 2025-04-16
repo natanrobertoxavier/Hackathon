@@ -34,7 +34,7 @@ public class SendEmailClientUseCaseTests
         _mockLoggedClient = new Mock<ILoggedClient>();
         _mockClientServiceApi = new Mock<IClientServiceApi>();
         _mockConsultationReadOnly = new Mock<IConsultationReadOnly>();
-        _mockTokenController = new Mock<TokenController>(1000, "any-key"); 
+        _mockTokenController = new Mock<TokenController>(1000, "T2zDoSwgaXNzbyDDqSB1bSB0ZXN0ZSBkZSBjb2RpZmljYcOnw6NvIGVtIEJhc2U2NCE="); 
         _mockLogger = new Mock<ILogger>();
     }
 
