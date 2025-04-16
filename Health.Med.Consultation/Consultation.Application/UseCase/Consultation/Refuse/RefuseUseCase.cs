@@ -33,7 +33,7 @@ public class RefuseUseCase(
 
             try
             {
-                _logger.Information("Iniciando aceite de consulta.");
+                _logger.Information("Iniciando recusa de consulta.");
 
                 var doctorId = await ValidateDoctorToken(token);
                 await Validate(consultationId, doctorId);

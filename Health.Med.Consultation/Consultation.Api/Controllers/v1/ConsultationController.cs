@@ -70,19 +70,15 @@ public class ConsultationController : HealthMedController
         return ResponseCreate(result, successStatusCode: HttpStatusCode.OK);
     }
 
-    [HttpGet("client/cancel")]
+    [HttpPost("client/cancel")]
     [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(Result<MessageResult>), StatusCodes.Status400BadRequest)]
     public async Task<IActionResult> ClientCancelConsultationAsync(
         [FromServices] IClientCancelUseCase useCase,
-        [FromRoute] Guid id,
         [FromBody] RequestClientCancel request)
     {
         var result = await useCase.ClientCancelConsultationAsync(request);
 
-        if (result.IsSuccess())
-            return Redirect("http://191.252.179.169/confirmation-of-refuse.html");
-
-        return ResponseCreate(result, successStatusCode: HttpStatusCode.OK);
+        return Response(result);
     }
 }

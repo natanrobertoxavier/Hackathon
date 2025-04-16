@@ -35,14 +35,14 @@ public class ClientCancelUseCase(
 
             try
             {
-                _logger.Information("Iniciando aceite de consulta.");
+                _logger.Information("Iniciando cancelamento de consulta.");
 
                 var clientId = await ValidateClientToken(request.Key);
                 await Validate(request.Pin, clientId);
-                await _consultationWriteOnlyrepository.RefuseConsultationAsync(request.Pin, DateTime.UtcNow);
+                await _consultationWriteOnlyrepository.ClientCancelConsultationAsync(request.Pin, request.Reason, DateTime.UtcNow);
                 await _workUnit.CommitAsync();
 
-                var successMesagem = "Consulta recusada com sucesso";
+                var successMesagem = "Consulta cancelada com sucesso";
                 output.Succeeded(new MessageResult(successMesagem));
                 _logger.Information(successMesagem);
             }
@@ -64,7 +64,7 @@ public class ClientCancelUseCase(
     private async Task<Guid> ValidateClientToken(string token)
     {
         var email = _tokenController.RecoverEmail(token);
-        var client = await _clientServiceApi.RecoverBasicInformationByEmailAsync(email);
+        var client = await _clientServiceApi.RecoverBasicInformationByEmailAsync(email, token);
         if (!client.Success)
         {
             _logger.Error(client.Error);
