@@ -49,11 +49,13 @@ public class RegisterUseCase(
 
                 var clientId = _loggedClient.GetLoggedClientId();
                 var doctor = await ValidateAndGetDoctorAsync(request, clientId);
-
-                await _consultationWriteOnlyrepository.AddAsync(request.ToEntity(clientId));
+                var entity = request.ToEntity(clientId);
+                await _consultationWriteOnlyrepository.AddAsync(entity);
                 await _workUnit.CommitAsync();
 
-                await SendEmailsAsync(request, doctor);
+                var consultationId = entity.Id;
+
+                await SendEmailsAsync(request, doctor, consultationId);
 
                 output.Succeeded(new MessageResult("Cadastro realizado com sucesso"));
                 _logger.Information("Cadastro de consulta finalizado com sucesso.");
@@ -144,10 +146,10 @@ public class RegisterUseCase(
 
     }
 
-    private async Task SendEmailsAsync(RequestRegisterConsultation request, DoctorResult doctor)
+    private async Task SendEmailsAsync(RequestRegisterConsultation request, DoctorResult doctor, Guid consultationId)
     {
         await SendEmailToClient(request, doctor);
-        await SendEmailToDoctor(request, doctor);
+        await SendEmailToDoctor(request, doctor, consultationId);
     }
 
     private async Task SendEmailToClient(RequestRegisterConsultation request, DoctorResult doctor)
@@ -159,20 +161,13 @@ public class RegisterUseCase(
         _logger.Information($"Fim do envio de e-mail para o cliente.");
     }
 
-    private async Task SendEmailToDoctor(RequestRegisterConsultation request, DoctorResult doctor)
+    private async Task SendEmailToDoctor(RequestRegisterConsultation request, DoctorResult doctor, Guid consultationId)
     {
         _logger.Information($"Início do envio de e-mail para o médico.");
-
-        var consultationId = await GetConsultationId(request);
 
         await _sendEmailDoctorUseCase.SendEmailDoctorAsync(request, doctor, consultationId, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingDoctorEmail);
 
         _logger.Information($"Fim do envio de e-mail para o médico.");
-    }
-
-    private async Task<Guid> GetConsultationId(RequestRegisterConsultation request)
-    {
-        return await _consultationReadOnlyrepository.GetIdByDateTimeAndDoctorAsync(request.ConsultationDate.TrimMilliseconds(), request.DoctorId);
     }
 
     private void LogValidationErrors(ValidationErrorsException ex)
