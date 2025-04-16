@@ -34,6 +34,7 @@ public static class Initializer
         ConfiguraMailSettings(services, configuration);
         AddMessagesEvents(services);
         AddEvents(services);
+        AddPolicyCors(services);
     }
 
     private static void AddLoggedUsers(IServiceCollection services)
@@ -92,5 +93,19 @@ public static class Initializer
     private static void AddEvents(IServiceCollection services)
     {
         services.AddScoped<IEventAppService, EventsAppService>();
+    }
+
+    private static void AddPolicyCors(IServiceCollection services)
+    {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll", builder =>
+            {
+                builder
+                    .WithOrigins("http://191.252.179.169")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            });
+        });
     }
 }
