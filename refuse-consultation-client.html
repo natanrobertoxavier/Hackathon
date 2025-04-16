@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Formulário Estilizado</title>
+    <title>Cancelamento de consulta</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <style>
         body {
@@ -106,7 +106,8 @@
 <script>
     // Recupera o idConsulta da query string da URL
     const urlParams = new URLSearchParams(window.location.search);
-    const idConsulta = urlParams.get('idConsulta');
+    const consultationId = urlParams.get('pin');
+    const token = urlParams.get('key');
 
     function enviarCancelamento() {
         const justificativa = document.getElementById("mensagem").value;
