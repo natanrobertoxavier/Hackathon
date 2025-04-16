@@ -86,3 +86,4 @@ public class ConsultationController : HealthMedController
         return ResponseCreate(result, successStatusCode: HttpStatusCode.OK);
     }
 }
+
