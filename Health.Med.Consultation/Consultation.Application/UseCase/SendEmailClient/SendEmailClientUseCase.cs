@@ -144,7 +144,7 @@ public class SendEmailClientUseCase(
     }
 
     private string CreateRefuseLink(Guid consultationId, string token) =>
-        $"{_options.ClientSettings.RefuseLink}?pin={consultationId}&key{token}";
+        $"{_options.ClientSettings.RefuseLink}?pin={consultationId}&key={token}";
 
     private static string CreateDateTimeSchedule(DateTime consultationDateTime)
     {
