@@ -91,7 +91,7 @@ public class RegisterUseCaseTests
         Assert.Equal("Cadastro realizado com sucesso", result.Data.Message);
         _mockConsultationWriteOnly.Verify(x => x.AddAsync(It.IsAny<Domain.Entities.Consultation>()), Times.Once);
         _mockWorkUnit.Verify(x => x.CommitAsync(), Times.Once);
-        _mockSendEmailClientUseCase.Verify(x => x.SendEmailSchedulingConsultationClientAsync(request, doctorResult.Data, Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingClientEmail), Times.Once);
+        _mockSendEmailClientUseCase.Verify(x => x.SendEmailSchedulingConsultationClientAsync(request, doctorResult.Data, Guid.NewGuid(), Domain.Entities.Enum.TemplateEmailEnum.ConsultationSchedulingClientEmail), Times.Once);
     }
 
     [Fact]

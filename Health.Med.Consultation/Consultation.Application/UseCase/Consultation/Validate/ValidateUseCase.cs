@@ -27,7 +27,37 @@ public class ValidateUseCase(
                 var response = await _consultationReadOnly.ThereIsConsultationAsync(consultationId, doctorId);
 
                 output.Succeeded(response);
-                _logger.Information($"Consulta não localizada ou já confirmada? {response == default}");
+                _logger.Information($"Consulta não localizada? {response == default}");
+            }
+            catch (ValidationErrorsException ex)
+            {
+                LogValidationErrors(ex);
+                output.Failure(ex.ErrorMessages);
+            }
+            catch (Exception ex)
+            {
+                LogUnexpectedError(ex);
+                output.Failure(new List<string> { $"Algo deu errado: {ex.Message}" });
+            }
+
+            return output;
+        }
+    }
+
+    public async Task<Result<DateTime>> ValidateConsultationClientIdAsync(Guid consultationId, Guid clientId)
+    {
+        using (LogContext.PushProperty("Operation", nameof(ValidateConsultationIdAsync)))
+        {
+            var output = new Result<DateTime>();
+
+            try
+            {
+                _logger.Information("Iniciando aceite de consulta.");
+
+                var response = await _consultationReadOnly.ThereIsConsultationForClientAsync(consultationId, clientId);
+
+                output.Succeeded(response);
+                _logger.Information($"Consulta não localizada? {response == default}");
             }
             catch (ValidationErrorsException ex)
             {

@@ -12,6 +12,7 @@ using MediatR;
 using Microsoft.Extensions.Options;
 using Moq;
 using Serilog;
+using TokenService.Manager.Controller;
 
 namespace Consultation.Tests.UseCases;
 
@@ -23,6 +24,7 @@ public class SendEmailClientUseCaseTests
     private readonly Mock<ILogger> _mockLogger;
     private readonly Mock<IClientServiceApi> _mockClientServiceApi;
     private readonly Mock<IConsultationReadOnly> _mockConsultationReadOnly;
+    private readonly Mock<TokenController> _mockTokenController;
     private SendEmailClientUseCase _useCase;
 
     public SendEmailClientUseCaseTests()
@@ -32,6 +34,7 @@ public class SendEmailClientUseCaseTests
         _mockLoggedClient = new Mock<ILoggedClient>();
         _mockClientServiceApi = new Mock<IClientServiceApi>();
         _mockConsultationReadOnly = new Mock<IConsultationReadOnly>();
+        _mockTokenController = new Mock<TokenController>(1000, "any-key"); 
         _mockLogger = new Mock<ILogger>();
     }
 
@@ -63,7 +66,7 @@ public class SendEmailClientUseCaseTests
         GetInstanceUseCase("Consultation.Application.EmailTemplates");
 
         // Act
-        var result = await _useCase.SendEmailSchedulingConsultationClientAsync(request, doctor, TemplateEmailEnum.ConsultationSchedulingClientEmail);
+        var result = await _useCase.SendEmailSchedulingConsultationClientAsync(request, doctor, Guid.NewGuid(), TemplateEmailEnum.ConsultationSchedulingClientEmail);
 
         // Assert
         Assert.True(result.Success);
@@ -95,7 +98,7 @@ public class SendEmailClientUseCaseTests
         GetInstanceUseCase("InvalidPath");
 
         // Act
-        var result = await _useCase.SendEmailSchedulingConsultationClientAsync(request, doctor, TemplateEmailEnum.ConsultationSchedulingClientEmail);
+        var result = await _useCase.SendEmailSchedulingConsultationClientAsync(request, doctor, Guid.NewGuid(), TemplateEmailEnum.ConsultationSchedulingClientEmail);
 
         // Assert
         Assert.False(result.Success);
@@ -130,7 +133,7 @@ public class SendEmailClientUseCaseTests
         GetInstanceUseCase("Consultation.Application.EmailTemplates");
 
         // Act
-        var result = await _useCase.SendEmailSchedulingConsultationClientAsync(request, doctor, TemplateEmailEnum.ConsultationSchedulingClientEmail);
+        var result = await _useCase.SendEmailSchedulingConsultationClientAsync(request, doctor, Guid.NewGuid(), TemplateEmailEnum.ConsultationSchedulingClientEmail);
 
         // Assert
         Assert.False(result.Success);
@@ -175,6 +178,7 @@ public class SendEmailClientUseCaseTests
             _mockLoggedClient.Object,
             _mockClientServiceApi.Object,
             _mockConsultationReadOnly.Object,
+            _mockTokenController.Object,
             _mockLogger.Object
         );
     }

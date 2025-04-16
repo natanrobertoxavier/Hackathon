@@ -16,10 +16,17 @@ public class ConsultationRepository(HealthMedContext context) : IConsultationRea
         .AsNoTracking()
         .AnyAsync(c => c.DoctorId == id && c.ConsultationDate == consultationDate && c.Confirmed == true);
 
-    public async Task<DateTime> ThereIsConsultationAsync(Guid id, Guid doctorId) =>
+    public async Task<DateTime> ThereIsConsultationAsync(Guid consultationId, Guid doctorId) =>
         await _context.Consultations
         .AsNoTracking()
-        .Where(c => c.Id == id && c.DoctorId == doctorId && c.Confirmed == false && c.ConfirmatonDate == null)
+        .Where(c => c.Id == consultationId && c.DoctorId == doctorId && c.ConsultationDate == null)
+        .Select(c => c.ConsultationDate)
+        .FirstOrDefaultAsync();
+
+    public async Task<DateTime> ThereIsConsultationForClientAsync(Guid consultationId, Guid clientId) =>
+        await _context.Consultations
+        .AsNoTracking()
+        .Where(c => c.Id == consultationId && c.ClientId == clientId)
         .Select(c => c.ConsultationDate)
         .FirstOrDefaultAsync();
 
@@ -52,6 +59,17 @@ public class ConsultationRepository(HealthMedContext context) : IConsultationRea
         {
             consultation.Confirmed = false;
             consultation.ConfirmatonDate = date;
+        }
+    }
+
+    public async Task ClientCancelConsultationAsync(Guid consultationId, string reason, DateTime date)
+    {
+        var consultation = await _context.Consultations.FindAsync(consultationId);
+        if (consultation is not null)
+        {
+            consultation.Confirmed = false;
+            consultation.ConfirmatonDate = date;
+            consultation.Reason = reason;
         }
     }
 

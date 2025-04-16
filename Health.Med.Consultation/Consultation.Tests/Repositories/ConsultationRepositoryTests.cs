@@ -48,7 +48,7 @@ public class ConsultationRepositoryTests
         var doctorId = Guid.NewGuid();
         var consultationDate = DateTime.UtcNow;
 
-        var consultation = new Domain.Entities.Consultation(Guid.NewGuid(), doctorId, consultationDate, true);
+        var consultation = new Domain.Entities.Consultation(Guid.NewGuid(), doctorId, consultationDate, "", true);
         await context.Consultations.AddAsync(consultation);
         await context.SaveChangesAsync();
 
@@ -84,7 +84,7 @@ public class ConsultationRepositoryTests
         var clientId = Guid.NewGuid();
         var consultationDate = DateTime.UtcNow;
 
-        var consultation = new Domain.Entities.Consultation(clientId, Guid.NewGuid(), consultationDate, true);
+        var consultation = new Domain.Entities.Consultation(clientId, Guid.NewGuid(), consultationDate, "", true);
         await context.Consultations.AddAsync(consultation);
         await context.SaveChangesAsync();
 
