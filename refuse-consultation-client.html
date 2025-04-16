@@ -98,11 +98,41 @@
             <textarea id="mensagem" name="mensagem" placeholder="Digite sua mensagem aqui..."></textarea>
         </div>
         <div class="form-actions">
-            <button type="submit"><i class="fa-solid fa-paper-plane"></i> Sair</button>
             <button type="button" class="cancel"><i class="fa-solid fa-xmark"></i> Cancelar</button>
         </div>
     </form>
 </div>
+
+<script>
+    // Recupera o idConsulta da query string da URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const idConsulta = urlParams.get('idConsulta');
+
+    function enviarCancelamento() {
+        const justificativa = document.getElementById("mensagem").value;
+
+        fetch(`https://sua-api.com/cancelar-consulta/${idConsulta}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ justificativa })
+        })
+        .then(response => {
+            if (response.ok) {
+                alert("Consulta cancelada com sucesso!");
+            } else {
+                alert("Erro ao cancelar a consulta.");
+            }
+        })
+        .catch(error => {
+            console.error("Erro:", error);
+            alert("Erro na requisição.");
+        });
+    }
+
+    document.querySelector('.cancel').addEventListener('click', enviarCancelamento);
+</script>
 
 </body>
 </html>
