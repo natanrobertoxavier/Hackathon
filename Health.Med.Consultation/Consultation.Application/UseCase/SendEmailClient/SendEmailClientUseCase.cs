@@ -12,6 +12,7 @@ using MediatR;
 using Microsoft.Extensions.Options;
 using Serilog;
 using System.Reflection;
+using TokenService.Manager.Controller;
 
 namespace Consultation.Application.UseCase.SendEmailClient;
 
@@ -21,6 +22,7 @@ public class SendEmailClientUseCase(
     ILoggedClient loggedClient,
     IClientServiceApi clientServiceApi,
     IConsultationReadOnly consultationReadOnlyrepository,
+    TokenController tokenController,
     ILogger logger) : ISendEmailClientUseCase
 {
     private readonly IMediator _mediator = mediator;
@@ -28,9 +30,10 @@ public class SendEmailClientUseCase(
     private readonly ILoggedClient _loggedClient = loggedClient;
     private readonly IClientServiceApi _clientServiceApi = clientServiceApi;
     private readonly IConsultationReadOnly _consultationReadOnlyrepository = consultationReadOnlyrepository;
+    private readonly TokenController _tokenController = tokenController;
     private readonly ILogger _logger = logger;
 
-    public async Task<Communication.Response.Result<MessageResult>> SendEmailSchedulingConsultationClientAsync(RequestRegisterConsultation request, DoctorResult doctor, TemplateEmailEnum template)
+    public async Task<Communication.Response.Result<MessageResult>> SendEmailSchedulingConsultationClientAsync(RequestRegisterConsultation request, DoctorResult doctor, Guid consultationId, TemplateEmailEnum template)
     {
         var output = new Communication.Response.Result<MessageResult>();
 
@@ -40,13 +43,15 @@ public class SendEmailClientUseCase(
 
             var client = _loggedClient.GetLoggedClient();
             var consultationDateTime = request.ConsultationDate;
+            var token = _tokenController.GenerateToken(client.Email);
 
             var content = GetEmailBody(template)
                 .Replace("@@@CLIENT@@@", client.PreferredName.Trim())
                 .Replace("@@@ESPECIALTY@@@", doctor.SpecialtyDoctor.Description.Trim())
                 .Replace("@@@DOCTORNAME@@@", doctor.Name.Trim())
                 .Replace("@@@DATE@@@", consultationDateTime.ToString("dd/MM/yyyy"))
-                .Replace("@@@HOUR@@@", consultationDateTime.ToString("HH:mm"));
+                .Replace("@@@HOUR@@@", consultationDateTime.ToString("HH:mm"))
+                .Replace("@@@REFUSELINK@@@", CreateRefuseLink(consultationId, token));
 
             await _mediator.Publish(new SendEmailClientEvent(
                 [client.Email],
@@ -80,6 +85,7 @@ public class SendEmailClientUseCase(
 
             var client = await GetClientAsync(consultationId);
             var consultationDateTime = request.ConsultationDate;
+            var token = _tokenController.GenerateToken(client.Email);
 
             var content = GetEmailBody(template)
                 .Replace("@@@CLIENT@@@", client.PreferredName.Trim())
@@ -87,7 +93,8 @@ public class SendEmailClientUseCase(
                 .Replace("@@@DOCTORNAME@@@", doctor.Name.Trim())
                 .Replace("@@@DATE@@@", consultationDateTime.ToString("dd/MM/yyyy"))
                 .Replace("@@@HOUR@@@", consultationDateTime.ToString("HH:mm"))
-                .Replace("@@@CALENDARDATE@@@", CreateDateTimeSchedule(consultationDateTime));
+                .Replace("@@@CALENDARDATE@@@", CreateDateTimeSchedule(consultationDateTime))
+                .Replace("@@@REFUSELINK@@@", CreateRefuseLink(consultationId, token));
 
             await _mediator.Publish(new SendEmailClientEvent(
                 [client.Email],
@@ -135,6 +142,9 @@ public class SendEmailClientUseCase(
                 return reader.ReadToEnd();
         }
     }
+
+    private string CreateRefuseLink(Guid consultationId, string token) =>
+        $"{_options.ClientSettings.RefuseLink}?pin={consultationId}&key{token}";
 
     private static string CreateDateTimeSchedule(DateTime consultationDateTime)
     {
