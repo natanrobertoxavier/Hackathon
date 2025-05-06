@@ -322,6 +322,15 @@ namespace Health.Med.Exceptions {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Erro desconhecido.
+        /// </summary>
+        public static string UnknowError {
+            get {
+                return ResourceManager.GetString("UnknowError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Usuário sem permissão.
         /// </summary>
         public static string UserWithoutPermission {

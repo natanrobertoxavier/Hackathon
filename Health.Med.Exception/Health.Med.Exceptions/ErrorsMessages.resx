@@ -207,4 +207,7 @@
   <data name="ErrorCallingConsultationApi" xml:space="preserve">
     <value>Erro ao chamar API de consultas</value>
   </data>
+  <data name="UnknowError" xml:space="preserve">
+    <value>Erro desconhecido</value>
+  </data>
 </root>
