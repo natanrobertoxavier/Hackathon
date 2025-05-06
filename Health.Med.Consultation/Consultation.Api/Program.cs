@@ -49,6 +49,7 @@ builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddConfiguration(builder.Configuration);
 builder.Services.AddScoped<AuthenticatedAttribute>();
+builder.Services.AddMvc(options => options.Filters.Add(typeof(ExceptionFilters)));
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
