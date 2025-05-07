@@ -4,6 +4,10 @@ using Doctor.Infrastructure.Migrations;
 using Doctor.Infrastructure;
 using Doctor.Infrastructure.Repositories;
 using Doctor.Api.Filters;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using HealthChecks.UI.Client;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,7 +53,18 @@ builder.Services.AddScoped<AuthenticatedDoctorAttribute>();
 builder.Services.AddScoped<AuthenticatedUserAttribute>();
 builder.Services.AddScoped<AuthenticatedAttribute>();
 
+builder.Services.AddHealthChecks()
+    .AddCheck("self", () => HealthCheckResult.Healthy());
+
 var app = builder.Build();
+
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+
+app.UseMetricServer();
+app.UseHttpMetrics();
 
 if (app.Environment.IsDevelopment())
 {
