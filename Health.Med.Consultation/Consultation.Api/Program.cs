@@ -6,6 +6,10 @@ using Consultation.Domain.Extensions;
 using Consultation.Infrastructure.Migrations;
 using System.Reflection;
 using Consultation.Api;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using HealthChecks.UI.Client;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,7 +60,18 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
 
+builder.Services.AddHealthChecks()
+    .AddCheck("self", () => HealthCheckResult.Healthy());
+
 var app = builder.Build();
+
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+
+app.UseMetricServer();
+app.UseHttpMetrics();
 
 if (app.Environment.IsDevelopment())
 {
