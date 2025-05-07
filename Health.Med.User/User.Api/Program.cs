@@ -4,6 +4,10 @@ using User.Infrastructure.Migrations;
 using User.Infrastructure;
 using User.Infrastructure.Repositories;
 using User.Api.Filters;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Prometheus;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,7 +51,18 @@ builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddScoped<AuthenticatedUserAttribute>();
 
+builder.Services.AddHealthChecks()
+    .AddCheck("self", () => HealthCheckResult.Healthy());
+
 var app = builder.Build();
+
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+
+app.UseMetricServer();
+app.UseHttpMetrics();
 
 if (app.Environment.IsDevelopment())
 {
