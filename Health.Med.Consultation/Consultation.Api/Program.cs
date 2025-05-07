@@ -1,15 +1,15 @@
-using Consultation.Api.Filters;
-using Consultation.Infrastructure;
-using Consultation.Application;
-using Consultation.Infrastructure.Repositories;
-using Consultation.Domain.Extensions;
-using Consultation.Infrastructure.Migrations;
-using System.Reflection;
 using Consultation.Api;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Consultation.Api.Filters;
+using Consultation.Application;
+using Consultation.Domain.Extensions;
+using Consultation.Infrastructure;
+using Consultation.Infrastructure.Migrations;
+using Consultation.Infrastructure.Repositories;
 using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Prometheus;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
