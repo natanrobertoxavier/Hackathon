@@ -114,11 +114,11 @@ public class RegisterUseCase(
     private static void ValidateConsultationTime(RequestRegisterConsultation request, FluentValidation.Results.ValidationResult validationResult)
     {
         if (!HourIsValid(request.ConsultationDate))
-            validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("consultationHour", ErrorsMessages.ConsultationHourInvalid, request.ConsultationDate));
+            validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("consultationHour", ErrorsMessages.ConsultationHourInvalid, request.ConsultationDate.ToString("dd/MM/yyyy HH:mm")));
 
         var consultationDateUtc = request.ConsultationDate.ToUniversalTime();
         if (consultationDateUtc <= DateTime.UtcNow)
-            validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("consultationDate", ErrorsMessages.ConsultationDateInPast, request.ConsultationDate));
+            validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("consultationDate", ErrorsMessages.ConsultationDateInPast, request.ConsultationDate.ToString("dd/MM/yyyy HH:mm")));
     }
 
     private async Task ValidateClientAndDoctorScheduleAsync(RequestRegisterConsultation request, Guid clientId, FluentValidation.Results.ValidationResult validationResult)
