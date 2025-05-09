@@ -126,10 +126,10 @@ public class RegisterUseCase(
         var trimmedDate = request.ConsultationDate.TrimMilliseconds();
 
         if (await _consultationReadOnlyrepository.ThereIsConsultationForClient(clientId, trimmedDate))
-            validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("client", ErrorsMessages.ClientAlreadyConsultationSchedule, request.ConsultationDate));
+            validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("client", string.Format(ErrorsMessages.ClientAlreadyConsultationSchedule, request.ConsultationDate)));
 
         if (await _consultationReadOnlyrepository.ThereIsConsultationForDoctor(request.DoctorId, trimmedDate))
-            validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("doctor", ErrorsMessages.DoctorAlreadyConsultationSchedule, request.ConsultationDate));
+            validationResult.Errors.Add(new FluentValidation.Results.ValidationFailure("doctor", string.Format(ErrorsMessages.DoctorAlreadyConsultationSchedule, request.ConsultationDate)));
     }
 
     private static bool HourIsValid(DateTime consultationDate) =>
