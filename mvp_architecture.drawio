@@ -1,0 +1,93 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/136.0.0.0 Safari/537.36" version="25.0.3">
+  <diagram name="MVP Architecture" id="0">
+    <mxGraphModel dx="2704" dy="522" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-26" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="-UvYn7US9VN-ur1Jiw6p-17" target="-UvYn7US9VN-ur1Jiw6p-18">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-27" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="-UvYn7US9VN-ur1Jiw6p-17" target="-UvYn7US9VN-ur1Jiw6p-19">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-28" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="-UvYn7US9VN-ur1Jiw6p-17" target="-UvYn7US9VN-ur1Jiw6p-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-30" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.75;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="-UvYn7US9VN-ur1Jiw6p-17" target="-UvYn7US9VN-ur1Jiw6p-21">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-17" value="API Gateway (Ocelot)" style="rounded=1;strokeColor=#2c3e50;fillColor=#ecf0f1" vertex="1" parent="1">
+          <mxGeometry x="-1330" y="213" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-31" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="-UvYn7US9VN-ur1Jiw6p-18" target="-UvYn7US9VN-ur1Jiw6p-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-18" value="Client Service" style="rounded=1;strokeColor=#34495e;fillColor=#dfe6e9" vertex="1" parent="1">
+          <mxGeometry x="-1550" y="300" width="100" height="43.86" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-35" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="-UvYn7US9VN-ur1Jiw6p-19" target="-UvYn7US9VN-ur1Jiw6p-33">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-19" value="User Service" style="rounded=1;strokeColor=#34495e;fillColor=#dfe6e9" vertex="1" parent="1">
+          <mxGeometry x="-1430" y="300" width="110" height="43.86" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-36" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="-UvYn7US9VN-ur1Jiw6p-20" target="-UvYn7US9VN-ur1Jiw6p-32">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-20" value="Doctor Service" style="rounded=1;strokeColor=#34495e;fillColor=#dfe6e9" vertex="1" parent="1">
+          <mxGeometry x="-1300" y="300" width="100" height="43.86" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-37" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="-UvYn7US9VN-ur1Jiw6p-21" target="-UvYn7US9VN-ur1Jiw6p-34">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-21" value="Consultation Service" style="rounded=1;strokeColor=#34495e;fillColor=#dfe6e9" vertex="1" parent="1">
+          <mxGeometry x="-1180" y="300" width="110" height="43.86" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-40" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="-UvYn7US9VN-ur1Jiw6p-22" target="-UvYn7US9VN-ur1Jiw6p-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-22" value="Notification Service" style="rounded=1;strokeColor=#34495e;fillColor=#dfe6e9" vertex="1" parent="1">
+          <mxGeometry x="-1050" y="300" width="120" height="43.86" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-23" value="RabbitMQ" style="shape=cloud;strokeColor=#e67e22;fillColor=#f39c12;fontColor=#ffffff" vertex="1" parent="1">
+          <mxGeometry x="-1109.995263157895" y="453.86" width="164.21052631578948" height="101.78571428571428" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-25" value="Database" style="shape=cylinder;strokeColor=#27ae60;fillColor=#2ecc71;fontColor=#ffffff" vertex="1" parent="1">
+          <mxGeometry x="-1545" y="373.86" width="85" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-32" value="Database" style="shape=cylinder;strokeColor=#27ae60;fillColor=#2ecc71;fontColor=#ffffff" vertex="1" parent="1">
+          <mxGeometry x="-1292.5" y="373.86" width="85" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-33" value="Database" style="shape=cylinder;strokeColor=#27ae60;fillColor=#2ecc71;fontColor=#ffffff" vertex="1" parent="1">
+          <mxGeometry x="-1417.5" y="373.86" width="85" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-34" value="Database" style="shape=cylinder;strokeColor=#27ae60;fillColor=#2ecc71;fontColor=#ffffff" vertex="1" parent="1">
+          <mxGeometry x="-1167.5" y="373.86" width="85" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-38" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.491;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="-UvYn7US9VN-ur1Jiw6p-21" target="-UvYn7US9VN-ur1Jiw6p-23">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="-1190" y="321.86" />
+              <mxPoint x="-1190" y="503.86" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-43" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="-UvYn7US9VN-ur1Jiw6p-41" target="-UvYn7US9VN-ur1Jiw6p-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-41" value="User App" style="rounded=1;strokeColor=#2c3e50;fillColor=#ecf0f1" vertex="1" parent="1">
+          <mxGeometry x="-1455" y="40" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" source="-UvYn7US9VN-ur1Jiw6p-42" target="-UvYn7US9VN-ur1Jiw6p-17">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-42" value="Web App" style="rounded=1;strokeColor=#2c3e50;fillColor=#ecf0f1" vertex="1" parent="1">
+          <mxGeometry x="-1180" y="40" width="160" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="-UvYn7US9VN-ur1Jiw6p-45" value="&lt;h1 style=&quot;margin-top: 0px; line-height: 80%;&quot;&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;Requisitos não funcionais&lt;/span&gt;&lt;/h1&gt;&lt;h1 style=&quot;margin-top: 0px; line-height: 80%;&quot;&gt;&lt;ul style=&quot;margin-top: 1px; margin-bottom: 12px;&quot;&gt;&lt;li&gt;&lt;span style=&quot;font-size: 12px; font-weight: 400; line-height: 80%;&quot;&gt;Os serviços estão em kubernetes, o que garante a alta disponibilidade e escalabilidade;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-size: 12px; font-weight: 400; line-height: 80%;&quot;&gt;Toda requisição passa pelo API Gateway, não sendo exposta nenhum serviço para internet;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-size: 12px; font-weight: 400; line-height: 80%;&quot;&gt;Todo ator deve se logar no sistema antes de utilizá-lo, sendo gerado um novo token a cada login;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-size: 12px; font-weight: 400; line-height: 80%;&quot;&gt;Toda requisição feita, é realizada validação de expiração do token e chave, caso haja qualquer tipo de inconsistência, a requisição é finalizada sem processamento;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-size: 12px; font-weight: 400; line-height: 80%;&quot;&gt;Cada serviço tem um banco próprio e completamente independente, com usuário e senha distintos;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-size: 12px; font-weight: 400; line-height: 80%;&quot;&gt;Cada ator do sistema (usuário, médico ou paciente) tem a sua senha criptografada unilateralmente, ou seja, a partir do momento em que a senha foi escolhida, ela será criptografada e salva na base, não sendo descriptografada em momento algum;&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;span style=&quot;font-size: 12px; font-weight: 400; line-height: 80%;&quot;&gt;O Rabbitmq foi escolhido como plataforma para disparar os eventos de envio de e-mail, melhorando a questão da performance e disponibilidade da aplicação de notificações.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/h1&gt;" style="text;html=1;whiteSpace=wrap;overflow=hidden;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="-1640" y="440" width="377.5" height="410" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
